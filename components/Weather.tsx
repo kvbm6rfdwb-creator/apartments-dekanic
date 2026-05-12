@@ -36,6 +36,7 @@ function dayName(dateStr: string, locale: string) {
 }
 
 export default function Weather() {
+  console.log('Weather component rendering');
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
   const [weekly, setWeekly] = useState<DayForecast[]>([]);
@@ -43,14 +44,18 @@ export default function Weather() {
 
   useEffect(() => {
     const fetchWeather = async () => {
+      console.log('Fetching weather data...');
       try {
         // Fetch 7-day forecast from Open-Meteo
         const response = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=auto`
         );
         
+        console.log('Weather API response status:', response.status);
+        
         if (response.ok) {
           const data = await response.json();
+          console.log('Weather data received:', data);
           const forecast = data.daily.time.map((date: string, index: number) => ({
             date,
             maxTemp: Math.round(data.daily.temperature_2m_max[index]),
@@ -60,7 +65,10 @@ export default function Weather() {
             weatherCode: data.daily.weather_code[index]
           }));
           
+          console.log('Processed forecast:', forecast);
           setWeekly(forecast.slice(0, 7));
+        } else {
+          console.error('Weather API error:', response.statusText);
         }
       } catch (error) {
         console.error('Failed to fetch weather:', error);
@@ -88,7 +96,17 @@ export default function Weather() {
   }
 
   if (weekly.length === 0) {
-    return null;
+    return (
+      <section className="bg-gradient-to-r from-blue-50 via-white to-sand-50 rounded-3xl p-8 border border-stone-200 shadow-sm">
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-2 text-stone-600 mb-4">
+            <MapPin size={20} />
+            <span className="font-medium">Baška, Krk</span>
+          </div>
+          <p className="text-stone-500">Weather data temporarily unavailable</p>
+        </div>
+      </section>
+    );
   }
 
   const today = weekly[0];
