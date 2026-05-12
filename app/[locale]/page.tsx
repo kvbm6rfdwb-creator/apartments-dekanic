@@ -25,10 +25,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   let data: any = null;
   let sections: Array<{ id: string; enabled: boolean }> = [
     { id: 'hero',       enabled: true },
+    { id: 'weather',    enabled: true },
     { id: 'whyBook',    enabled: true },
     { id: 'apartments', enabled: true },
     { id: 'reviews',    enabled: true },
-    { id: 'weather',    enabled: true },
     { id: 'location',   enabled: true },
     { id: 'contact',    enabled: true },
   ];

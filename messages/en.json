@@ -76,16 +76,16 @@
   "whyBook": {
     "title": "Why book direct?",
     "subtitle": "The Smarter Way to Book",
-    "direct": "Direct & Secure",
-    "directDesc": "Book directly with the owner — no OTA commission, no surprises.",
-    "price": "Best Price Guaranteed",
-    "priceDesc": "Always cheaper than Airbnb or Booking.com when you book here.",
-    "available": "Host Always Available",
-    "availableDesc": "WhatsApp or email — personal responses within an hour.",
-    "verified": "Verified Reviews",
-    "verifiedDesc": "5-star rated on both Airbnb and Booking.com.",
-    "registered": "Registered Property",
-    "registeredDesc": "Croatian Ministry of Tourism · Official"
+    "direct": "Direct Booking",
+    "directDesc": "Connect directly with the property owners. No middlemen, no hidden fees, just authentic hospitality.",
+    "price": "Best Price Guarantee",
+    "priceDesc": "Save up to 20% compared to booking platforms. Get the same room for less.",
+    "available": "Personal Service",
+    "availableDesc": "Your host is available 24/7 via WhatsApp, email, or phone. Real people, real help.",
+    "verified": "Trusted Excellence",
+    "verifiedDesc": "5-star ratings across all platforms with over 2,000 happy guests.",
+    "registered": "Officially Licensed",
+    "registeredDesc": "Registered with the Croatian Ministry of Tourism. Your stay is protected and insured."
   },
   "features": {
     "wifi": "Free Wi-Fi",

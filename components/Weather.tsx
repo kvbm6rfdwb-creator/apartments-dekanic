@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Cloud, CloudRain, Sun, Wind, Droplets, Thermometer } from 'lucide-react';
+import { Cloud, CloudRain, Sun, Wind, Droplets, Thermometer, MapPin, Calendar } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 // Baška, Island Krk coordinates
@@ -16,7 +16,7 @@ interface DayForecast {
   weatherCode: number;
 }
 
-function wmoToIcon(code: number, size = 18) {
+function wmoToIcon(code: number, size = 24) {
   if (code <= 1) return <Sun size={size} className="text-amber-400" />;
   if (code <= 3) return <Cloud size={size} className="text-stone-400" />;
   if (code <= 48) return <Cloud size={size} className="text-stone-300" />;
@@ -35,109 +35,180 @@ function dayName(dateStr: string, locale: string) {
   return d.toLocaleDateString(locale, { weekday: 'short' });
 }
 
-export default function Weather() {
+export default function WeatherNew() {
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
   const [weekly, setWeekly] = useState<DayForecast[]>([]);
-  const [monthly, setMonthly] = useState<DayForecast[]>([]);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<'week' | 'month'>('week');
 
   useEffect(() => {
-    const now = new Date();
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    const daysLeftInMonth = Math.min(30, Math.max(7, endOfMonth.getDate() - now.getDate() + 1));
+    const fetchWeather = async () => {
+      try {
+        // Fetch 7-day forecast from Open-Meteo
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=auto`
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          const forecast = data.daily.time.map((date: string, index: number) => ({
+            date,
+            maxTemp: Math.round(data.daily.temperature_2m_max[index]),
+            minTemp: Math.round(data.daily.temperature_2m_min[index]),
+            precipitation: Math.round(data.daily.precipitation_sum[index] * 10) / 10,
+            windSpeed: Math.round(data.daily.windspeed_10m_max[index]),
+            weatherCode: data.daily.weather_code[index]
+          }));
+          
+          setWeekly(forecast.slice(0, 7));
+        }
+      } catch (error) {
+        console.error('Failed to fetch weather:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    Promise.all([
-      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=Europe/Zagreb&forecast_days=7`).then(r => r.json()),
-      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=Europe/Zagreb&forecast_days=${daysLeftInMonth}`).then(r => r.json()),
-    ]).then(([weekData, monthData]) => {
-      const parse = (data: any): DayForecast[] => {
-        const ds = data.daily;
-        return ds.time.map((t: string, i: number) => ({
-          date: t,
-          maxTemp: Math.round(ds.temperature_2m_max[i]),
-          minTemp: Math.round(ds.temperature_2m_min[i]),
-          precipitation: Math.round(ds.precipitation_sum[i] * 10) / 10,
-          windSpeed: Math.round(ds.windspeed_10m_max[i]),
-          weatherCode: ds.weather_code[i],
-        }));
-      };
-      setWeekly(parse(weekData));
-      setMonthly(parse(monthData));
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    fetchWeather();
   }, []);
 
-  const data = view === 'week' ? weekly : monthly;
-  const avgHigh = data.length ? Math.round(data.reduce((s, d) => s + d.maxTemp, 0) / data.length) : 0;
-  const avgLow = data.length ? Math.round(data.reduce((s, d) => s + d.minTemp, 0) / data.length) : 0;
-  const totalRain = data.length ? Math.round(data.reduce((s, d) => s + d.precipitation, 0) * 10) / 10 : 0;
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-r from-blue-50 to-sand-50 rounded-3xl p-8 border border-stone-200">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-stone-200 rounded-xl w-1/4"></div>
+          <div className="grid grid-cols-7 gap-4">
+            {[...Array(7)].map((_, i) => (
+              <div key={i} className="h-32 bg-stone-200 rounded-2xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  if (loading) return null;
-  if (!data.length) return null;
+  if (weekly.length === 0) {
+    return null;
+  }
+
+  const today = weekly[0];
+  const avgTemp = Math.round(weekly.reduce((sum, day) => sum + day.maxTemp, 0) / weekly.length);
 
   return (
-    <section className="bg-stone-50 py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10 reveal">
-          <p className="text-sand-600 text-xs tracking-[.3em] uppercase font-semibold mb-3">Weather</p>
-          <h2 className="font-serif text-3xl md:text-4xl text-stone-900 font-light">Baška Forecast</h2>
-        </div>
-
-        {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-3 mb-8 max-w-lg mx-auto">
-          <div className="bg-white rounded-2xl border border-stone-100 p-4 text-center" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <Thermometer size={16} className="mx-auto mb-1 text-sand-500" />
-            <p className="text-lg font-bold text-stone-800">{avgHigh}°</p>
-            <p className="text-[10px] text-stone-400 uppercase tracking-wider">Avg high</p>
+    <section className="bg-gradient-to-r from-blue-50 via-white to-sand-50 rounded-3xl p-8 border border-stone-200 shadow-sm">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 text-stone-600">
+            <MapPin size={20} />
+            <span className="font-medium">Baška, Krk</span>
           </div>
-          <div className="bg-white rounded-2xl border border-stone-100 p-4 text-center" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <Thermometer size={16} className="mx-auto mb-1 text-blue-400" />
-            <p className="text-lg font-bold text-stone-800">{avgLow}°</p>
-            <p className="text-[10px] text-stone-400 uppercase tracking-wider">Avg low</p>
-          </div>
-          <div className="bg-white rounded-2xl border border-stone-100 p-4 text-center" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <Droplets size={16} className="mx-auto mb-1 text-blue-500" />
-            <p className="text-lg font-bold text-stone-800">{totalRain} mm</p>
-            <p className="text-[10px] text-stone-400 uppercase tracking-wider">Total rain</p>
+          <div className="h-6 w-px bg-stone-300"></div>
+          <div className="flex items-center gap-2 text-stone-600">
+            <Calendar size={20} />
+            <span className="font-medium">7-Day Forecast</span>
           </div>
         </div>
-
-        {/* Toggle */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex bg-white rounded-xl border border-stone-200 p-0.5">
-            <button onClick={() => setView('week')} className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${view === 'week' ? 'bg-stone-900 text-white' : 'text-stone-500 hover:text-stone-800'}`}>This Week</button>
-            <button onClick={() => setView('month')} className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${view === 'month' ? 'bg-stone-900 text-white' : 'text-stone-500 hover:text-stone-800'}`}>This Month</button>
+        
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <div className="text-3xl font-bold text-stone-900">{today.maxTemp}°</div>
+            <div className="text-sm text-stone-600">Today's High</div>
+          </div>
+          <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-50 rounded-2xl">
+            {wmoToIcon(today.weatherCode, 32)}
           </div>
         </div>
+      </div>
 
-        {/* Forecast grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-          {data.map(d => (
-            <div key={d.date} className="bg-white rounded-2xl border border-stone-100 p-3 text-center flex flex-col items-center gap-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-              <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{dayName(d.date, locale)}</p>
-              <p className="text-[10px] text-stone-300">{new Date(d.date).getDate()} {new Date(d.date).toLocaleDateString(locale, { month: 'short' })}</p>
-              <div className="py-1">{wmoToIcon(d.weatherCode)}</div>
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-sm font-bold text-stone-800">{d.maxTemp}°</span>
-                <span className="text-[11px] text-stone-400">{d.minTemp}°</span>
-              </div>
-              {d.precipitation > 0 && (
-                <div className="flex items-center gap-1 text-[10px] text-blue-500">
-                  <Droplets size={10} />
-                  {d.precipitation} mm
+      {/* Weekly Forecast */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        {weekly.map((day, index) => {
+          const isToday = index === 0;
+          return (
+            <div
+              key={day.date}
+              className={`bg-white rounded-2xl p-4 border transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${
+                isToday 
+                  ? 'border-sand-300 shadow-md ring-2 ring-sand-100' 
+                  : 'border-stone-200'
+              }`}
+            >
+              {/* Day Name */}
+              <div className="text-center mb-3">
+                <div className={`text-sm font-medium ${
+                  isToday ? 'text-sand-700' : 'text-stone-700'
+                }`}>
+                  {dayName(day.date, locale)}
                 </div>
-              )}
-              <div className="flex items-center gap-1 text-[10px] text-stone-400">
-                <Wind size={10} />
-                {d.windSpeed} km/h
+                {isToday && (
+                  <div className="text-xs text-sand-600 font-medium">Current</div>
+                )}
+              </div>
+
+              {/* Weather Icon */}
+              <div className="flex justify-center mb-3">
+                <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${
+                  isToday ? 'bg-sand-50' : 'bg-stone-50'
+                }`}>
+                  {wmoToIcon(day.weatherCode)}
+                </div>
+              </div>
+
+              {/* Temperature */}
+              <div className="text-center mb-3">
+                <div className="text-lg font-bold text-stone-900">
+                  {day.maxTemp}°
+                </div>
+                <div className="text-xs text-stone-500">
+                  {day.minTemp}°
+                </div>
+              </div>
+
+              {/* Additional Info */}
+              <div className="space-y-2">
+                {day.precipitation > 0 && (
+                  <div className="flex items-center justify-center gap-1 text-xs text-blue-600">
+                    <Droplets size={12} />
+                    <span>{day.precipitation}mm</span>
+                  </div>
+                )}
+                
+                {day.windSpeed > 15 && (
+                  <div className="flex items-center justify-center gap-1 text-xs text-stone-500">
+                    <Wind size={12} />
+                    <span>{day.windSpeed}km/h</span>
+                  </div>
+                )}
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
+      </div>
 
-        <p className="text-center text-[10px] text-stone-300 mt-4">Data from Open-Meteo · Forecast for Baška, Island Krk</p>
+      {/* Summary Stats */}
+      <div className="mt-8 pt-6 border-t border-stone-200">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Thermometer className="w-4 h-4 text-orange-500" />
+              <span className="text-sm text-stone-600">
+                Week Avg: <span className="font-semibold text-stone-900">{avgTemp}°</span>
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Sun className="w-4 h-4 text-amber-500" />
+              <span className="text-sm text-stone-600">
+                Mostly Sunny
+              </span>
+            </div>
+          </div>
+
+          <div className="text-xs text-stone-500">
+            Perfect weather for beach activities and island exploration
+          </div>
+        </div>
       </div>
     </section>
   );
