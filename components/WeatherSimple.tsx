@@ -183,7 +183,7 @@ export default function WeatherSimple() {
         </div>
 
         {/* Premium 7-Day Forecast Grid */}
-        <div className="grid grid-cols-7 gap-1.5 px-1">
+        <div className="grid grid-cols-7 gap-1 px-8">
           {weatherData.map((day, index) => (
             <div
               key={index}
