@@ -13,7 +13,7 @@ export default function WeatherSimple() {
   // Enhanced weather data with rich information
   const weatherData = [
     { 
-      day: 'Today', 
+      day: 'Mon', 
       high: 22, 
       low: 16, 
       icon: 'sun', 
@@ -30,7 +30,7 @@ export default function WeatherSimple() {
       moonPhase: '🌓'
     },
     { 
-      day: 'Tomorrow', 
+      day: 'Tue', 
       high: 23, 
       low: 17, 
       icon: 'sun', 
@@ -136,18 +136,14 @@ export default function WeatherSimple() {
   if (!mounted) return null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-6">
+    <div className="w-full max-w-3xl mx-auto px-6">
       {/* Minimal Apple-style Glass Weather Widget */}
-      <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-4 shadow-xl">
+      <div className="backdrop-blur-xl bg-white/5 border border-white/15 rounded-2xl p-3 shadow-lg">
         {/* Simple Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-white/80" />
-            <span className="text-white text-sm font-medium">Baška Weather</span>
-          </div>
-          <div className="text-right">
-            <div className="text-white text-lg font-semibold">{weatherData[0].high}°</div>
-            <div className="text-white/60 text-xs">Today</div>
+            <MapPin className="w-3 h-3 text-white/70" />
+            <span className="text-white text-xs font-medium">Baška</span>
           </div>
         </div>
 
@@ -156,44 +152,26 @@ export default function WeatherSimple() {
           {weatherData.map((day, index) => (
             <div
               key={index}
-              className={`aspect-square flex flex-col items-center justify-center rounded-xl backdrop-blur-sm border transition-all ${
+              className={`aspect-square flex flex-col items-center justify-center rounded-lg backdrop-blur-md border transition-all ${
                 index === 0 
-                  ? 'bg-white/20 border-white/30' 
-                  : 'bg-white/10 border-white/15'
+                  ? 'bg-white/25 border-white/35 shadow-md' 
+                  : 'bg-white/10 border-white/20'
               }`}
             >
-              <div className="text-white/80 text-xs font-medium mb-1">{day.day.slice(0, 3)}</div>
+              <div className="text-white/90 text-xs font-medium mb-1">{day.day}</div>
               
               <div className="mb-1">
                 {day.icon === 'sun' ? (
-                  <Sun className="w-4 h-4 text-amber-300" />
+                  <Sun className="w-3 h-3 text-amber-300" />
                 ) : (
-                  <Cloud className="w-4 h-4 text-white/60" />
+                  <Cloud className="w-3 h-3 text-white/60" />
                 )}
               </div>
               
-              <div className="text-white font-bold text-sm">{day.high}°</div>
+              <div className="text-white font-bold text-xs">{day.high}°</div>
               <div className="text-white/50 text-xs">{day.low}°</div>
             </div>
           ))}
-        </div>
-
-        {/* Minimal Footer */}
-        <div className="mt-3 pt-3 border-t border-white/10">
-          <div className="flex items-center justify-between text-white/60 text-xs">
-            <div className="flex items-center gap-2">
-              <Droplets className="w-3 h-3" />
-              <span>{weatherData[0].humidity}%</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Wind className="w-3 h-3" />
-              <span>{weatherData[0].windSpeed} km/h</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Sun className="w-3 h-3" />
-              <span>UV {weatherData[0].uvIndex}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
