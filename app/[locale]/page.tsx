@@ -5,7 +5,7 @@ import Reviews from '@/components/Reviews';
 import Location from '@/components/Location';
 import Contact from '@/components/Contact';
 import WhyBook from '@/components/WhyBook';
-import Weather from '@/components/Weather';
+import Weather from '@/components/WeatherSimple';
 
 import { routing } from '@/routing';
 
