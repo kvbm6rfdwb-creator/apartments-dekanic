@@ -35,7 +35,7 @@ function dayName(dateStr: string, locale: string) {
   return d.toLocaleDateString(locale, { weekday: 'short' });
 }
 
-export default function WeatherNew() {
+export default function Weather() {
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
   const [weekly, setWeekly] = useState<DayForecast[]>([]);
