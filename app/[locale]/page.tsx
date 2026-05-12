@@ -1,3 +1,4 @@
+import React from 'react';
 import { loadSiteData } from '@/lib/loadData';
 import Hero from '@/components/Hero';
 import ApartmentsSection from '@/components/ApartmentsSection';
@@ -43,23 +44,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       {enabled.map(id => {
-        if (id === 'hero')       return <Hero key="hero"
-          heroImage={site.heroImage}
-          heroTitle={site.heroTitle}
-          heroSubtitle={site.heroSubtitle}
-          heroButtonText={site.heroButtonText}
-        />;
+        if (id === 'hero') {
+          return (
+            <React.Fragment key="hero">
+              <Hero
+                heroImage={site.heroImage}
+                heroTitle={site.heroTitle}
+                heroSubtitle={site.heroSubtitle}
+                heroButtonText={site.heroButtonText}
+              />
+              {/* Weather widget positioned right after hero */}
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-16 relative z-10">
+                <Weather key="weather" />
+              </div>
+            </React.Fragment>
+          );
+        }
         if (id === 'whyBook')    return <WhyBook key="whyBook" />;
         if (id === 'apartments') return <ApartmentsSection key="apartments" locale={locale} apartments={data?.apartments || []} />;
         if (id === 'reviews')    return <Reviews key="reviews" />;
-        if (id === 'weather')    return <Weather key="weather" />;
+        if (id === 'weather')    return null; {/* Skip since we're showing it after hero */};
         if (id === 'location')   return <Location key="location" />;
         if (id === 'contact')    return <Contact key="contact" />;
         return null;
       })}
-      
-      {/* Force weather widget to display */}
-      <Weather key="forced-weather" />
     </>
   );
 }
