@@ -159,20 +159,60 @@ export default function WhyBookNew() {
             </div>
 
             <div className="flex justify-center md:justify-end">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <img
-                  src="/HTZ Local Host logo RGB-1.png"
-                  alt="Hrvatska turistička zajednica – Croatian National Tourist Board"
-                  className="h-16 w-auto object-contain opacity-90"
-                  loading="lazy"
-                  width={120}
-                  height={64}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
-                <div className="mt-4 text-center">
-                  <p className="text-xs text-sand-200">Official Partner</p>
-                  <p className="text-lg font-semibold text-white">Croatian Ministry</p>
-                  <p className="text-lg font-semibold text-white">of Tourism</p>
+              <div className="relative">
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-emerald-400/20 rounded-3xl blur-xl"></div>
+                
+                {/* Main container */}
+                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/30 shadow-2xl">
+                  {/* Top badge */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      ⭐ Official Certification
+                    </div>
+                  </div>
+                  
+                  {/* Logo container with enhanced design */}
+                  <div className="relative group">
+                    {/* Background gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-2xl group-hover:from-white/30 group-hover:to-white/10 transition-all duration-300"></div>
+                    
+                    {/* Logo with hover effect */}
+                    <div className="relative flex items-center justify-center p-4 rounded-2xl bg-white group-hover:scale-105 transition-transform duration-300 shadow-lg">
+                      <img
+                        src="/HTZ Local Host logo RGB-1.png"
+                        alt="Hrvatska turistička zajednica – Croatian National Tourist Board"
+                        className="h-24 w-auto object-contain opacity-100 group-hover:opacity-100 transition-all duration-300"
+                        loading="lazy"
+                        width={180}
+                        height={96}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Enhanced text section */}
+                  <div className="mt-6 text-center space-y-2">
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-8 h-px bg-sand-300"></div>
+                      <p className="text-xs text-sand-200 font-medium tracking-wider uppercase">Official Partner</p>
+                      <div className="w-8 h-px bg-sand-300"></div>
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <p className="text-xl font-bold text-white">Croatian Ministry</p>
+                      <p className="text-xl font-bold text-white">of Tourism</p>
+                    </div>
+                    
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 rounded-full">
+                      <CheckCircle className="w-4 h-4 text-emerald-300" />
+                      <span className="text-xs text-emerald-200 font-medium">Licensed & Inspected</span>
+                    </div>
+                  </div>
+                  
+                  {/* Bottom decorative elements */}
+                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-amber-400/30 rounded-full blur-sm"></div>
+                  <div className="absolute -top-2 -left-2 w-4 h-4 bg-emerald-400/30 rounded-full blur-sm"></div>
                 </div>
               </div>
             </div>
