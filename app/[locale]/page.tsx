@@ -53,6 +53,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 heroSubtitle={site.heroSubtitle}
                 heroButtonText={site.heroButtonText}
               />
+              {/* Force weather widget to display */}
+              <div className="max-w-4xl mx-auto px-6 -mt-8 relative z-10">
+                <Weather key="forced-weather" />
+              </div>
             </React.Fragment>
           );
         }
