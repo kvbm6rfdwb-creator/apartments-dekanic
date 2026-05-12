@@ -23,45 +23,60 @@ export default function WeatherSimple() {
   if (!mounted) return null;
 
   return (
-    <div className="w-full bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
-      {/* Minimal Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-sand-600" />
-          <span className="text-sm font-medium text-stone-700">Baška Weather</span>
-        </div>
-        <div className="flex items-center gap-3 text-xs text-stone-500">
-          <span>Today {weatherData[0].high}°</span>
-          <span>•</span>
-          <span>Avg 22°</span>
-        </div>
-      </div>
-
-      {/* Single Row Weather */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {weatherData.map((day, index) => (
-          <div
-            key={index}
-            className={`flex-shrink-0 text-center px-3 py-2 rounded-xl border transition-all ${
-              index === 0 
-                ? 'bg-sand-50 border-sand-200' 
-                : 'bg-stone-50 border-stone-200'
-            }`}
-          >
-            <div className="text-xs font-medium text-stone-600 mb-1">{day.day}</div>
-            
-            <div className="flex justify-center mb-1">
-              {day.icon === 'sun' ? (
-                <Sun className="w-4 h-4 text-amber-500" />
-              ) : (
-                <Cloud className="w-4 h-4 text-stone-400" />
-              )}
+    <div className="w-full max-w-4xl mx-auto px-6">
+      {/* Apple-style Glass Weather Widget */}
+      <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl">
+        {/* Minimal Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+              <MapPin className="w-4 h-4 text-white/90" />
             </div>
-            
-            <div className="text-sm font-bold text-stone-900">{day.high}°</div>
-            <div className="text-xs text-stone-500">{day.low}°</div>
+            <div>
+              <h3 className="text-white font-medium">Baška Weather</h3>
+              <p className="text-white/70 text-xs">7-Day Forecast</p>
+            </div>
           </div>
-        ))}
+          <div className="text-right">
+            <div className="text-white text-lg font-semibold">{weatherData[0].high}°</div>
+            <div className="text-white/60 text-xs">Today's High</div>
+          </div>
+        </div>
+
+        {/* Equal-sized Day Cards */}
+        <div className="grid grid-cols-7 gap-2">
+          {weatherData.map((day, index) => (
+            <div
+              key={index}
+              className={`aspect-square flex flex-col items-center justify-center rounded-2xl backdrop-blur-sm border transition-all hover:scale-105 ${
+                index === 0 
+                  ? 'bg-white/25 border-white/30' 
+                  : 'bg-white/10 border-white/20'
+              }`}
+            >
+              <div className="text-white/80 text-xs font-medium mb-2">{day.day}</div>
+              
+              <div className="mb-2">
+                {day.icon === 'sun' ? (
+                  <Sun className="w-5 h-5 text-amber-300" />
+                ) : (
+                  <Cloud className="w-5 h-5 text-white/60" />
+                )}
+              </div>
+              
+              <div className="text-white font-bold text-lg">{day.high}°</div>
+              <div className="text-white/60 text-xs">{day.low}°</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Subtle Footer */}
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-center text-white/60 text-xs">
+            <Thermometer className="w-3 h-3 mr-1" />
+            Week Average 22°C • Perfect for beach activities
+          </div>
+        </div>
       </div>
     </div>
   );

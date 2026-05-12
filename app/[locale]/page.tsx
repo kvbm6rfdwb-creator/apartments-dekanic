@@ -47,15 +47,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         if (id === 'hero') {
           return (
             <React.Fragment key="hero">
-              <Hero
-                heroImage={site.heroImage}
-                heroTitle={site.heroTitle}
-                heroSubtitle={site.heroSubtitle}
-                heroButtonText={site.heroButtonText}
-              />
-              {/* Weather widget positioned right after hero */}
-              <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-16 relative z-10">
-                <Weather key="weather" />
+              <div className="relative">
+                <Hero
+                  heroImage={site.heroImage}
+                  heroTitle={site.heroTitle}
+                  heroSubtitle={site.heroSubtitle}
+                  heroButtonText={site.heroButtonText}
+                />
+                {/* Weather widget positioned in hero wallpaper area */}
+                <div className="absolute bottom-8 left-0 right-0 px-6 lg:px-8">
+                  <div className="max-w-4xl mx-auto">
+                    <Weather key="weather" />
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           );
