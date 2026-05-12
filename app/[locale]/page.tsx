@@ -57,6 +57,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         if (id === 'contact')    return <Contact key="contact" />;
         return null;
       })}
+      
+      {/* Force weather widget to display */}
+      <Weather key="forced-weather" />
     </>
   );
 }
