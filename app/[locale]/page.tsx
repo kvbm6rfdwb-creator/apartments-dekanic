@@ -46,18 +46,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {enabled.map(id => {
         if (id === 'hero') {
           return (
-            <React.Fragment key="hero">
-              <Hero
-                heroImage={site.heroImage}
-                heroTitle={site.heroTitle}
-                heroSubtitle={site.heroSubtitle}
-                heroButtonText={site.heroButtonText}
-              />
-              {/* Force weather widget to display */}
-              <div className="max-w-4xl mx-auto px-6 -mt-8 relative z-10">
-                <Weather key="forced-weather" />
-              </div>
-            </React.Fragment>
+            <Hero
+              key="hero"
+              heroImage={site.heroImage}
+              heroTitle={site.heroTitle}
+              heroSubtitle={site.heroSubtitle}
+              heroButtonText={site.heroButtonText}
+            />
           );
         }
         if (id === 'whyBook')    return <WhyBook key="whyBook" />;
