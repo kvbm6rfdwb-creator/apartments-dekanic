@@ -136,43 +136,59 @@ export default function WeatherSimple() {
   if (!mounted) return null;
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-6">
-      {/* Minimal Apple-style Glass Weather Widget */}
-      <div className="backdrop-blur-xl bg-white/5 border border-white/15 rounded-2xl p-3 shadow-lg">
-        {/* Simple Header */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-3 h-3 text-white/70" />
-            <span className="text-white text-xs font-medium">Baška</span>
-          </div>
+    <div className="w-full max-w-5xl mx-auto px-6">
+      {/* Weather Widget with Pill Info */}
+      <div className="flex items-center justify-between mb-4">
+        {/* Location Pill */}
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-2 flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-white/80" />
+          <span className="text-white text-sm font-medium">Baška</span>
         </div>
 
-        {/* Minimal 7-Day Grid */}
-        <div className="grid grid-cols-7 gap-1">
-          {weatherData.map((day, index) => (
-            <div
-              key={index}
-              className={`aspect-square flex flex-col items-center justify-center rounded-lg backdrop-blur-md border transition-all ${
-                index === 0 
-                  ? 'bg-white/25 border-white/35 shadow-md' 
-                  : 'bg-white/10 border-white/20'
-              }`}
-            >
-              <div className="text-white/90 text-sm font-medium mb-1">{day.day}</div>
-              
-              <div className="mb-1">
-                {day.icon === 'sun' ? (
-                  <Sun className="w-4 h-4 text-amber-300" />
-                ) : (
-                  <Cloud className="w-4 h-4 text-white/60" />
-                )}
-              </div>
-              
-              <div className="text-white font-bold text-sm">{day.high}°</div>
-              <div className="text-white/50 text-sm">{day.low}°</div>
-            </div>
-          ))}
+        {/* Avg Temp Pill */}
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-2 flex items-center gap-2">
+          <Thermometer className="w-4 h-4 text-orange-300" />
+          <span className="text-white text-sm font-medium">22°C</span>
         </div>
+
+        {/* Humidity Pill */}
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-2 flex items-center gap-2">
+          <Droplets className="w-4 h-4 text-blue-300" />
+          <span className="text-white text-sm font-medium">65%</span>
+        </div>
+
+        {/* Air Quality Pill */}
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-2 flex items-center gap-2">
+          <Wind className="w-4 h-4 text-green-300" />
+          <span className="text-white text-sm font-medium">Good</span>
+        </div>
+      </div>
+
+      {/* Minimal 7-Day Grid */}
+      <div className="grid grid-cols-7 gap-1">
+        {weatherData.map((day, index) => (
+          <div
+            key={index}
+            className={`aspect-square flex flex-col items-center justify-center rounded-lg border transition-all ${
+              index === 0 
+                ? 'bg-white/20 border-white/40 shadow-md' 
+                : 'bg-white/5 border-white/20'
+            }`}
+          >
+            <div className="text-white/90 text-sm font-medium mb-1">{day.day}</div>
+            
+            <div className="mb-1">
+              {day.icon === 'sun' ? (
+                <Sun className="w-4 h-4 text-amber-300" />
+              ) : (
+                <Cloud className="w-4 h-4 text-white/60" />
+              )}
+            </div>
+            
+            <div className="text-white font-bold text-sm">{day.high}°</div>
+            <div className="text-white/50 text-sm">{day.low}°</div>
+          </div>
+        ))}
       </div>
     </div>
   );
