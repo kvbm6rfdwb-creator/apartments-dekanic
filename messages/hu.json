@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Főoldal",
+    "apartments": "Apartmanok",
+    "location": "Helyszín",
+    "contact": "Kapcsolat",
+    "bookNow": "Foglalás"
+  },
+  "hero": {
+    "subtitle": "Baška · Krk-sziget · Horvátország",
+    "cta": "Apartmanok felfedezése",
+    "scroll": "Görgessen a felfedezéshez"
+  },
+  "apartments": {
+    "title": "Apartmanjaink",
+    "subtitle": "Három egyedi szállás, mindegyik más-más élményt kínál",
+    "guests": "vendég",
+    "bedrooms": "hálószoba",
+    "bathrooms": "fürdőszoba",
+    "sqm": "m²",
+    "seaView": "Tengerre néző",
+    "balcony": "Erkély",
+    "parking": "Parkoló",
+    "viewApartment": "Apartman megtekintése",
+    "amenities": "Felszereltség",
+    "gallery": "Galéria",
+    "availability": "Elérhetőség"
+  },
+  "calendar": {
+    "title": "Elérhetőség",
+    "available": "Szabad",
+    "booked": "Foglalt",
+    "loading": "Naptár betöltése…",
+    "error": "A naptár nem töltődött be. Kérjük vegye fel velünk a kapcsolatot.",
+    "selectDates": "Válasszon dátumokat",
+    "checkIn": "Érkezés",
+    "checkOut": "Távozás",
+    "nights": "éjszaka",
+    "minStay": "{n} éjszaka minimális tartózkodás"
+  },
+  "booking": {
+    "title": "Foglalási kérelem",
+    "name": "Teljes név",
+    "email": "E-mail cím",
+    "phone": "Telefonszám",
+    "guests": "Vendégek száma",
+    "message": "Üzenet (opcionális)",
+    "submit": "Kérelem küldése",
+    "success": "Kérelmét elküldtük! 24 órán belül visszaigazolunk.",
+    "error": "Valami hiba történt. Kérjük próbálja újra.",
+    "pending": "Küldés…",
+    "terms": "Az elküldéssel elfogadja lemondási feltételeinket."
+  },
+  "reviews": {
+    "title": "Vendégeink véleménye",
+    "subtitle": "Ellenőrzött értékelések az Airbnb-ről és a Booking.com-ról",
+    "viewAll": "Összes értékelés"
+  },
+  "location": {
+    "title": "Találjon meg minket Baškában",
+    "subtitle": "Skopalj 19, Baška, Krk-sziget",
+    "directions": "Útvonaltervezés"
+  },
+  "contact": {
+    "title": "Lépjen kapcsolatba",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "address": "Cím"
+  },
+  "footer": {
+    "rights": "Minden jog fenntartva.",
+    "privacy": "Adatvédelmi irányelvek",
+    "terms": "Általános szerződési feltételek"
+  },
+  "features": {
+    "wifi": "Ingyenes Wi-Fi",
+    "ac": "Légkondicionáló",
+    "kitchen": "Felszerelt konyha",
+    "tv": "Smart TV",
+    "washer": "Mosógép",
+    "dishwasher": "Mosogatógép",
+    "coffee": "Kávéfőző",
+    "bbq": "BBQ terület",
+    "pool": "Medence",
+    "parking": "Ingyenes parkoló",
+    "petFriendly": "Kisállat-barát",
+    "beachTowels": "Strandtörölköző",
+    "beachAccess": "Strandbejárat",
+    "terrace": "Terasz",
+    "seaView": "Tengerre néző"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Domov",
+    "apartments": "Apartmaji",
+    "location": "Lokacija",
+    "contact": "Kontakt",
+    "bookNow": "Rezervacija"
+  },
+  "hero": {
+    "subtitle": "Baška · Otok Krk · Hrvaška",
+    "cta": "Raziščite apartmaje",
+    "scroll": "Pomaknite se navzdol"
+  },
+  "apartments": {
+    "title": "Naši apartmaji",
+    "subtitle": "Tri edinstvena bivališča za različne trenutke",
+    "guests": "gostov",
+    "bedrooms": "spalnice",
+    "bathrooms": "kopalnice",
+    "sqm": "m²",
+    "seaView": "Pogled na morje",
+    "balcony": "Balkon",
+    "parking": "Parkirišče",
+    "viewApartment": "Oglejte si apartma",
+    "amenities": "Oprema",
+    "gallery": "Galerija",
+    "availability": "Razpoložljivost"
+  },
+  "calendar": {
+    "title": "Razpoložljivost",
+    "available": "Prosto",
+    "booked": "Zasedeno",
+    "loading": "Nalaganje koledarja…",
+    "error": "Razpoložljivosti ni mogoče naložiti. Prosimo, kontaktirajte nas.",
+    "selectDates": "Izberite datume",
+    "checkIn": "Prihod",
+    "checkOut": "Odhod",
+    "nights": "noči",
+    "minStay": "Minimalno bivanje: {n} noči"
+  },
+  "booking": {
+    "title": "Zahteva za rezervacijo",
+    "name": "Polno ime",
+    "email": "E-poštni naslov",
+    "phone": "Telefonska številka",
+    "guests": "Število gostov",
+    "message": "Sporočilo (neobvezno)",
+    "submit": "Pošlji zahtevo",
+    "success": "Vaša zahteva je bila poslana! Potrditev bo v 24 urah.",
+    "error": "Prišlo je do napake. Poskusite znova.",
+    "pending": "Pošiljanje…",
+    "terms": "Z oddajo se strinjate z našo politiko odpovedi."
+  },
+  "reviews": {
+    "title": "Kaj pravijo naši gostje",
+    "subtitle": "Preverjene ocene iz Airbnb in Booking.com",
+    "viewAll": "Oglejte si vse ocene"
+  },
+  "location": {
+    "title": "Najdite nas v Baški",
+    "subtitle": "Skopalj 19, Baška, otok Krk",
+    "directions": "Pridobi navodila"
+  },
+  "contact": {
+    "title": "Stopite v stik",
+    "phone": "Telefon",
+    "email": "E-pošta",
+    "whatsapp": "WhatsApp",
+    "address": "Naslov"
+  },
+  "footer": {
+    "rights": "Vse pravice pridržane.",
+    "privacy": "Politika zasebnosti",
+    "terms": "Pogoji uporabe"
+  },
+  "features": {
+    "wifi": "Brezplačen Wi-Fi",
+    "ac": "Klimatska naprava",
+    "kitchen": "Popolnoma opremljena kuhinja",
+    "tv": "Smart TV",
+    "washer": "Pralni stroj",
+    "dishwasher": "Pomivalni stroj",
+    "coffee": "Aparat za kavo",
+    "bbq": "Žar BBQ",
+    "pool": "Bazen",
+    "parking": "Brezplačno parkirišče",
+    "petFriendly": "Hišni ljubljenčki dobrodošli",
+    "beachTowels": "Plažne brisače",
+    "beachAccess": "Dostop do plaže",
+    "terrace": "Terasa",
+    "seaView": "Pogled na morje"
+  }
+}

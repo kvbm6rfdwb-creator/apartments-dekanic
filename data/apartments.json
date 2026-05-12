@@ -1,0 +1,326 @@
+{
+  "apartments": [
+    {
+      "id": "apt1",
+      "slug": "apt1",
+      "name": "Apartment 1",
+      "tagline": "Your tagline here",
+      "description": "Add your apartment description here. Describe the views, the feel, the space — in your own words.",
+      "maxGuests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "sizeSqm": 0,
+      "features": {
+        "balcony": false,
+        "seaView": false,
+        "parking": false
+      },
+      "amenities": [],
+      "images": [
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80"
+      ],
+      "ical": {
+        "airbnb": "https://www.airbnb.com/calendar/ical/34954218.ics?t=1ae0db8f7b6c4d7088432c18e4c3d0f9",
+        "booking": "https://ical.booking.com/v1/export?t=486ce8d8-6bba-48d1-984f-c6db13334257"
+      },
+      "extraGuests": 0,
+      "extraGuestNote": "",
+      "pricing": {
+        "defaultNightly": 80,
+        "cleaningFee": 50,
+        "seasons": [
+          {
+            "name": "High Season",
+            "from": "07-01",
+            "to": "08-31",
+            "nightly": 120,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "06-01",
+            "to": "06-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "09-01",
+            "to": "09-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Low Season",
+            "from": "10-01",
+            "to": "05-31",
+            "nightly": 60,
+            "minStay": 3
+          }
+        ],
+        "fees": [
+          {
+            "name": "Cleaning fee",
+            "amount": 50,
+            "type": "per_stay",
+            "showGuest": false
+          },
+          {
+            "name": "Tourist tax",
+            "amount": 1.5,
+            "type": "per_person",
+            "showGuest": true
+          }
+        ]
+      },
+      "minStaySeasons": [
+        { "name": "High Season", "from": "07-01", "to": "08-31", "minStay": 3 },
+        { "name": "Mid Season", "from": "06-01", "to": "06-30", "minStay": 3 },
+        { "name": "Mid Season", "from": "09-01", "to": "09-30", "minStay": 3 },
+        { "name": "Low Season", "from": "10-01", "to": "05-31", "minStay": 3 }
+      ],
+      "priceFrom": 60
+    },
+    {
+      "id": "apt2",
+      "slug": "apt2",
+      "name": "Apartment 2",
+      "tagline": "Your tagline here",
+      "description": "Add your apartment description here. Describe the views, the feel, the space — in your own words.",
+      "maxGuests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "sizeSqm": 0,
+      "features": {
+        "balcony": false,
+        "seaView": false,
+        "parking": false
+      },
+      "amenities": [],
+      "images": [
+        "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80"
+      ],
+      "ical": {
+        "airbnb": "https://www.airbnb.com/calendar/ical/34957426.ics?t=a6a4e90041614d6aa32389db1ecb4e3e",
+        "booking": "https://ical.booking.com/v1/export?t=e89a3df4-9012-4a32-af1b-c9e05529608e"
+      },
+      "extraGuests": 0,
+      "extraGuestNote": "",
+      "pricing": {
+        "defaultNightly": 80,
+        "cleaningFee": 50,
+        "seasons": [
+          {
+            "name": "High Season",
+            "from": "07-01",
+            "to": "08-31",
+            "nightly": 120,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "06-01",
+            "to": "06-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "09-01",
+            "to": "09-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Low Season",
+            "from": "10-01",
+            "to": "05-31",
+            "nightly": 60,
+            "minStay": 3
+          }
+        ],
+        "fees": [
+          {
+            "name": "Cleaning fee",
+            "amount": 50,
+            "type": "per_stay",
+            "showGuest": false
+          },
+          {
+            "name": "Tourist tax",
+            "amount": 1.5,
+            "type": "per_person",
+            "showGuest": true
+          }
+        ]
+      },
+      "minStaySeasons": [
+        { "name": "High Season", "from": "07-01", "to": "08-31", "minStay": 3 },
+        { "name": "Mid Season", "from": "06-01", "to": "06-30", "minStay": 3 },
+        { "name": "Mid Season", "from": "09-01", "to": "09-30", "minStay": 3 },
+        { "name": "Low Season", "from": "10-01", "to": "05-31", "minStay": 3 }
+      ],
+      "priceFrom": 60
+    },
+    {
+      "id": "apt3",
+      "slug": "apt3",
+      "name": "Apartment 3",
+      "tagline": "Your tagline here",
+      "description": "Add your apartment description here. Describe the views, the feel, the space — in your own words.",
+      "maxGuests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "sizeSqm": 0,
+      "features": {
+        "balcony": false,
+        "seaView": false,
+        "parking": false
+      },
+      "amenities": [],
+      "images": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80"
+      ],
+      "ical": {
+        "booking": "https://ical.booking.com/v1/export?t=8a50d058-70f9-4580-8cd4-564f44cc2dde"
+      },
+      "extraGuests": 0,
+      "extraGuestNote": "",
+      "pricing": {
+        "defaultNightly": 80,
+        "cleaningFee": 50,
+        "seasons": [
+          {
+            "name": "High Season",
+            "from": "07-01",
+            "to": "08-31",
+            "nightly": 120,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "06-01",
+            "to": "06-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Mid Season",
+            "from": "09-01",
+            "to": "09-30",
+            "nightly": 90,
+            "minStay": 3
+          },
+          {
+            "name": "Low Season",
+            "from": "10-01",
+            "to": "05-31",
+            "nightly": 60,
+            "minStay": 3
+          }
+        ],
+        "fees": [
+          {
+            "name": "Cleaning fee",
+            "amount": 50,
+            "type": "per_stay",
+            "showGuest": false
+          },
+          {
+            "name": "Tourist tax",
+            "amount": 1.5,
+            "type": "per_person",
+            "showGuest": true
+          }
+        ]
+      },
+      "minStaySeasons": [
+        { "name": "High Season", "from": "07-01", "to": "08-31", "minStay": 3 },
+        { "name": "Mid Season", "from": "06-01", "to": "06-30", "minStay": 3 },
+        { "name": "Mid Season", "from": "09-01", "to": "09-30", "minStay": 3 },
+        { "name": "Low Season", "from": "10-01", "to": "05-31", "minStay": 3 }
+      ],
+      "priceFrom": 60
+    }
+  ],
+  "property": {
+    "name": "Apartments Dekanić",
+    "tagline": "Baška, Island Krk · Croatia",
+    "address": "Skopalj 19, Baška, Otok Krk",
+    "phone": "+385 98 484 133",
+    "email": "dekanic.lucija@gmail.com",
+    "whatsapp": "+38598484133",
+    "mapLat": 44.9695,
+    "mapLng": 14.745222,
+    "minimumStay": 3,
+    "instantApproval": false,
+    "platformFeeRates": {
+      "airbnb": 0.03,
+      "booking": 0.15,
+      "governmentTax": 0.00
+    },
+    "lat": 44.96814,
+    "lng": 14.74578,
+    "notificationEmail": ""
+  },
+  "site": {
+    "heroImage": "/images/hero.jpg",
+    "heroTitle": "Your paradise on Island Krk",
+    "heroSubtitle": "Directly on the Adriatic coast · Baška · Croatia",
+    "heroButtonText": "Explore apartments",
+    "accentColor": "#b97a3a",
+    "fontStyle": "serif",
+    "logoText": "Apartments Dekanić",
+    "footerText": "© 2025 Apartments Dekanić · Baška, Island Krk, Croatia",
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Hero / Wallpaper",
+        "enabled": true,
+        "locked": true
+      },
+      {
+        "id": "whyBook",
+        "label": "Why Book Direct",
+        "enabled": true,
+        "locked": false
+      },
+      {
+        "id": "apartments",
+        "label": "Apartments Overview",
+        "enabled": true,
+        "locked": true
+      },
+      {
+        "id": "reviews",
+        "label": "Guest Reviews",
+        "enabled": true,
+        "locked": false
+      },
+      {
+        "id": "weather",
+        "label": "Weather Forecast",
+        "enabled": true,
+        "locked": false
+      },
+      {
+        "id": "location",
+        "label": "Map & Location",
+        "enabled": true,
+        "locked": false
+      },
+      {
+        "id": "contact",
+        "label": "Contact",
+        "enabled": true,
+        "locked": false
+      }
+    ],
+    "googleReviewsUrl": ""
+  },
+  "reviews": [],
+  "bookings": [],
+  "expenses": [],
+  "guests": [],
+  "inquiries": []
+}

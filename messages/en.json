@@ -1,0 +1,107 @@
+{
+  "nav": {
+    "home": "Home",
+    "apartments": "Apartments",
+    "location": "Location",
+    "contact": "Contact",
+    "bookNow": "Book Now"
+  },
+  "hero": {
+    "subtitle": "Baška · Island Krk · Croatia",
+    "cta": "Explore Apartments",
+    "scroll": "Scroll to discover"
+  },
+  "apartments": {
+    "title": "Our Apartments",
+    "subtitle": "Three distinct retreats, each crafted for a different pace of island life.",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms",
+    "sqm": "m²",
+    "seaView": "Sea View",
+    "balcony": "Balcony",
+    "parking": "Parking",
+    "viewApartment": "View Apartment",
+    "amenities": "Amenities",
+    "gallery": "Gallery",
+    "availability": "Availability"
+  },
+  "calendar": {
+    "title": "Availability",
+    "available": "Available",
+    "booked": "Booked",
+    "loading": "Loading calendar…",
+    "error": "Could not load availability. Please contact us.",
+    "selectDates": "Select your dates",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "nights",
+    "minStay": "Minimum stay: {n} nights"
+  },
+  "booking": {
+    "title": "Request a Reservation",
+    "name": "Full name",
+    "email": "Email address",
+    "phone": "Phone number",
+    "guests": "Number of guests",
+    "message": "Message (optional)",
+    "submit": "Send Request",
+    "success": "Your request has been sent! We will confirm within 24 hours.",
+    "error": "Something went wrong. Please try again or contact us directly.",
+    "pending": "Sending…",
+    "terms": "By submitting you agree to our cancellation policy."
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "subtitle": "Verified reviews from Airbnb & Booking.com",
+    "viewAll": "View all reviews"
+  },
+  "location": {
+    "title": "Find Us in Baška",
+    "subtitle": "Skopalj 19, Baška, Island Krk — a short walk from the famous Baška beach.",
+    "directions": "Get Directions"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "address": "Address"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "whyBook": {
+    "title": "Why book direct?",
+    "subtitle": "The Smarter Way to Book",
+    "direct": "Direct & Secure",
+    "directDesc": "Book directly with the owner — no OTA commission, no surprises.",
+    "price": "Best Price Guaranteed",
+    "priceDesc": "Always cheaper than Airbnb or Booking.com when you book here.",
+    "available": "Host Always Available",
+    "availableDesc": "WhatsApp or email — personal responses within an hour.",
+    "verified": "Verified Reviews",
+    "verifiedDesc": "5-star rated on both Airbnb and Booking.com.",
+    "registered": "Registered Property",
+    "registeredDesc": "Croatian Ministry of Tourism · Official"
+  },
+  "features": {
+    "wifi": "Free Wi-Fi",
+    "ac": "Air Conditioning",
+    "kitchen": "Fully Equipped Kitchen",
+    "tv": "Smart TV",
+    "washer": "Washing Machine",
+    "dishwasher": "Dishwasher",
+    "coffee": "Coffee Machine",
+    "bbq": "BBQ Area",
+    "pool": "Swimming Pool",
+    "parking": "Free Parking",
+    "petFriendly": "Pet Friendly",
+    "beachTowels": "Beach Towels",
+    "beachAccess": "Beach Access",
+    "terrace": "Terrace",
+    "seaView": "Sea View"
+  }
+}

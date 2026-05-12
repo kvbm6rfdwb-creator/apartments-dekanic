@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "apartments": "Apartments",
+    "location": "Lage",
+    "contact": "Kontakt",
+    "bookNow": "Jetzt buchen"
+  },
+  "hero": {
+    "subtitle": "Baška · Insel Krk · Kroatien",
+    "cta": "Apartments entdecken",
+    "scroll": "Nach unten scrollen"
+  },
+  "apartments": {
+    "title": "Our Apartments",
+    "subtitle": "Three distinct retreats, each crafted for a different pace of island life.",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms",
+    "sqm": "m²",
+    "seaView": "Sea View",
+    "balcony": "Balcony",
+    "parking": "Parking",
+    "viewApartment": "View Apartment",
+    "amenities": "Amenities",
+    "gallery": "Gallery",
+    "availability": "Availability"
+  },
+  "calendar": {
+    "title": "Verfügbarkeit",
+    "available": "Verfügbar",
+    "booked": "Belegt",
+    "loading": "Kalender wird geladen…",
+    "error": "Verfügbarkeit konnte nicht geladen werden. Bitte kontaktieren Sie uns.",
+    "selectDates": "Daten auswählen",
+    "checkIn": "Anreise",
+    "checkOut": "Abreise",
+    "nights": "Nächte",
+    "minStay": "Mindestaufenthalt: {n} Nächte"
+  },
+  "booking": {
+    "title": "Reservierungsanfrage",
+    "name": "Vollständiger Name",
+    "email": "E-Mail-Adresse",
+    "phone": "Telefonnummer",
+    "guests": "Anzahl der Gäste",
+    "message": "Nachricht (optional)",
+    "submit": "Anfrage senden",
+    "success": "Ihre Anfrage wurde gesendet! Wir bestätigen innerhalb von 24 Stunden.",
+    "error": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+    "pending": "Wird gesendet…",
+    "terms": "Mit dem Absenden stimmen Sie unserer Stornierungsrichtlinie zu."
+  },
+  "reviews": {
+    "title": "Was unsere Gäste sagen",
+    "subtitle": "Verifizierte Bewertungen von Airbnb & Booking.com",
+    "viewAll": "Alle Bewertungen anzeigen"
+  },
+  "location": {
+    "title": "Finden Sie uns in Baška",
+    "subtitle": "Skopalj 19, Baška, Insel Krk — ein kurzer Spaziergang zum Strand.",
+    "directions": "Wegbeschreibung"
+  },
+  "contact": {
+    "title": "Kontakt aufnehmen",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp",
+    "address": "Adresse"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "AGB"
+  },
+  "features": {
+    "wifi": "Free Wi-Fi",
+    "ac": "Air Conditioning",
+    "kitchen": "Fully Equipped Kitchen",
+    "tv": "Smart TV",
+    "washer": "Washing Machine",
+    "dishwasher": "Dishwasher",
+    "coffee": "Coffee Machine",
+    "bbq": "BBQ Area",
+    "pool": "Swimming Pool",
+    "parking": "Free Parking",
+    "petFriendly": "Pet Friendly",
+    "beachTowels": "Beach Towels",
+    "beachAccess": "Beach Access",
+    "terrace": "Terrace",
+    "seaView": "Sea View"
+  }
+}

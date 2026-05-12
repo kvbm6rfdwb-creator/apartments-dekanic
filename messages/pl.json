@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Strona główna",
+    "apartments": "Apartamenty",
+    "location": "Lokalizacja",
+    "contact": "Kontakt",
+    "bookNow": "Rezerwacja"
+  },
+  "hero": {
+    "subtitle": "Baška · Wyspa Krk · Chorwacja",
+    "cta": "Odkryj apartamenty",
+    "scroll": "Przewiń w dół"
+  },
+  "apartments": {
+    "title": "Nasze apartamenty",
+    "subtitle": "Trzy wyjątkowe miejsca dla różnych chwil",
+    "guests": "gości",
+    "bedrooms": "sypialnie",
+    "bathrooms": "łazienki",
+    "sqm": "m²",
+    "seaView": "Widok na morze",
+    "balcony": "Balkon",
+    "parking": "Parking",
+    "viewApartment": "Zobacz apartament",
+    "amenities": "Udogodnienia",
+    "gallery": "Galeria",
+    "availability": "Dostępność"
+  },
+  "calendar": {
+    "title": "Dostępność",
+    "available": "Wolny",
+    "booked": "Zajęty",
+    "loading": "Ładowanie kalendarza…",
+    "error": "Nie można załadować dostępności. Skontaktuj się z nami.",
+    "selectDates": "Wybierz daty",
+    "checkIn": "Przyjazd",
+    "checkOut": "Wyjazd",
+    "nights": "nocy",
+    "minStay": "Minimalny pobyt: {n} nocy"
+  },
+  "booking": {
+    "title": "Prośba o rezerwację",
+    "name": "Imię i nazwisko",
+    "email": "Adres e-mail",
+    "phone": "Numer telefonu",
+    "guests": "Liczba gości",
+    "message": "Wiadomość (opcjonalnie)",
+    "submit": "Wyślij prośbę",
+    "success": "Twoja prośba została wysłana! Potwierdzimy w ciągu 24 godzin.",
+    "error": "Coś poszło nie tak. Spróbuj ponownie.",
+    "pending": "Wysyłanie…",
+    "terms": "Wysyłając, akceptujesz naszą politykę anulowania."
+  },
+  "reviews": {
+    "title": "Co mówią nasi goście",
+    "subtitle": "Zweryfikowane recenzje z Airbnb i Booking.com",
+    "viewAll": "Zobacz wszystkie recenzje"
+  },
+  "location": {
+    "title": "Znajdź nas w Bašce",
+    "subtitle": "Skopalj 19, Baška, wyspa Krk",
+    "directions": "Wyznacz trasę"
+  },
+  "contact": {
+    "title": "Skontaktuj się z nami",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "address": "Adres"
+  },
+  "footer": {
+    "rights": "Wszelkie prawa zastrzeżone.",
+    "privacy": "Polityka prywatności",
+    "terms": "Regulamin"
+  },
+  "features": {
+    "wifi": "Bezpłatne Wi-Fi",
+    "ac": "Klimatyzacja",
+    "kitchen": "W pełni wyposażona kuchnia",
+    "tv": "Smart TV",
+    "washer": "Pralka",
+    "dishwasher": "Zmywarka",
+    "coffee": "Ekspres do kawy",
+    "bbq": "Grill BBQ",
+    "pool": "Basen",
+    "parking": "Bezpłatny parking",
+    "petFriendly": "Przyjazny dla zwierząt",
+    "beachTowels": "Ręczniki plażowe",
+    "beachAccess": "Dostęp do plaży",
+    "terrace": "Taras",
+    "seaView": "Widok na morze"
+  }
+}

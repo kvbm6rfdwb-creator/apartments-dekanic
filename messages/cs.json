@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Domů",
+    "apartments": "Apartmány",
+    "location": "Poloha",
+    "contact": "Kontakt",
+    "bookNow": "Rezervace"
+  },
+  "hero": {
+    "subtitle": "Baška · Ostrov Krk · Chorvatsko",
+    "cta": "Prozkoumat apartmány",
+    "scroll": "Posuňte se níže"
+  },
+  "apartments": {
+    "title": "Naše apartmány",
+    "subtitle": "Tři jedinečné útočiště, každé pro jinou dobu",
+    "guests": "hostů",
+    "bedrooms": "ložnice",
+    "bathrooms": "koupelny",
+    "sqm": "m²",
+    "seaView": "Výhled na moře",
+    "balcony": "Balkón",
+    "parking": "Parkování",
+    "viewApartment": "Zobrazit apartmán",
+    "amenities": "Vybavení",
+    "gallery": "Galerie",
+    "availability": "Dostupnost"
+  },
+  "calendar": {
+    "title": "Dostupnost",
+    "available": "Volný",
+    "booked": "Obsazený",
+    "loading": "Načítání kalendáře…",
+    "error": "Nelze načíst dostupnost. Kontaktujte nás.",
+    "selectDates": "Vyberte termín",
+    "checkIn": "Příjezd",
+    "checkOut": "Odjezd",
+    "nights": "nocí",
+    "minStay": "Minimální pobyt: {n} nocí"
+  },
+  "booking": {
+    "title": "Žádost o rezervaci",
+    "name": "Celé jméno",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "guests": "Počet hostů",
+    "message": "Zpráva (nepovinné)",
+    "submit": "Odeslat žádost",
+    "success": "Vaše žádost byla odeslána! Potvrdíme do 24 hodin.",
+    "error": "Něco se pokazilo. Zkuste to prosím znovu.",
+    "pending": "Odesílání…",
+    "terms": "Odesláním souhlasíte s našimi storno podmínkami."
+  },
+  "reviews": {
+    "title": "Co říkají naši hosté",
+    "subtitle": "Ověřené recenze z Airbnb a Booking.com",
+    "viewAll": "Zobrazit všechny recenze"
+  },
+  "location": {
+    "title": "Najděte nás v Bašce",
+    "subtitle": "Skopalj 19, Baška, ostrov Krk",
+    "directions": "Navigovat"
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "address": "Adresa"
+  },
+  "footer": {
+    "rights": "Všechna práva vyhrazena.",
+    "privacy": "Zásady ochrany osobních údajů",
+    "terms": "Obchodní podmínky"
+  },
+  "features": {
+    "wifi": "Bezplatné Wi-Fi",
+    "ac": "Klimatizace",
+    "kitchen": "Plně vybavená kuchyně",
+    "tv": "Smart TV",
+    "washer": "Pračka",
+    "dishwasher": "Myčka nádobí",
+    "coffee": "Kávovar",
+    "bbq": "Gril",
+    "pool": "Bazén",
+    "parking": "Bezplatné parkování",
+    "petFriendly": "Vítání domácích zvířat",
+    "beachTowels": "Plážové ručníky",
+    "beachAccess": "Přístup na pláž",
+    "terrace": "Terasa",
+    "seaView": "Výhled na moře"
+  }
+}
