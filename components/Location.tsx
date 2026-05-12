@@ -79,7 +79,7 @@ function MapboxMap({ lat, lng }: { lat: number; lng: number }) {
 }
 
 export default function Location() {
-  const [coords, setCoords] = useState({ lat: 44.9641, lng: 14.7574 });
+  const [coords, setCoords] = useState({ lat: 44.9695, lng: 14.745222 });
   const [address, setAddress] = useState('Skopalj 19, Baška, Otok Krk');
 
   useEffect(() => {

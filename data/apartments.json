@@ -280,6 +280,12 @@
         "locked": true
       },
       {
+        "id": "weather",
+        "label": "Weather Forecast",
+        "enabled": true,
+        "locked": false
+      },
+      {
         "id": "whyBook",
         "label": "Why Book Direct",
         "enabled": true,
