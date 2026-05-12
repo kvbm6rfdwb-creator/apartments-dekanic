@@ -158,18 +158,18 @@ export default function WeatherSimple() {
                   : 'bg-white/10 border-white/20'
               }`}
             >
-              <div className="text-white/90 text-xs font-medium mb-1">{day.day}</div>
+              <div className="text-white/90 text-sm font-medium mb-1">{day.day}</div>
               
               <div className="mb-1">
                 {day.icon === 'sun' ? (
-                  <Sun className="w-3 h-3 text-amber-300" />
+                  <Sun className="w-4 h-4 text-amber-300" />
                 ) : (
-                  <Cloud className="w-3 h-3 text-white/60" />
+                  <Cloud className="w-4 h-4 text-white/60" />
                 )}
               </div>
               
-              <div className="text-white font-bold text-xs">{day.high}°</div>
-              <div className="text-white/50 text-xs">{day.low}°</div>
+              <div className="text-white font-bold text-sm">{day.high}°</div>
+              <div className="text-white/50 text-sm">{day.low}°</div>
             </div>
           ))}
         </div>
