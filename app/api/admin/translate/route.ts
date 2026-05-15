@@ -1,21 +1,37 @@
 /**
  * POST /api/admin/translate
  *
- * Auto-translates the English messages/en.json into all other configured locales.
- * Uses DeepL Free API when DEEPL_API_KEY is set in env, otherwise returns a
- * structured error so the caller can handle it gracefully.
+ * Auto-translates messages/en.json into all other locales using the
+ * Google Cloud Translation API (Basic / v2).
  *
- * Request body (optional):
- *   { "locales": ["hr", "de"] }   — translate only these locales
- *   {}                             — translate all non-English locales
+ * ──────────────────────────────────────────────────────────────────
+ * WHY GOOGLE TRANSLATE:
+ *   • 500,000 characters FREE every month — resets automatically
+ *   • No one-time credit, no expiry, no subscription needed
+ *   • Supports all 9 locales used on this site
+ *   • Simple REST API — no SDK needed
  *
- * The route writes updated JSON files into messages/ in the repo via the
- * GitHub Contents API so changes are committed and trigger a Vercel redeploy.
- * Requires env vars:
- *   DEEPL_API_KEY       — DeepL Free or Pro API key
- *   GITHUB_TOKEN        — Personal access token with repo write scope
- *   GITHUB_REPO         — e.g. "kvbm6rfdwb-creator/apartments-dekanic"
- *   GITHUB_BRANCH       — defaults to "main"
+ * HOW TO GET A FREE API KEY (takes ~3 minutes):
+ *   1. Go to https://console.cloud.google.com
+ *   2. Create a project (or use an existing one)
+ *   3. Enable "Cloud Translation API"
+ *      → APIs & Services → Library → search "Cloud Translation API" → Enable
+ *   4. Create an API key
+ *      → APIs & Services → Credentials → Create Credentials → API Key
+ *   5. (Recommended) Restrict the key to "Cloud Translation API" only
+ *   6. Add to Vercel env vars: GOOGLE_TRANSLATE_API_KEY=AIza...
+ *
+ * Required env vars:
+ *   GOOGLE_TRANSLATE_API_KEY  — Google Cloud API key
+ *   GITHUB_TOKEN              — GitHub PAT with repo write scope (optional;
+ *                               falls back to local file write in dev mode)
+ *   GITHUB_REPO               — e.g. "kvbm6rfdwb-creator/apartments-dekanic"
+ *   GITHUB_BRANCH             — defaults to "main"
+ *
+ * Request body (all optional):
+ *   { "locales": ["hr", "de"] }  — translate only specific locales
+ *   {}                           — translate all 9 non-English locales
+ * ──────────────────────────────────────────────────────────────────
  */
 
 import { NextResponse } from 'next/server';
@@ -24,10 +40,9 @@ import path from 'path';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-// Translations can take a while for 9 locales
 export const maxDuration = 60;
 
-// ─── Auth helper (reused from other admin routes) ────────────────────────────
+// ─── Auth (same pattern as /api/admin/save) ───────────────────────────────────
 async function isAuthenticated(req: Request): Promise<boolean> {
   const cookieHeader = req.headers.get('cookie') || '';
   try {
@@ -42,58 +57,75 @@ async function isAuthenticated(req: Request): Promise<boolean> {
   return cookieHeader.includes(`admin_session=${pw}_${secret}`);
 }
 
-// ─── Locale config ────────────────────────────────────────────────────────────
+// ─── Locale → Google language code map ───────────────────────────────────────
 const ALL_LOCALES = ['hr', 'de', 'it', 'fr', 'es', 'hu', 'cs', 'pl', 'sl'] as const;
+type SupportedLocale = (typeof ALL_LOCALES)[number];
 
-// DeepL language codes differ from our locale codes in a few cases
-const DEEPL_LANG_MAP: Record<string, string> = {
-  hr: 'HR',
-  de: 'DE',
-  it: 'IT',
-  fr: 'FR',
-  es: 'ES',
-  hu: 'HU',
-  cs: 'CS',
-  pl: 'PL',
-  sl: 'SL',
+// Google uses ISO 639-1 codes; most match our locale codes exactly.
+const GOOGLE_LANG_MAP: Record<SupportedLocale, string> = {
+  hr: 'hr', // Croatian
+  de: 'de', // German
+  it: 'it', // Italian
+  fr: 'fr', // French
+  es: 'es', // Spanish
+  hu: 'hu', // Hungarian
+  cs: 'cs', // Czech
+  pl: 'pl', // Polish
+  sl: 'sl', // Slovenian
 };
 
-// ─── DeepL translator ─────────────────────────────────────────────────────────
-async function translateWithDeepl(
+// ─── Google Translate (REST v2, no SDK) ───────────────────────────────────────
+/**
+ * Translates an array of strings in a single batched API call.
+ * Google's v2 API accepts up to 128 q[] params per request and
+ * returns translations in the same order.
+ *
+ * Placeholders like {n}, {name} are protected by wrapping them in
+ * <span translate="no"> tags before sending and unwrapping afterward.
+ */
+async function translateWithGoogle(
   texts: string[],
   targetLang: string,
   apiKey: string
 ): Promise<string[]> {
-  const params = new URLSearchParams();
-  params.append('auth_key', apiKey);
-  params.append('target_lang', targetLang);
-  params.append('source_lang', 'EN');
-  // Preserve i18n placeholders like {n}, {name}
-  params.append('tag_handling', 'xml');
-  params.append('ignore_tags', 'x');
-  texts.forEach((t) => params.append('text', t));
+  // Protect i18n placeholders: {anything} → <span class="notranslate">{anything}</span>
+  const PLACEHOLDER_RE = /\{[^}]+\}/g;
+  const protectedTexts = texts.map((t) =>
+    t.replace(PLACEHOLDER_RE, (m) => `<span class="notranslate">${m}</span>`)
+  );
 
-  // DeepL Free uses api-free.deepl.com; Pro uses api.deepl.com
-  const baseUrl = apiKey.endsWith(':fx')
-    ? 'https://api-free.deepl.com/v2/translate'
-    : 'https://api.deepl.com/v2/translate';
+  // Build query string — Google v2 uses repeated 'q' params
+  const params = new URLSearchParams({ key: apiKey, source: 'en', target: targetLang, format: 'html' });
+  protectedTexts.forEach((t) => params.append('q', t));
 
-  const res = await fetch(baseUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params.toString(),
-  });
+  const res = await fetch(
+    `https://translation.googleapis.com/language/translate/v2?${params.toString()}`,
+    { method: 'GET' }
+  );
 
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`DeepL API error ${res.status}: ${errorText}`);
+    const errorBody = await res.text();
+    throw new Error(`Google Translate API error ${res.status}: ${errorBody}`);
   }
 
   const data = await res.json();
-  return (data.translations as Array<{ text: string }>).map((t) => t.text);
+  const translations: string[] = (
+    data.data.translations as Array<{ translatedText: string }>
+  ).map((t) => {
+    // Unwrap protection spans and decode HTML entities Google re-encodes
+    return t.translatedText
+      .replace(/<span class="notranslate">([^<]+)<\/span>/g, '$1')
+      .replace(/&amp;/g, '&')
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+  });
+
+  return translations;
 }
 
-// ─── Flatten / unflatten JSON for batch translation ──────────────────────────
+// ─── JSON flatten / unflatten ─────────────────────────────────────────────────
 function flattenObject(
   obj: Record<string, unknown>,
   prefix = ''
@@ -136,7 +168,6 @@ async function writeFileToGithub(
 ): Promise<void> {
   const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
 
-  // Get current SHA so we can update the file
   const getRes = await fetch(`${apiUrl}?ref=${branch}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -151,7 +182,7 @@ async function writeFileToGithub(
   }
 
   const body: Record<string, unknown> = {
-    message: `chore(i18n): auto-translate ${filePath}`,
+    message: `chore(i18n): auto-translate ${filePath} via Google Translate`,
     content: Buffer.from(content).toString('base64'),
     branch,
   };
@@ -179,13 +210,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const deeplKey = process.env.DEEPL_API_KEY;
-  if (!deeplKey) {
+  const googleKey = process.env.GOOGLE_TRANSLATE_API_KEY;
+  if (!googleKey) {
     return NextResponse.json(
       {
         error:
-          'DEEPL_API_KEY is not set. Add it to your Vercel environment variables. ' +
-          'Get a free key at https://www.deepl.com/pro-api (500k chars/month free).',
+          'GOOGLE_TRANSLATE_API_KEY is not set.\n\n' +
+          'How to get a FREE key (3 minutes):\n' +
+          '1. Go to https://console.cloud.google.com\n' +
+          '2. Enable "Cloud Translation API"\n' +
+          '3. Go to APIs & Services → Credentials → Create Credentials → API Key\n' +
+          '4. Add GOOGLE_TRANSLATE_API_KEY to your Vercel environment variables\n\n' +
+          'Free tier: 500,000 characters/month — resets every month automatically.',
       },
       { status: 422 }
     );
@@ -211,14 +247,14 @@ export async function POST(req: Request) {
     );
   }
 
-  // Determine which locales to translate
+  // Determine which locales to process
   let body: { locales?: string[] } = {};
-  try {
-    body = await req.json();
-  } catch {}
+  try { body = await req.json(); } catch {}
   const targetLocales = (
-    body.locales ? body.locales.filter((l) => ALL_LOCALES.includes(l as any)) : [...ALL_LOCALES]
-  ) as string[];
+    body.locales
+      ? body.locales.filter((l) => ALL_LOCALES.includes(l as SupportedLocale))
+      : [...ALL_LOCALES]
+  ) as SupportedLocale[];
 
   const flatEn = flattenObject(enMessages);
   const keys = Object.keys(flatEn);
@@ -228,15 +264,23 @@ export async function POST(req: Request) {
   const errors: Record<string, string> = {};
 
   for (const locale of targetLocales) {
-    const deeplLang = DEEPL_LANG_MAP[locale];
-    if (!deeplLang) continue;
+    const googleLang = GOOGLE_LANG_MAP[locale];
 
     try {
-      const translated = await translateWithDeepl(values, deeplLang, deeplKey);
+      // Google v2 REST supports up to 128 strings per request.
+      // Our en.json has ~70 keys so one request per locale is sufficient.
+      // If the file ever grows past 128 keys, batch in chunks of 100.
+      const CHUNK_SIZE = 100;
+      let translated: string[] = [];
+      for (let i = 0; i < values.length; i += CHUNK_SIZE) {
+        const chunk = values.slice(i, i + CHUNK_SIZE);
+        const chunkResult = await translateWithGoogle(chunk, googleLang, googleKey);
+        translated = translated.concat(chunkResult);
+      }
+
       const flatTranslated: Record<string, string> = {};
-      keys.forEach((k, i) => {
-        flatTranslated[k] = translated[i];
-      });
+      keys.forEach((k, i) => { flatTranslated[k] = translated[i]; });
+
       const nested = unflattenObject(flatTranslated);
       const json = JSON.stringify(nested, null, 2) + '\n';
 
@@ -249,7 +293,7 @@ export async function POST(req: Request) {
           githubBranch
         );
       } else {
-        // Fallback: write locally (dev mode)
+        // Dev fallback: write to local filesystem
         const { writeFile } = await import('fs/promises');
         await writeFile(
           path.join(process.cwd(), 'messages', `${locale}.json`),
