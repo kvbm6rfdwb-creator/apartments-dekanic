@@ -4,16 +4,16 @@
     "apartments": "Apartmaji",
     "location": "Lokacija",
     "contact": "Kontakt",
-    "bookNow": "Rezervacija"
+    "bookNow": "Rezervirajte"
   },
   "hero": {
     "subtitle": "Baška · Otok Krk · Hrvaška",
-    "cta": "Raziščite apartmaje",
+    "cta": "Odkrijte apartmaje",
     "scroll": "Pomaknite se navzdol"
   },
   "apartments": {
     "title": "Naši apartmaji",
-    "subtitle": "Tri edinstvena bivališča za različne trenutke",
+    "subtitle": "Tri edinstvena zatočišča, vsako zasnovano za drugačen ritem življenja na otoku.",
     "guests": "gostov",
     "bedrooms": "spalnice",
     "bathrooms": "kopalnice",
@@ -21,7 +21,7 @@
     "seaView": "Pogled na morje",
     "balcony": "Balkon",
     "parking": "Parkirišče",
-    "viewApartment": "Oglejte si apartma",
+    "viewApartment": "Oglej si apartma",
     "amenities": "Oprema",
     "gallery": "Galerija",
     "availability": "Razpoložljivost"
@@ -31,34 +31,34 @@
     "available": "Prosto",
     "booked": "Zasedeno",
     "loading": "Nalaganje koledarja…",
-    "error": "Razpoložljivosti ni mogoče naložiti. Prosimo, kontaktirajte nas.",
+    "error": "Razpoložljivosti ni bilo mogoče naložiti. Prosimo, stopite z nami v stik.",
     "selectDates": "Izberite datume",
-    "checkIn": "Prihod",
-    "checkOut": "Odhod",
+    "checkIn": "Prijava",
+    "checkOut": "Odjava",
     "nights": "noči",
-    "minStay": "Minimalno bivanje: {n} noči"
+    "minStay": "Minimalna doba bivanja: {n} noči"
   },
   "booking": {
-    "title": "Zahteva za rezervacijo",
+    "title": "Zahtevek za rezervacijo",
     "name": "Polno ime",
     "email": "E-poštni naslov",
     "phone": "Telefonska številka",
     "guests": "Število gostov",
     "message": "Sporočilo (neobvezno)",
-    "submit": "Pošlji zahtevo",
-    "success": "Vaša zahteva je bila poslana! Potrditev bo v 24 urah.",
-    "error": "Prišlo je do napake. Poskusite znova.",
+    "submit": "Pošlji zahtevek",
+    "success": "Vaš zahtevek je bil poslan! Potrdili bomo v 24 urah.",
+    "error": "Nekaj je šlo narobe. Poskusite znova ali nas kontaktirajte.",
     "pending": "Pošiljanje…",
-    "terms": "Z oddajo se strinjate z našo politiko odpovedi."
+    "terms": "S pošiljanjem se strinjate z našo politiko odpovedi."
   },
   "reviews": {
     "title": "Kaj pravijo naši gostje",
-    "subtitle": "Preverjene ocene iz Airbnb in Booking.com",
-    "viewAll": "Oglejte si vse ocene"
+    "subtitle": "Preverjene ocene z Airbnb & Booking.com",
+    "viewAll": "Poglej vse ocene"
   },
   "location": {
     "title": "Najdite nas v Baški",
-    "subtitle": "Skopalj 19, Baška, otok Krk",
+    "subtitle": "Skopalj 19, Baška, Otok Krk — kratek sprehod do znane plaže Baška.",
     "directions": "Pridobi navodila"
   },
   "contact": {
@@ -71,21 +71,35 @@
   "footer": {
     "rights": "Vse pravice pridržane.",
     "privacy": "Politika zasebnosti",
-    "terms": "Pogoji uporabe"
+    "terms": "Splošni pogoji"
+  },
+  "whyBook": {
+    "title": "Zakaj rezervirati neposredno?",
+    "subtitle": "Pametnejši način rezervacije",
+    "direct": "Neposredna rezervacija",
+    "directDesc": "Povežite se neposredno z lastniki nepremičnine. Brez posrednikov, brez skritih stroškov — samo pristna gostoljubnost.",
+    "price": "Garancija najboljše cene",
+    "priceDesc": "Prihranite do 20 % v primerjavi s platformami za rezervacije. Ista soba za manj.",
+    "available": "Osebna storitev",
+    "availableDesc": "Vaš gostitelj je na voljo 24/7 prek WhatsApp, e-pošte ali telefona. Pravi ljudje, prava pomoč.",
+    "verified": "Preverjena odličnost",
+    "verifiedDesc": "Ocene 5 zvezdic na vseh platformah z več kot 2.000 zadovoljnimi gostmi.",
+    "registered": "Uradno licencirano",
+    "registeredDesc": "Registrirano pri Hrvaškem ministrstvu za turizem. Vaše bivanje je zaščiteno in zavarovano."
   },
   "features": {
-    "wifi": "Brezplačen Wi-Fi",
+    "wifi": "Brezplačni Wi-Fi",
     "ac": "Klimatska naprava",
     "kitchen": "Popolnoma opremljena kuhinja",
     "tv": "Smart TV",
     "washer": "Pralni stroj",
     "dishwasher": "Pomivalni stroj",
     "coffee": "Aparat za kavo",
-    "bbq": "Žar BBQ",
+    "bbq": "Žar",
     "pool": "Bazen",
     "parking": "Brezplačno parkirišče",
     "petFriendly": "Hišni ljubljenčki dobrodošli",
-    "beachTowels": "Plažne brisače",
+    "beachTowels": "Brisače za plažo",
     "beachAccess": "Dostop do plaže",
     "terrace": "Terasa",
     "seaView": "Pogled na morje"

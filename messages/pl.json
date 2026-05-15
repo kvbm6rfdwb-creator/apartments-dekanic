@@ -4,7 +4,7 @@
     "apartments": "Apartamenty",
     "location": "Lokalizacja",
     "contact": "Kontakt",
-    "bookNow": "Rezerwacja"
+    "bookNow": "Zarezerwuj"
   },
   "hero": {
     "subtitle": "Baška · Wyspa Krk · Chorwacja",
@@ -13,7 +13,7 @@
   },
   "apartments": {
     "title": "Nasze apartamenty",
-    "subtitle": "Trzy wyjątkowe miejsca dla różnych chwil",
+    "subtitle": "Trzy wyjątkowe miejsca wypoczynku, każde stworzone dla innego tempa życia wyspiarskiego.",
     "guests": "gości",
     "bedrooms": "sypialnie",
     "bathrooms": "łazienki",
@@ -28,10 +28,10 @@
   },
   "calendar": {
     "title": "Dostępność",
-    "available": "Wolny",
-    "booked": "Zajęty",
+    "available": "Dostępny",
+    "booked": "Zarezerwowany",
     "loading": "Ładowanie kalendarza…",
-    "error": "Nie można załadować dostępności. Skontaktuj się z nami.",
+    "error": "Nie udało się załadować dostępności. Prosimy o kontakt.",
     "selectDates": "Wybierz daty",
     "checkIn": "Przyjazd",
     "checkOut": "Wyjazd",
@@ -47,18 +47,18 @@
     "message": "Wiadomość (opcjonalnie)",
     "submit": "Wyślij prośbę",
     "success": "Twoja prośba została wysłana! Potwierdzimy w ciągu 24 godzin.",
-    "error": "Coś poszło nie tak. Spróbuj ponownie.",
+    "error": "Coś poszło nie tak. Spróbuj ponownie lub skontaktuj się z nami.",
     "pending": "Wysyłanie…",
     "terms": "Wysyłając, akceptujesz naszą politykę anulowania."
   },
   "reviews": {
     "title": "Co mówią nasi goście",
-    "subtitle": "Zweryfikowane recenzje z Airbnb i Booking.com",
-    "viewAll": "Zobacz wszystkie recenzje"
+    "subtitle": "Zweryfikowane opinie z Airbnb & Booking.com",
+    "viewAll": "Zobacz wszystkie opinie"
   },
   "location": {
-    "title": "Znajdź nas w Bašce",
-    "subtitle": "Skopalj 19, Baška, wyspa Krk",
+    "title": "Znajdź nas w Baška",
+    "subtitle": "Skopalj 19, Baška, Wyspa Krk — krótki spacer od słynnej plaży w Baška.",
     "directions": "Wyznacz trasę"
   },
   "contact": {
@@ -73,6 +73,20 @@
     "privacy": "Polityka prywatności",
     "terms": "Regulamin"
   },
+  "whyBook": {
+    "title": "Dlaczego rezerwować bezpośrednio?",
+    "subtitle": "Mądrzejszy sposób rezerwacji",
+    "direct": "Bezpośrednia rezerwacja",
+    "directDesc": "Skontaktuj się bezpośrednio z właścicielami. Brak pośredników, brak ukrytych opłat — tylko autentyczna gościnność.",
+    "price": "Gwarancja najlepszej ceny",
+    "priceDesc": "Oszczędź do 20% w porównaniu z platformami rezerwacyjnymi. Ten sam pokój w niższej cenie.",
+    "available": "Usługa osobista",
+    "availableDesc": "Twój gospodarz jest dostępny 24/7 przez WhatsApp, e-mail lub telefon. Prawdziwi ludzie, realna pomoc.",
+    "verified": "Potwierdzona doskonałość",
+    "verifiedDesc": "Oceny 5 gwiazdek na wszystkich platformach z ponad 2 000 zadowolonych gości.",
+    "registered": "Oficjalnie licencjonowany",
+    "registeredDesc": "Zarejestrowany w Chorwackim Ministerstwie Turystyki. Twój pobyt jest chroniony i ubezpieczony."
+  },
   "features": {
     "wifi": "Bezpłatne Wi-Fi",
     "ac": "Klimatyzacja",
@@ -81,7 +95,7 @@
     "washer": "Pralka",
     "dishwasher": "Zmywarka",
     "coffee": "Ekspres do kawy",
-    "bbq": "Grill BBQ",
+    "bbq": "Strefa grillowa",
     "pool": "Basen",
     "parking": "Bezpłatny parking",
     "petFriendly": "Przyjazny dla zwierząt",

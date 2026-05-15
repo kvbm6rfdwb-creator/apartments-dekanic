@@ -9,29 +9,29 @@
   "hero": {
     "subtitle": "Baška · Isola di Krk · Croazia",
     "cta": "Scopri gli appartamenti",
-    "scroll": "Scorri verso il basso"
+    "scroll": "Scorri per scoprire"
   },
   "apartments": {
-    "title": "Our Apartments",
-    "subtitle": "Three distinct retreats, each crafted for a different pace of island life.",
-    "guests": "guests",
-    "bedrooms": "bedrooms",
-    "bathrooms": "bathrooms",
+    "title": "I nostri appartamenti",
+    "subtitle": "Tre rifugi distinti, ognuno pensato per un diverso ritmo della vita sull'isola.",
+    "guests": "ospiti",
+    "bedrooms": "camere da letto",
+    "bathrooms": "bagni",
     "sqm": "m²",
-    "seaView": "Sea View",
-    "balcony": "Balcony",
-    "parking": "Parking",
-    "viewApartment": "View Apartment",
-    "amenities": "Amenities",
-    "gallery": "Gallery",
-    "availability": "Availability"
+    "seaView": "Vista mare",
+    "balcony": "Balcone",
+    "parking": "Parcheggio",
+    "viewApartment": "Vedi appartamento",
+    "amenities": "Dotazioni",
+    "gallery": "Galleria",
+    "availability": "Disponibilità"
   },
   "calendar": {
     "title": "Disponibilità",
     "available": "Disponibile",
-    "booked": "Occupato",
-    "loading": "Caricamento…",
-    "error": "Impossibile caricare la disponibilità.",
+    "booked": "Prenotato",
+    "loading": "Caricamento calendario…",
+    "error": "Impossibile caricare la disponibilità. Contattaci.",
     "selectDates": "Seleziona le date",
     "checkIn": "Check-in",
     "checkOut": "Check-out",
@@ -41,30 +41,30 @@
   "booking": {
     "title": "Richiesta di prenotazione",
     "name": "Nome completo",
-    "email": "Indirizzo email",
+    "email": "Indirizzo e-mail",
     "phone": "Numero di telefono",
     "guests": "Numero di ospiti",
     "message": "Messaggio (opzionale)",
     "submit": "Invia richiesta",
     "success": "La tua richiesta è stata inviata! Confermeremo entro 24 ore.",
-    "error": "Qualcosa è andato storto. Riprova.",
-    "pending": "Invio…",
+    "error": "Qualcosa è andato storto. Riprova o contattaci direttamente.",
+    "pending": "Invio in corso…",
     "terms": "Inviando accetti la nostra politica di cancellazione."
   },
   "reviews": {
     "title": "Cosa dicono i nostri ospiti",
     "subtitle": "Recensioni verificate da Airbnb & Booking.com",
-    "viewAll": "Visualizza tutte le recensioni"
+    "viewAll": "Vedi tutte le recensioni"
   },
   "location": {
     "title": "Trovaci a Baška",
-    "subtitle": "Skopalj 19, Baška, Isola di Krk — a pochi passi dalla spiaggia.",
-    "directions": "Indicazioni stradali"
+    "subtitle": "Skopalj 19, Baška, Isola di Krk — a pochi passi dalla famosa spiaggia di Baška.",
+    "directions": "Ottieni indicazioni"
   },
   "contact": {
     "title": "Contattaci",
     "phone": "Telefono",
-    "email": "Email",
+    "email": "E-mail",
     "whatsapp": "WhatsApp",
     "address": "Indirizzo"
   },
@@ -73,21 +73,35 @@
     "privacy": "Informativa sulla privacy",
     "terms": "Termini e condizioni"
   },
+  "whyBook": {
+    "title": "Perché prenotare direttamente?",
+    "subtitle": "Il modo più intelligente per prenotare",
+    "direct": "Prenotazione diretta",
+    "directDesc": "Contatta direttamente i proprietari. Nessun intermediario, nessuna commissione nascosta — solo autentica ospitalità.",
+    "price": "Garanzia miglior prezzo",
+    "priceDesc": "Risparmia fino al 20% rispetto alle piattaforme di prenotazione. La stessa camera a meno.",
+    "available": "Servizio personalizzato",
+    "availableDesc": "Il tuo host è disponibile 24/7 via WhatsApp, e-mail o telefono. Persone vere, aiuto concreto.",
+    "verified": "Eccellenza comprovata",
+    "verifiedDesc": "Valutazioni a 5 stelle su tutte le piattaforme con oltre 2.000 ospiti soddisfatti.",
+    "registered": "Ufficialmente autorizzato",
+    "registeredDesc": "Registrato presso il Ministero del turismo croato. Il tuo soggiorno è protetto e assicurato."
+  },
   "features": {
-    "wifi": "Free Wi-Fi",
-    "ac": "Air Conditioning",
-    "kitchen": "Fully Equipped Kitchen",
+    "wifi": "Wi-Fi gratuito",
+    "ac": "Aria condizionata",
+    "kitchen": "Cucina completamente attrezzata",
     "tv": "Smart TV",
-    "washer": "Washing Machine",
-    "dishwasher": "Dishwasher",
-    "coffee": "Coffee Machine",
-    "bbq": "BBQ Area",
-    "pool": "Swimming Pool",
-    "parking": "Free Parking",
-    "petFriendly": "Pet Friendly",
-    "beachTowels": "Beach Towels",
-    "beachAccess": "Beach Access",
-    "terrace": "Terrace",
-    "seaView": "Sea View"
+    "washer": "Lavatrice",
+    "dishwasher": "Lavastoviglie",
+    "coffee": "Macchina del caffè",
+    "bbq": "Area barbecue",
+    "pool": "Piscina",
+    "parking": "Parcheggio gratuito",
+    "petFriendly": "Animali ammessi",
+    "beachTowels": "Asciugamani da spiaggia",
+    "beachAccess": "Accesso alla spiaggia",
+    "terrace": "Terrazza",
+    "seaView": "Vista mare"
   }
 }

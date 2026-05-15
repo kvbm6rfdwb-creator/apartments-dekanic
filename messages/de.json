@@ -12,27 +12,27 @@
     "scroll": "Nach unten scrollen"
   },
   "apartments": {
-    "title": "Our Apartments",
-    "subtitle": "Three distinct retreats, each crafted for a different pace of island life.",
-    "guests": "guests",
-    "bedrooms": "bedrooms",
-    "bathrooms": "bathrooms",
+    "title": "Unsere Apartments",
+    "subtitle": "Drei besondere Rückzugsorte, jeder für ein anderes Tempo des Insellebens gestaltet.",
+    "guests": "Gäste",
+    "bedrooms": "Schlafzimmer",
+    "bathrooms": "Badezimmer",
     "sqm": "m²",
-    "seaView": "Sea View",
-    "balcony": "Balcony",
-    "parking": "Parking",
-    "viewApartment": "View Apartment",
-    "amenities": "Amenities",
-    "gallery": "Gallery",
-    "availability": "Availability"
+    "seaView": "Meerblick",
+    "balcony": "Balkon",
+    "parking": "Parkplatz",
+    "viewApartment": "Apartment ansehen",
+    "amenities": "Ausstattung",
+    "gallery": "Galerie",
+    "availability": "Verfügbarkeit"
   },
   "calendar": {
     "title": "Verfügbarkeit",
     "available": "Verfügbar",
-    "booked": "Belegt",
+    "booked": "Gebucht",
     "loading": "Kalender wird geladen…",
     "error": "Verfügbarkeit konnte nicht geladen werden. Bitte kontaktieren Sie uns.",
-    "selectDates": "Daten auswählen",
+    "selectDates": "Reisedaten auswählen",
     "checkIn": "Anreise",
     "checkOut": "Abreise",
     "nights": "Nächte",
@@ -47,7 +47,7 @@
     "message": "Nachricht (optional)",
     "submit": "Anfrage senden",
     "success": "Ihre Anfrage wurde gesendet! Wir bestätigen innerhalb von 24 Stunden.",
-    "error": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.",
     "pending": "Wird gesendet…",
     "terms": "Mit dem Absenden stimmen Sie unserer Stornierungsrichtlinie zu."
   },
@@ -58,8 +58,8 @@
   },
   "location": {
     "title": "Finden Sie uns in Baška",
-    "subtitle": "Skopalj 19, Baška, Insel Krk — ein kurzer Spaziergang zum Strand.",
-    "directions": "Wegbeschreibung"
+    "subtitle": "Skopalj 19, Baška, Insel Krk — nur wenige Gehminuten vom berühmten Strand Baška.",
+    "directions": "Route berechnen"
   },
   "contact": {
     "title": "Kontakt aufnehmen",
@@ -71,23 +71,37 @@
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
     "privacy": "Datenschutzrichtlinie",
-    "terms": "AGB"
+    "terms": "Allgemeine Geschäftsbedingungen"
+  },
+  "whyBook": {
+    "title": "Warum direkt buchen?",
+    "subtitle": "Die clevere Art zu buchen",
+    "direct": "Direktbuchung",
+    "directDesc": "Treten Sie direkt mit den Eigentümern in Kontakt. Keine Vermittler, keine versteckten Gebühren — nur echte Gastfreundschaft.",
+    "price": "Bestpreisgarantie",
+    "priceDesc": "Sparen Sie bis zu 20 % gegenüber Buchungsplattformen. Dasselbe Zimmer für weniger.",
+    "available": "Persönlicher Service",
+    "availableDesc": "Ihr Gastgeber ist rund um die Uhr per WhatsApp, E-Mail oder Telefon erreichbar. Echte Menschen, echte Hilfe.",
+    "verified": "Bewährte Exzellenz",
+    "verifiedDesc": "5-Sterne-Bewertungen auf allen Plattformen mit über 2.000 zufriedenen Gästen.",
+    "registered": "Offiziell lizenziert",
+    "registeredDesc": "Registriert beim kroatischen Ministerium für Tourismus. Ihr Aufenthalt ist geschützt und versichert."
   },
   "features": {
-    "wifi": "Free Wi-Fi",
-    "ac": "Air Conditioning",
-    "kitchen": "Fully Equipped Kitchen",
+    "wifi": "Kostenloses WLAN",
+    "ac": "Klimaanlage",
+    "kitchen": "Vollausgestattete Küche",
     "tv": "Smart TV",
-    "washer": "Washing Machine",
-    "dishwasher": "Dishwasher",
-    "coffee": "Coffee Machine",
-    "bbq": "BBQ Area",
-    "pool": "Swimming Pool",
-    "parking": "Free Parking",
-    "petFriendly": "Pet Friendly",
-    "beachTowels": "Beach Towels",
-    "beachAccess": "Beach Access",
-    "terrace": "Terrace",
-    "seaView": "Sea View"
+    "washer": "Waschmaschine",
+    "dishwasher": "Geschirrspüler",
+    "coffee": "Kaffeemaschine",
+    "bbq": "Grillbereich",
+    "pool": "Schwimmbad",
+    "parking": "Kostenloser Parkplatz",
+    "petFriendly": "Haustiere willkommen",
+    "beachTowels": "Strandtücher",
+    "beachAccess": "Strandzugang",
+    "terrace": "Terrasse",
+    "seaView": "Meerblick"
   }
 }

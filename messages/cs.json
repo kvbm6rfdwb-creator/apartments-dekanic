@@ -4,22 +4,22 @@
     "apartments": "Apartmány",
     "location": "Poloha",
     "contact": "Kontakt",
-    "bookNow": "Rezervace"
+    "bookNow": "Rezervovat"
   },
   "hero": {
     "subtitle": "Baška · Ostrov Krk · Chorvatsko",
     "cta": "Prozkoumat apartmány",
-    "scroll": "Posuňte se níže"
+    "scroll": "Rolujte dolů"
   },
   "apartments": {
     "title": "Naše apartmány",
-    "subtitle": "Tři jedinečné útočiště, každé pro jinou dobu",
-    "guests": "hostů",
+    "subtitle": "Tři jedinečná útočiště, každé navržené pro jiný rytmus ostrovního života.",
+    "guests": "hosté",
     "bedrooms": "ložnice",
     "bathrooms": "koupelny",
     "sqm": "m²",
     "seaView": "Výhled na moře",
-    "balcony": "Balkón",
+    "balcony": "Balkon",
     "parking": "Parkování",
     "viewApartment": "Zobrazit apartmán",
     "amenities": "Vybavení",
@@ -28,38 +28,38 @@
   },
   "calendar": {
     "title": "Dostupnost",
-    "available": "Volný",
-    "booked": "Obsazený",
+    "available": "Volno",
+    "booked": "Obsazeno",
     "loading": "Načítání kalendáře…",
-    "error": "Nelze načíst dostupnost. Kontaktujte nás.",
+    "error": "Nepodařilo se načíst dostupnost. Kontaktujte nás prosím.",
     "selectDates": "Vyberte termín",
     "checkIn": "Příjezd",
     "checkOut": "Odjezd",
     "nights": "nocí",
-    "minStay": "Minimální pobyt: {n} nocí"
+    "minStay": "Minimální délka pobytu: {n} noci"
   },
   "booking": {
     "title": "Žádost o rezervaci",
     "name": "Celé jméno",
-    "email": "E-mail",
-    "phone": "Telefon",
+    "email": "E-mailová adresa",
+    "phone": "Telefonní číslo",
     "guests": "Počet hostů",
     "message": "Zpráva (nepovinné)",
     "submit": "Odeslat žádost",
     "success": "Vaše žádost byla odeslána! Potvrdíme do 24 hodin.",
-    "error": "Něco se pokazilo. Zkuste to prosím znovu.",
+    "error": "Něco se pokazilo. Zkuste to prosím znovu nebo nás kontaktujte.",
     "pending": "Odesílání…",
     "terms": "Odesláním souhlasíte s našimi storno podmínkami."
   },
   "reviews": {
     "title": "Co říkají naši hosté",
-    "subtitle": "Ověřené recenze z Airbnb a Booking.com",
+    "subtitle": "Ověřené recenze z Airbnb & Booking.com",
     "viewAll": "Zobrazit všechny recenze"
   },
   "location": {
-    "title": "Najděte nás v Bašce",
-    "subtitle": "Skopalj 19, Baška, ostrov Krk",
-    "directions": "Navigovat"
+    "title": "Najdete nás v Baška",
+    "subtitle": "Skopalj 19, Baška, ostrov Krk — kousek od slavné pláže Baška.",
+    "directions": "Jak se k nám dostat"
   },
   "contact": {
     "title": "Kontaktujte nás",
@@ -73,6 +73,20 @@
     "privacy": "Zásady ochrany osobních údajů",
     "terms": "Obchodní podmínky"
   },
+  "whyBook": {
+    "title": "Proč rezervovat přímo?",
+    "subtitle": "Chytřejší způsob rezervace",
+    "direct": "Přímá rezervace",
+    "directDesc": "Spojte se přímo s majiteli nemovitosti. Žádní zprostředkovatelé, žádné skryté poplatky — jen autentická pohostinnost.",
+    "price": "Garance nejlepší ceny",
+    "priceDesc": "Ušetřete až 20 % oproti rezervačním platformám. Stejný pokoj za méně.",
+    "available": "Osobní servis",
+    "availableDesc": "Váš hostitel je k dispozici 24/7 přes WhatsApp, e-mail nebo telefon. Skuteční lidé, skutečná pomoc.",
+    "verified": "Prověřená excelence",
+    "verifiedDesc": "Hodnocení 5 hvězdiček na všech platformách s více než 2 000 spokojenými hosty.",
+    "registered": "Oficiálně licencováno",
+    "registeredDesc": "Registrováno u Chorvatského ministerstva cestovního ruchu. Váš pobyt je chráněn a pojištěn."
+  },
   "features": {
     "wifi": "Bezplatné Wi-Fi",
     "ac": "Klimatizace",
@@ -81,10 +95,10 @@
     "washer": "Pračka",
     "dishwasher": "Myčka nádobí",
     "coffee": "Kávovar",
-    "bbq": "Gril",
+    "bbq": "Grilovací zóna",
     "pool": "Bazén",
     "parking": "Bezplatné parkování",
-    "petFriendly": "Vítání domácích zvířat",
+    "petFriendly": "Domácí mazlíčci vítáni",
     "beachTowels": "Plážové ručníky",
     "beachAccess": "Přístup na pláž",
     "terrace": "Terasa",
