@@ -282,7 +282,7 @@
       {
         "id": "weather",
         "label": "Weather Forecast",
-        "enabled": true,
+        "enabled": false,
         "locked": false
       },
       {
