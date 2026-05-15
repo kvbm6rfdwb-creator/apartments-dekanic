@@ -1,6 +1,7 @@
 "use client";
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const WA_SVG = (
   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -9,11 +10,11 @@ const WA_SVG = (
 );
 
 function cleanPhone(raw: string): string {
-  // Remove everything except digits and leading +
   return '+' + raw.replace(/[^0-9]/g, '');
 }
 
 export default function Contact() {
+  const t = useTranslations('contact');
   const [property, setProperty] = useState({
     phone: '+385 98 484 133',
     email: 'dekanic.lucija@gmail.com',
@@ -39,23 +40,21 @@ export default function Contact() {
     <section id="contact" className="py-12 px-6 bg-sand-50">
       <div className="max-w-4xl mx-auto text-center">
         <div className="reveal">
-          <p className="text-sand-600 text-xs tracking-[.3em] uppercase font-semibold mb-3">Contact</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-stone-900 font-light mb-4">Get in Touch</h2>
-          <p className="text-stone-400 text-lg mb-12">Typically responding within 1 hour — in any of our 10 supported languages.</p>
+          <h2 className="font-serif text-4xl md:text-5xl text-stone-900 font-light mb-4">{t('title')}</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {([
-            { icon: Phone,  label: 'Phone',   value: property.phone,   href: `tel:${cleanPhone(property.phone)}`,  bg: 'bg-white', ic: 'text-sand-600' },
-            { icon: Mail,   label: 'Email',   value: property.email,   href: `mailto:${property.email}`,           bg: 'bg-white', ic: 'text-terra-600' },
-            { icon: MapPin, label: 'Address', value: property.address, href: `https://maps.google.com/?q=${property.mapLat},${property.mapLng}`, bg: 'bg-white', ic: 'text-stone-600' },
+            { icon: Phone,  key: 'phone',   value: property.phone,   href: `tel:${cleanPhone(property.phone)}`,  bg: 'bg-white', ic: 'text-sand-600' },
+            { icon: Mail,   key: 'email',   value: property.email,   href: `mailto:${property.email}`,           bg: 'bg-white', ic: 'text-terra-600' },
+            { icon: MapPin, key: 'address', value: property.address, href: `https://maps.google.com/?q=${property.mapLat},${property.mapLng}`, bg: 'bg-white', ic: 'text-stone-600' },
           ] as const).map((c, i) => (
             <a key={i} href={c.href} target={c.icon === MapPin ? '_blank' : undefined} rel="noopener noreferrer"
               className={`reveal delay-${i + 1} ${c.bg} rounded-3xl p-8 flex flex-col items-center gap-3 border border-sand-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group`}>
               <div className="w-12 h-12 rounded-2xl bg-sand-50 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
                 <c.icon size={20} className={c.ic} />
               </div>
-              <p className="text-xs text-stone-400 font-semibold uppercase tracking-widest">{c.label}</p>
+              <p className="text-xs text-stone-400 font-semibold uppercase tracking-widest">{t(c.key as any)}</p>
               <p className="text-stone-800 font-medium text-sm text-center">{c.value}</p>
             </a>
           ))}
@@ -64,8 +63,7 @@ export default function Contact() {
         {/* WhatsApp */}
         <div className="reveal bg-white border border-sand-200 rounded-3xl px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-left">
-            <p className="font-semibold text-stone-700 text-base">Prefer to chat?</p>
-            <p className="text-stone-400 text-sm mt-0.5">We&apos;re on WhatsApp — usually respond within minutes.</p>
+            <p className="font-semibold text-stone-700 text-base">{t('whatsapp')}</p>
           </div>
           <a
             href={waUrl}
@@ -74,7 +72,7 @@ export default function Contact() {
             className="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-sand-50 hover:bg-sand-100 border border-sand-200 hover:border-sand-300 text-stone-700 font-medium rounded-full transition-all duration-200 text-sm"
           >
             {WA_SVG}
-            Open WhatsApp
+            {t('whatsapp')}
           </a>
         </div>
       </div>
