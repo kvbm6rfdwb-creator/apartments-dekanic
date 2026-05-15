@@ -99,7 +99,7 @@ export default function Location() {
     `&destination_place_id=Skopalj19Ba%C5%A1ka%2C1kaCroatia`;
 
   return (
-    <section id="location" className="py-24 px-6 bg-white">
+    <section id="location" className="py-12 px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 

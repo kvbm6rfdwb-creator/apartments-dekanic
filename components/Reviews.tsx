@@ -275,7 +275,7 @@ export default function Reviews() {
   const modalReview = modalIdx !== null ? modalList[modalIdx] : null;
 
   return (
-    <section id="reviews" className="py-24 bg-[#faf9f7]">
+    <section id="reviews" className="py-12 bg-[#faf9f7]">
       {modalReview && (
         <Modal r={modalReview} onClose={() => setModalIdx(null)}
           onPrev={() => setModalIdx(i => i !== null ? Math.max(0, i-1) : null)}

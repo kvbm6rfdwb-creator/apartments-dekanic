@@ -36,7 +36,7 @@ export default function Contact() {
   const waUrl = `https://wa.me/${waNumber.replace('+', '')}`;
 
   return (
-    <section id="contact" className="py-24 px-6 bg-sand-50">
+    <section id="contact" className="py-12 px-6 bg-sand-50">
       <div className="max-w-4xl mx-auto text-center">
         <div className="reveal">
           <p className="text-sand-600 text-xs tracking-[.3em] uppercase font-semibold mb-3">Contact</p>

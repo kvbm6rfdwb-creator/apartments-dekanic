@@ -304,12 +304,6 @@
         "locked": false
       },
       {
-        "id": "weather",
-        "label": "Weather Forecast",
-        "enabled": true,
-        "locked": false
-      },
-      {
         "id": "location",
         "label": "Map & Location",
         "enabled": true,

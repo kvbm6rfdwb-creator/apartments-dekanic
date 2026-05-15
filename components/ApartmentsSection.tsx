@@ -18,7 +18,7 @@ export default function ApartmentsSection({ locale, apartments }: { locale: stri
   const t = useTranslations('apartments');
   const currentLocale = useLocale();
   return (
-    <section id="apartments" className="py-24 px-6 bg-sand-50">
+    <section id="apartments" className="py-12 px-6 bg-sand-50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 reveal">
           <p className="text-sand-600 text-xs tracking-[.3em] uppercase font-semibold mb-3">Baška · Island Krk</p>

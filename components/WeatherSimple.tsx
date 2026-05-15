@@ -1,249 +1,336 @@
 "use client";
 import React, { useState } from 'react';
-import { Cloud, Sun, MapPin, Thermometer, Wind, Droplets, Eye, Gauge, Sunrise, Sunset, Moon, CloudRain, CloudSnow, Navigation } from 'lucide-react';
+import { WeatherGlyph, type WeatherKind } from './WeatherGlyphs';
+import {
+  StatAirQualityGlyph,
+  StatHumidityGlyph,
+  StatLocationGlyph,
+  StatTempGlyph,
+  StatWindGlyph,
+} from './WeatherStatGlyphs';
+
+// Baška, Island Krk coordinates
+const LAT = 44.9695;
+const LNG = 14.7452;
+
+type DayRow = {
+  date: string;
+  label: string;
+  high: number | null;
+  low: number | null;
+  icon: WeatherKind;
+};
+
+function aqiLabel(usAqi?: number) {
+  if (usAqi == null || Number.isNaN(usAqi)) return '—';
+  if (usAqi <= 50) return 'Good';
+  if (usAqi <= 100) return 'Moderate';
+  if (usAqi <= 150) return 'USG';
+  if (usAqi <= 200) return 'Unhealthy';
+  if (usAqi <= 300) return 'Very Unhealthy';
+  return 'Hazardous';
+}
+
+function localISODate() {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function localISOHour() {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:00`;
+}
+
+function wmoToKind(code?: number): WeatherKind {
+  if (code == null || Number.isNaN(code)) return 'cloud';
+  if (code <= 1) return 'sun'; // clear / mainly clear
+  if (code === 2) return 'partly';
+  if (code === 3) return 'cloud';
+  if (code === 45 || code === 48) return 'fog';
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return 'rain';
+  if ((code >= 71 && code <= 77) || code === 85 || code === 86) return 'snow';
+  if (code >= 95 && code <= 99) return 'storm';
+  return 'cloud';
+}
+
+function kindForCurrentHour(opts: { weatherCode?: number; precipitation?: number }): WeatherKind {
+  const code = opts.weatherCode;
+  const precip = opts.precipitation ?? 0;
+  const base = wmoToKind(code);
+  // If the model says it's precipitating this hour, always show rain/snow/storm.
+  if (base === 'storm' || base === 'snow' || base === 'rain' || base === 'fog') return base;
+  if (precip >= 0.2) return 'rain';
+  return base;
+}
+
+function findHourIndex(times: string[], target: string) {
+  // ISO strings sort lexicographically, so we can find "latest <= target"
+  const exact = times.indexOf(target);
+  if (exact >= 0) return exact;
+  let best = -1;
+  for (let i = 0; i < times.length; i++) {
+    const t = times[i];
+    if (t <= target) best = i;
+    else break;
+  }
+  return best;
+}
+
+function kindForDayFromHourly(dateISO: string, hourly: any): WeatherKind {
+  const times: string[] = hourly?.time ?? [];
+  const codes: number[] = hourly?.weather_code ?? [];
+  const prec: number[] = hourly?.precipitation ?? [];
+  const rad: number[] = hourly?.shortwave_radiation ?? [];
+  const isDay: number[] = hourly?.is_day ?? [];
+
+  let rainHours = 0;
+  let snowHours = 0;
+  let stormHours = 0;
+  let fogHours = 0;
+  const counts: Record<WeatherKind, number> = {
+    sun: 0,
+    partly: 0,
+    cloud: 0,
+    fog: 0,
+    rain: 0,
+    snow: 0,
+    storm: 0,
+  };
+
+  let radSum = 0;
+  let radN = 0;
+
+  for (let i = 0; i < times.length; i++) {
+    const t = times[i];
+    if (!t || !t.startsWith(dateISO)) continue;
+    if (isDay[i] !== 1) continue;
+
+    const code = codes[i];
+    const kind = wmoToKind(code);
+    counts[kind] += 1;
+
+    if (kind === 'storm') stormHours += 1;
+    else if (kind === 'snow') snowHours += 1;
+    else if (kind === 'rain') rainHours += 1;
+    else if (kind === 'fog') fogHours += 1;
+
+    if ((prec[i] ?? 0) >= 0.2) rainHours += 1;
+
+    if (Number.isFinite(rad[i])) {
+      radSum += rad[i];
+      radN += 1;
+    }
+  }
+
+  // If there's meaningful precip/storm across the daylight hours, prefer that.
+  if (stormHours >= 1) return 'storm';
+  if (snowHours >= 2) return 'snow';
+  if (rainHours >= 2) return 'rain';
+  if (fogHours >= 3) return 'fog';
+
+  // Otherwise pick based on how "sunny" the day is overall (daylight radiation avg),
+  // falling back to the most common WMO kind.
+  const radAvg = radN ? radSum / radN : 0;
+  if (radAvg >= 300) return 'sun';
+  if (radAvg >= 140) return 'partly';
+
+  const order: WeatherKind[] = ['cloud', 'partly', 'sun', 'fog', 'rain', 'snow', 'storm'];
+  let best: WeatherKind = 'cloud';
+  for (const k of order) {
+    if (counts[k] > counts[best]) best = k;
+  }
+  return best;
+}
 
 export default function WeatherSimple() {
   const [mounted, setMounted] = useState(false);
-  const [selectedDay, setSelectedDay] = useState(0);
-  
+  const [tempC, setTempC] = useState<number | null>(null);
+  const [humidity, setHumidity] = useState<number | null>(null);
+  const [windKmh, setWindKmh] = useState<number | null>(null);
+  const [airQuality, setAirQuality] = useState<string>('—');
+  const [days, setDays] = useState<DayRow[]>([]);
+  const [currentKind, setCurrentKind] = useState<WeatherKind>('cloud');
+
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Enhanced weather data with rich information
-  const weatherData = [
-    { 
-      day: 'Mon', 
-      high: 22, 
-      low: 16, 
-      icon: 'sun', 
-      condition: 'Sunny',
-      humidity: 65,
-      windSpeed: 12,
-      uvIndex: 6,
-      visibility: 10,
-      pressure: 1013,
-      sunrise: '05:42',
-      sunset: '20:15',
-      feelsLike: 21,
-      precipitation: 0,
-      moonPhase: '🌓'
-    },
-    { 
-      day: 'Tue', 
-      high: 23, 
-      low: 17, 
-      icon: 'sun', 
-      condition: 'Sunny',
-      humidity: 62,
-      windSpeed: 10,
-      uvIndex: 7,
-      visibility: 10,
-      pressure: 1015,
-      sunrise: '05:41',
-      sunset: '20:16',
-      feelsLike: 22,
-      precipitation: 0,
-      moonPhase: '🌔'
-    },
-    { 
-      day: 'Wed', 
-      high: 21, 
-      low: 15, 
-      icon: 'cloud', 
-      condition: 'Partly Cloudy',
-      humidity: 70,
-      windSpeed: 15,
-      uvIndex: 4,
-      visibility: 8,
-      pressure: 1011,
-      sunrise: '05:43',
-      sunset: '20:14',
-      feelsLike: 19,
-      precipitation: 20,
-      moonPhase: '🌗'
-    },
-    { 
-      day: 'Thu', 
-      high: 20, 
-      low: 14, 
-      icon: 'cloud', 
-      condition: 'Cloudy',
-      humidity: 75,
-      windSpeed: 18,
-      uvIndex: 3,
-      visibility: 7,
-      pressure: 1009,
-      sunrise: '05:44',
-      sunset: '20:13',
-      feelsLike: 18,
-      precipitation: 40,
-      moonPhase: '🌘'
-    },
-    { 
-      day: 'Fri', 
-      high: 22, 
-      low: 16, 
-      icon: 'sun', 
-      condition: 'Sunny',
-      humidity: 60,
-      windSpeed: 8,
-      uvIndex: 8,
-      visibility: 10,
-      pressure: 1016,
-      sunrise: '05:40',
-      sunset: '20:17',
-      feelsLike: 23,
-      precipitation: 5,
-      moonPhase: '🌑'
-    },
-    { 
-      day: 'Sat', 
-      high: 24, 
-      low: 18, 
-      icon: 'sun', 
-      condition: 'Sunny',
-      humidity: 58,
-      windSpeed: 6,
-      uvIndex: 9,
-      visibility: 10,
-      pressure: 1018,
-      sunrise: '05:39',
-      sunset: '20:18',
-      feelsLike: 25,
-      precipitation: 0,
-      moonPhase: '🌒'
-    },
-    { 
-      day: 'Sun', 
-      high: 23, 
-      low: 17, 
-      icon: 'cloud', 
-      condition: 'Partly Cloudy',
-      humidity: 68,
-      windSpeed: 14,
-      uvIndex: 5,
-      visibility: 9,
-      pressure: 1012,
-      sunrise: '05:45',
-      sunset: '20:12',
-      feelsLike: 22,
-      precipitation: 15,
-      moonPhase: '🌓'
-    }
-  ];
+  React.useEffect(() => {
+    if (!mounted) return;
+
+    let cancelled = false;
+
+    const fetchAll = async () => {
+      try {
+        // Weather (Open-Meteo)
+        const res = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&timezone=auto&forecast_days=7&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=weather_code,precipitation,shortwave_radiation,is_day`
+        );
+        if (!res.ok) throw new Error(`Weather fetch failed: ${res.status}`);
+        const data = await res.json();
+
+        if (!cancelled) {
+          setTempC(data?.current?.temperature_2m ?? null);
+          setHumidity(data?.current?.relative_humidity_2m ?? null);
+          setWindKmh(data?.current?.wind_speed_10m ?? null);
+          // Current-day icon: use the current HOUR's forecast (hour-by-hour), not the daily summary.
+          const hourKey = data?.current?.time ?? localISOHour();
+          const timesHourly: string[] = data?.hourly?.time ?? [];
+          const hourIdx =
+            findHourIndex(timesHourly, hourKey) >= 0
+              ? findHourIndex(timesHourly, hourKey)
+              : findHourIndex(timesHourly, localISOHour());
+          if (hourIdx >= 0) {
+            setCurrentKind(
+              kindForCurrentHour({
+                weatherCode: data?.hourly?.weather_code?.[hourIdx],
+                precipitation: data?.hourly?.precipitation?.[hourIdx],
+              })
+            );
+          } else {
+            setCurrentKind(wmoToKind(data?.current?.weather_code));
+          }
+
+          const times: string[] = data?.daily?.time ?? [];
+          const highs: number[] = data?.daily?.temperature_2m_max ?? [];
+          const lows: number[] = data?.daily?.temperature_2m_min ?? [];
+
+          // Use local date string (Open-Meteo daily time is in local timezone when timezone=auto)
+          const todayStr = localISODate();
+          const startIndex = Math.max(0, times.findIndex(t => t === todayStr));
+          const orderedIdx = [...times.keys()].slice(startIndex).concat([...times.keys()].slice(0, startIndex));
+
+          const nextDays: DayRow[] = orderedIdx.slice(0, 7).map((i, idx) => {
+            const date = times[i];
+            const label =
+              idx === 0
+                ? 'Today'
+                : new Date(date + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short' });
+            // Whole-day predicted icon: derive from hourly daytime pattern (more representative than a single daily code)
+            const icon: DayRow['icon'] = kindForDayFromHourly(date, data?.hourly);
+            return {
+              date,
+              label,
+              high: Number.isFinite(highs[i]) ? Math.round(highs[i]) : null,
+              low: Number.isFinite(lows[i]) ? Math.round(lows[i]) : null,
+              icon,
+            };
+          });
+
+          setDays(nextDays);
+        }
+      } catch {
+        // Keep last known values on failure
+      }
+
+      try {
+        // Air quality (Open-Meteo Air Quality)
+        const aqRes = await fetch(
+          `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${LAT}&longitude=${LNG}&hourly=us_aqi&timezone=auto`
+        );
+        if (!aqRes.ok) throw new Error(`AQ fetch failed: ${aqRes.status}`);
+        const aq = await aqRes.json();
+        const aqi: number | undefined = aq?.hourly?.us_aqi?.[0];
+        if (!cancelled) setAirQuality(aqiLabel(aqi));
+      } catch {
+        // Keep last known value on failure
+      }
+    };
+
+    fetchAll();
+    // Refresh current conditions frequently; forecast/aqi comes along for free in the same call.
+    const id = window.setInterval(fetchAll, 2 * 60 * 1000); // refresh every 2 minutes
+    const onVis = () => {
+      if (document.visibilityState === 'visible') fetchAll();
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, [mounted]);
 
   if (!mounted) return null;
 
+  const fallbackDays: DayRow[] = Array.from({ length: 7 }).map((_, idx) => {
+    const d = new Date();
+    d.setDate(d.getDate() + idx);
+    const iso = d.toISOString().slice(0, 10);
+    const label = idx === 0 ? 'Today' : d.toLocaleDateString(undefined, { weekday: 'short' });
+    return { date: iso, label, high: null, low: null, icon: 'cloud' };
+  });
+
+  const renderDays = days.length ? days : fallbackDays;
+  const renderDaysWithCurrent = renderDays.map((d, idx) => (idx === 0 ? { ...d, icon: currentKind } : d));
+
   return (
-    <div className="w-full max-w-5xl mx-auto px-6">
-      {/* Apple-Quality Weather Widget */}
-      <div className="flex flex-col space-y-3">
-        {/* Premium Info Pills Row */}
-        <div className="flex items-center justify-center space-x-3">
-          {/* Location Pill - Different Design */}
-          <div className="group relative">
-            <div className="backdrop-blur-xl bg-gradient-to-r from-white/12 to-white/8 border border-white/20 rounded-full px-5 py-3 flex items-center gap-3 transition-all duration-300 hover:bg-gradient-to-r hover:from-white/16 hover:to-white/10 hover:border-white/25 hover:scale-105 cursor-pointer">
-              <div className="w-5 h-5 bg-gradient-to-br from-white/25 to-white/10 rounded-full flex items-center justify-center">
-                <MapPin className="w-3 h-3 text-white/95" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white/60 text-xs font-light">Location</span>
-                <span className="text-white text-sm font-medium tracking-wide">Baška</span>
-              </div>
+    <div className="w-full max-w-3xl mx-auto px-6">
+      {/* Current conditions label */}
+      <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium text-center mb-1.5">
+        Current conditions
+      </p>
+
+
+      {/* Shared width wrapper (keeps both rows aligned + slightly narrower) */}
+      <div className="mx-auto w-full max-w-xl">
+        {/* Temperature to Wind Stats Row */}
+        <div className="flex w-full flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
+          <div className="flex items-center gap-2">
+            <StatLocationGlyph className="w-[26px] h-[26px]" />
+            <span className="text-white text-[17px] font-medium leading-tight">Baška</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <StatTempGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">Temperature</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{tempC == null ? '—' : `${Math.round(tempC)}°C`}</span>
             </div>
           </div>
-
-          {/* Avg Temp Pill */}
-          <div className="group relative">
-            <div className="backdrop-blur-xl bg-white/8 border border-white/12 rounded-full px-4 py-2.5 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/12 hover:border-white/20 hover:scale-105 cursor-pointer">
-              <div className="w-4 h-4 bg-gradient-to-br from-orange-400/20 to-orange-400/5 rounded-full flex items-center justify-center">
-                <Thermometer className="w-2.5 h-2.5 text-orange-300" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white/60 text-xs font-light">Avg Temp</span>
-                <span className="text-white text-sm font-medium tracking-wide">22°C</span>
-              </div>
+          <div className="flex items-center gap-2">
+            <StatHumidityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">Humidity</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{humidity == null ? '—' : `${Math.round(humidity)}%`}</span>
             </div>
           </div>
-
-          {/* Humidity Pill */}
-          <div className="group relative">
-            <div className="backdrop-blur-xl bg-white/8 border border-white/12 rounded-full px-4 py-2.5 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/12 hover:border-white/20 hover:scale-105 cursor-pointer">
-              <div className="w-4 h-4 bg-gradient-to-br from-blue-400/20 to-blue-400/5 rounded-full flex items-center justify-center">
-                <Droplets className="w-2.5 h-2.5 text-blue-300" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white/60 text-xs font-light">Humidity</span>
-                <span className="text-white text-sm font-medium tracking-wide">65%</span>
-              </div>
+          <div className="flex items-center gap-2">
+            <StatAirQualityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">Air Quality</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{airQuality}</span>
             </div>
           </div>
-
-          {/* Air Quality Pill */}
-          <div className="group relative">
-            <div className="backdrop-blur-xl bg-white/8 border border-white/12 rounded-full px-4 py-2.5 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/12 hover:border-white/20 hover:scale-105 cursor-pointer">
-              <div className="w-4 h-4 bg-gradient-to-br from-green-400/20 to-green-400/5 rounded-full flex items-center justify-center">
-                <Wind className="w-2.5 h-2.5 text-green-300" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white/60 text-xs font-light">Air Quality</span>
-                <span className="text-white text-sm font-medium tracking-wide">Good</span>
-              </div>
+          <div className="flex items-center gap-2">
+            <StatWindGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">Wind</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{windKmh == null ? '—' : `${Math.round(windKmh)}km/h`}</span>
             </div>
           </div>
         </div>
 
-        {/* Compact 7-Day Forecast Grid */}
-        <div className="grid grid-cols-7 gap-0.5 px-12">
-          {weatherData.map((day, index) => (
+        {/* Minimal 7-Day Grid */}
+        <div className="flex w-full items-stretch gap-1">
+          {renderDaysWithCurrent.map((day, index) => (
             <div
-              key={index}
-              className={`group relative aspect-square flex flex-col items-center justify-center rounded-lg border transition-all duration-300 cursor-pointer ${
-                index === 0 
-                  ? 'backdrop-blur-xl bg-white/15 border-white/30 shadow-lg shadow-white/10 hover:bg-white/20 hover:border-white/40 hover:shadow-xl hover:shadow-white/15' 
-                  : 'backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+              key={day.date || index}
+              className={`flex flex-col items-center justify-center rounded-lg backdrop-blur-md border transition-all py-2 px-2.5 flex-1 min-w-0 ${
+                index === 0
+                  ? 'bg-white/25 border-white/35 shadow-md'
+                  : 'bg-white/10 border-white/20'
               }`}
             >
-              {/* Subtle gradient overlay for depth */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-lg pointer-events-none" />
-              
-              {/* Day Name */}
-              <div className={`font-medium mb-1 transition-colors duration-300 ${
-                index === 0 ? 'text-white/95 text-xs tracking-wide' : 'text-white/80 text-xs tracking-wide'
-              }`}>
-                {day.day}
-              </div>
-              
-              {/* Weather Icon */}
-              <div className="mb-1.5 transition-transform duration-300 group-hover:scale-110">
-                {day.icon === 'sun' ? (
-                  <Sun className={`transition-colors duration-300 ${
-                    index === 0 ? 'w-3.5 h-3.5 text-amber-300' : 'w-3 h-3 text-amber-300/80'
-                  }`} />
-                ) : (
-                  <Cloud className={`transition-colors duration-300 ${
-                    index === 0 ? 'w-3.5 h-3.5 text-white/70' : 'w-3 h-3 text-white/50'
-                  }`} />
-                )}
-              </div>
-              
-              {/* Temperature */}
-              <div className="flex flex-col items-center space-y-0.5">
-                <div className={`font-bold transition-colors duration-300 ${
-                  index === 0 ? 'text-white text-sm' : 'text-white/90 text-sm'
-                }`}>
-                  {day.high}°
-                </div>
-                <div className={`transition-colors duration-300 ${
-                  index === 0 ? 'text-white/60 text-xs' : 'text-white/50 text-xs'
-                }`}>
-                  {day.low}°
-                </div>
+              <div className="text-white/90 text-xs font-medium mb-1">{day.label}</div>
+
+              <div className="mb-1">
+                <WeatherGlyph kind={day.icon} className="w-[22px] h-[22px]" />
               </div>
 
-              {/* Subtle hover indicator */}
-              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="text-white font-bold text-xs">{day.high == null ? '—' : `${day.high}°`}</div>
+              <div className="text-white/50 text-xs">{day.low == null ? '—' : `${day.low}°`}</div>
             </div>
           ))}
         </div>

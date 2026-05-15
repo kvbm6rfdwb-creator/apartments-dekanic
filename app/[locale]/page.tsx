@@ -5,7 +5,7 @@ import ApartmentsSection from '@/components/ApartmentsSection';
 import Reviews from '@/components/Reviews';
 import Location from '@/components/Location';
 import Contact from '@/components/Contact';
-import WhyBook from '@/components/WhyBook';
+import WhyBookDirectly from '@/components/WhyBookDirectly';
 import Weather from '@/components/WeatherSimple';
 
 import { routing } from '@/routing';
@@ -26,10 +26,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   let data: any = null;
   let sections: Array<{ id: string; enabled: boolean }> = [
     { id: 'hero',       enabled: true },
-    { id: 'weather',    enabled: true },
     { id: 'whyBook',    enabled: true },
-    { id: 'apartments', enabled: true },
     { id: 'reviews',    enabled: true },
+    { id: 'apartments', enabled: true },
     { id: 'location',   enabled: true },
     { id: 'contact',    enabled: true },
   ];
@@ -55,9 +54,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             />
           );
         }
-        if (id === 'whyBook')    return <WhyBook key="whyBook" />;
-        if (id === 'apartments') return <ApartmentsSection key="apartments" locale={locale} apartments={data?.apartments || []} />;
+        if (id === 'whyBook')    return <WhyBookDirectly key="whyBook" />;
         if (id === 'reviews')    return <Reviews key="reviews" />;
+        if (id === 'apartments') return <ApartmentsSection key="apartments" locale={locale} apartments={data?.apartments || []} />;
         if (id === 'weather')    return <Weather key="weather" />;
         if (id === 'location')   return <Location key="location" />;
         if (id === 'contact')    return <Contact key="contact" />;
