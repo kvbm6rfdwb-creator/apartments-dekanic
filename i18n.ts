@@ -24,8 +24,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   // For other locales, use runtime translation API
   try {
     // Use relative URL to work in both dev and production
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/translate?locale=${locale}`, {
+    const res = await fetch(`/api/translate?locale=${locale}`, {
       cache: 'no-store',
     });
     if (!res.ok) {
