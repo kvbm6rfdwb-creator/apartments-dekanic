@@ -13,8 +13,41 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
-  return {
-    locale,
-    messages: (await import(`./messages/${locale}.json`)).default,
-  };
+  // For English, use static file (no translation needed)
+  if (locale === 'en') {
+    return {
+      locale,
+      messages: (await import(`./messages/${locale}.json`)).default,
+    };
+  }
+
+  // For other locales, use runtime translation API
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/translate?locale=${locale}`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) {
+      throw new Error(`Translation API failed: ${res.status}`);
+    }
+    const messages = await res.json();
+    return {
+      locale,
+      messages,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch translations for ${locale}:`, error);
+    // Fallback to static file if API fails
+    try {
+      return {
+        locale,
+        messages: (await import(`./messages/${locale}.json`)).default,
+      };
+    } catch {
+      // Final fallback to English
+      return {
+        locale,
+        messages: (await import(`./messages/en.json`)).default,
+      };
+    }
+  }
 });
