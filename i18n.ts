@@ -4,39 +4,27 @@ import { routing } from './routing';
 
 export type Locale = (typeof routing.locales)[number];
 
+/**
+ * All locale message files are pre-built and live in messages/<locale>.json.
+ * We simply load the correct file for the requested locale.
+ * No API calls, no Google Translate at runtime — the translations already exist.
+ */
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
 
+  // Validate — fall back to default locale
   if (!locale || !routing.locales.includes(locale as Locale)) {
     locale = routing.defaultLocale;
   }
 
-  // Croatian and English have static JSON files — no API call needed
-  const staticLocales = ['en', 'hr'];
-  if (staticLocales.includes(locale)) {
-    return {
-      locale,
-      messages: (await import(`./messages/${locale}.json`)).default,
-    };
-  }
-
-  // All other locales: call Google Translate directly (server-side)
+  // Load the pre-translated static JSON for this locale.
+  // Falls back to English if the file is somehow missing.
   try {
-    const { getTranslatedMessages } = await import('./lib/translate.server');
-    const messages = await getTranslatedMessages(locale);
+    const messages = (await import(`./messages/${locale}.json`)).default;
     return { locale, messages };
-  } catch (error) {
-    console.error(`Failed to translate for locale "${locale}":`, error);
-    try {
-      return {
-        locale,
-        messages: (await import(`./messages/${locale}.json`)).default,
-      };
-    } catch {
-      return {
-        locale,
-        messages: (await import(`./messages/en.json`)).default,
-      };
-    }
+  } catch {
+    console.error(`messages/${locale}.json not found, falling back to English`);
+    const messages = (await import('./messages/en.json')).default;
+    return { locale, messages };
   }
 });
