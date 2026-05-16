@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
-import { locales } from '@/i18n';
+import { locales } from '@/routing';
 import { Menu, X, Globe } from 'lucide-react';
 
 const FLAG: Record<string,string> = { hr:'🇭🇷',en:'🇬🇧',de:'🇩🇪',it:'🇮🇹',hu:'🇭🇺',cs:'🇨🇿',pl:'🇵🇱',sl:'🇸🇮',es:'🇪🇸',fr:'🇫🇷' };
@@ -11,10 +11,9 @@ export default function Navbar({ locale }: { locale: string }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
 
-  // Determine if we're on the homepage (has hero, transparent nav)
   const isHome = pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`;
 
-  const [scrolled, setScrolled] = useState(!isHome); // non-home pages start solid
+  const [scrolled, setScrolled] = useState(!isHome);
   const [mobileOpen, setMobile] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
@@ -38,12 +37,7 @@ export default function Navbar({ locale }: { locale: string }) {
     return () => document.removeEventListener('mousedown', fn);
   }, []);
 
-  // Home URL: for default locale (en) with as-needed prefix, use '/'
-  // For other locales use '/${locale}'
-  // Always use /${locale} for client-side nav — stays within [locale] layout segment
   const homeUrl = locale === 'en' ? '/' : `/${locale}`;
-
-  // Section links: on homepage use hash, on other pages go home+hash
   const sectionHref = (hash: string) => isHome ? hash : `${homeUrl}${hash}`;
 
   const links = [
@@ -59,8 +53,7 @@ export default function Navbar({ locale }: { locale: string }) {
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'nav-glass py-3 shadow-sm' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
-        {/* Logo — force full page load to homepage to avoid client-nav issues */}
-        <a 
+        <a
           href={homeUrl}
           onClick={e => {
             if (isHome) {
