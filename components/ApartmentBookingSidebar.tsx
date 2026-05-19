@@ -50,7 +50,7 @@ function Steps({ step, labels }: { step: number; labels: string[] }) {
   );
 }
 
-function PriceBox({ from, to, pricing, guests }: { from: Date; to: Date; pricing: Pricing; guests: number }) {
+function PriceBox({ from, to, pricing, guests, totalLabel }: { from: Date; to: Date; pricing: Pricing; guests: number; totalLabel: string }) {
   const p = calcPrice(from, to, pricing, guests);
   if (p.nights < 1) return null;
   return (
@@ -77,6 +77,7 @@ function PriceBox({ from, to, pricing, guests }: { from: Date; to: Date; pricing
 
 export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, whatsapp }: Props) {
   const t   = useTranslations('booking');
+  const tc  = useTranslations('calendar');
   const today = startOfToday();
   const phone = whatsapp.replace(/\D/g, '');
 
@@ -153,7 +154,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
   const BackBtn = ({ onClick }: any) => (
     <button onClick={onClick}
       className="flex items-center gap-1.5 px-5 py-3.5 rounded-2xl border border-sand-200 text-sand-700 text-sm font-semibold hover:bg-sand-50 transition-all duration-200 active:scale-[.98]">
-      <ChevronLeft size={15}/> Back
+      <ChevronLeft size={15}/> {t('back')}
     </button>
   );
 
@@ -328,7 +329,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
 
         <div className="py-6">
           {/* Steps always has horizontal padding */}
-          <div className="px-6 mb-6"><Steps step={step}/></div>
+          <div className="px-6 mb-6"><Steps step={step} labels={[t('steps.0'), t('steps.1'), t('steps.2')]}/></div>
 
           {/* ── STEP 0: DATES ── */}
           {step === 0 && (
@@ -365,10 +366,10 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
               )}
               <div className="flex gap-5 text-xs text-stone-400 mt-4 mb-3 px-3">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:SAND}}/>Selected
+                  <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:SAND}}/>{tc('available')}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:'#e8e0d6', border:'1px solid #c4bbad'}}/>Booked
+                  <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:'#e8e0d6', border:'1px solid #c4bbad'}}/>{tc('booked')}
                 </span>
               </div>
 
@@ -392,7 +393,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                       <X size={14}/>
                     </button>
                   </div>
-                  {pricing && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount}/>}
+                  {pricing && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount} totalLabel={t('total')}/>
                 </>
               ) : (
                 <div className="flex items-center justify-center gap-2 py-3 text-stone-400 text-xs">
