@@ -28,8 +28,7 @@ function isBlockedFn(date: Date, list: Blocked[]) {
   });
 }
 
-function Steps({ step }: { step: number }) {
-  const labels = ['Dates', 'Details', 'Confirm'];
+function Steps({ step, labels }: { step: number; labels: string[] }) {
   return (
     <div className="flex items-center justify-center gap-0 mb-6">
       {labels.map((label, i) => {
@@ -69,7 +68,7 @@ function PriceBox({ from, to, pricing, guests }: { from: Date; to: Date; pricing
         </div>
       ))}
       <div className="flex justify-between px-4 py-3 bg-sand-600 text-white font-bold">
-        <span>Total</span>
+        <span>{totalLabel}</span>
         <span className="text-base">{fmtEur(p.totalGuest)}</span>
       </div>
     </div>
