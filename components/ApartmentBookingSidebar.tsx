@@ -393,7 +393,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                       <X size={14}/>
                     </button>
                   </div>
-                  {pricing && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount} totalLabel={t('total')}/>
+                  {pricing && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount} totalLabel={t('total')}/>}
                 </>
               ) : (
                 <div className="flex items-center justify-center gap-2 py-3 text-stone-400 text-xs">
