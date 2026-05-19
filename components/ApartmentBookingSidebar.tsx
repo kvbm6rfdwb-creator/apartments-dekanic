@@ -485,7 +485,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                   </div>
                 ))}
               </div>
-              {pricing && range?.from && range?.to && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount}/>}
+              {pricing && range?.from && range?.to && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount} totalLabel={t('total')}/>}
               <p className="text-center text-stone-400 text-xs">No payment now — we confirm availability first.</p>
               <div className="flex gap-3">
                 <BackBtn onClick={() => setStep(1)}/>
