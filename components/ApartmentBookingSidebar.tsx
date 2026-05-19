@@ -123,7 +123,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
       const min = getMinStay(r.from);
       const n = differenceInCalendarDays(r.to, r.from);
       if (n < min) {
-        setMinStayWarn(`Minimum stay is ${min} nights for this period.`);
+        setMinStayWarn(t('minStayWarning', { n: min }));
         setRange({ from: r.from, to: undefined });
         return;
       }
@@ -165,18 +165,20 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           <Check size={26} strokeWidth={2.5} className="text-white"/>
         </div>
         <div>
-          <h3 className="font-serif text-2xl text-stone-900 mb-2">Request sent!</h3>
+          <h3 className="font-serif text-2xl text-stone-900 mb-2">{t('requestSent')}</h3>
           <p className="text-stone-400 text-sm leading-relaxed max-w-xs">
-            We'll confirm availability and reply to <strong className="text-stone-700">{form.email}</strong> within a few hours.
+            {t.rich('confirmReply', {
+              email: () => <strong className="text-stone-700">{form.email}</strong>
+            })}
           </p>
         </div>
         <div className="w-full bg-sand-50 rounded-2xl px-5 py-4 text-sm space-y-2.5 text-left border border-sand-100">
-          {([['Apartment', apt.name],['Check-in',fmtD(range!.from!)],['Check-out',fmtD(range!.to!)],['Guests',String(guestCount)]] as [string,string][]).map(([k,v])=>(
+          {([[t('apartmentLabel'), apt.name],[tc('checkIn'),fmtD(range!.from!)],[tc('checkOut'),fmtD(range!.to!)],[t('guests'),String(guestCount)]] as [string,string][]).map(([k,v])=>(
             <div key={k} className="flex justify-between"><span className="text-stone-400">{k}</span><span className="font-semibold text-stone-800">{v}</span></div>
           ))}
           {pricing && nights > 0 && (
             <div className="flex justify-between pt-2.5 border-t border-sand-200">
-              <span className="text-stone-400">Estimated total</span>
+              <span className="text-stone-400">{t('estimatedTotal')}</span>
               <span className="font-bold text-sand-700">{fmtEur(calcPrice(range!.from!, range!.to!, pricing, guestCount).totalGuest)}</span>
             </div>
           )}
@@ -185,7 +187,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           <a href={`https://wa.me/${phone}`} target="_blank" rel="noopener noreferrer"
             className="text-sm text-[#25D366] font-semibold flex items-center gap-2 hover:underline">
             <svg className="w-4 h-4 opacity-60" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Follow up on WhatsApp
+            {t('followUpWhatsapp')}
           </a>
         )}
       </div>
@@ -237,7 +239,6 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           font-size: 16px !important; font-weight: 500 !important;
           color: #443932 !important;
         }
-        /* Nav buttons — override the blue default */
         .dk-cal .rdp-nav {
           display: flex; gap: 4px; align-items: center;
         }
@@ -260,7 +261,6 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
         .dk-cal .rdp-button_next:hover {
           background: ${SAND_LIGHT} !important;
         }
-        /* Weekday header row */
         .dk-cal .rdp-weekdays {
           display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 4px;
           width: 100%;
@@ -270,7 +270,6 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           color: #c4b49a; letter-spacing: 0.08em; text-transform: uppercase;
           padding: 6px 0;
         }
-        /* Day rows */
         .dk-cal .rdp-week {
           display: grid; grid-template-columns: repeat(7, 1fr);
           width: 100%;
@@ -287,13 +286,11 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           background: ${SAND_LIGHT};
           color: ${SAND};
         }
-        /* Today */
         .dk-cal .rdp-today .rdp-day_button {
           color: ${SAND}; font-weight: 700;
           box-shadow: inset 0 0 0 1.5px ${SAND};
           border-radius: 6px;
         }
-        /* Range styling */
         .dk-cal .rdp-range_start .rdp-day_button {
           background: ${SAND} !important; color: white !important;
           border-radius: 6px 0 0 6px !important; font-weight: 600 !important;
@@ -307,7 +304,6 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
           color: #7d4c27 !important;
           border-radius: 0 !important;
         }
-        /* Disabled & booked */
         .dk-cal .rdp-disabled .rdp-day_button {
           color: #e0d9d0 !important; cursor: not-allowed !important; pointer-events: none;
         }
@@ -320,24 +316,21 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
       `}</style>
 
       <div className="bg-white rounded-3xl border border-sand-100 shadow-xl overflow-hidden w-full">
-        {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-sand-100 bg-gradient-to-r from-sand-50 to-white">
-          <p className="text-[10px] font-bold tracking-[.2em] uppercase text-sand-600 mb-0.5">Direct booking</p>
+          <p className="text-[10px] font-bold tracking-[.2em] uppercase text-sand-600 mb-0.5">{t('directBooking')}</p>
           <h3 className="font-serif text-xl text-stone-900 leading-tight">{apt.name}</h3>
-          <p className="text-stone-400 text-xs mt-0.5">No fees · Best price guaranteed</p>
+          <p className="text-stone-400 text-xs mt-0.5">{t('noFeesBestPrice')}</p>
         </div>
 
         <div className="py-6">
-          {/* Steps always has horizontal padding */}
           <div className="px-6 mb-6"><Steps step={step} labels={[t('steps.0'), t('steps.1'), t('steps.2')]}/></div>
 
-          {/* ── STEP 0: DATES ── */}
           {step === 0 && (
             <div>
               {calLoad ? (
                 <div className="flex items-center justify-center py-16 gap-3 px-6">
                   <Loader2 size={18} className="animate-spin text-sand-400"/>
-                  <span className="text-stone-400 text-sm">Loading availability…</span>
+                  <span className="text-stone-400 text-sm">{tc('loading')}</span>
                 </div>
               ) : (
                 <div className="dk-cal px-3">
@@ -377,7 +370,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                 <>
                   <div className="flex items-center bg-sand-50 border border-sand-200 rounded-2xl px-4 py-3 mb-1">
                     <div className="flex-1 text-center">
-                      <p className="text-[9px] uppercase tracking-widest text-sand-600 font-bold mb-0.5">Check-in</p>
+                      <p className="text-[9px] uppercase tracking-widest text-sand-600 font-bold mb-0.5">{tc('checkIn')}</p>
                       <p className="text-sm font-semibold text-stone-900">{fmtD(range.from)}</p>
                     </div>
                     <div className="flex items-center gap-1.5 px-2">
@@ -386,7 +379,7 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                       <div className="h-px w-3 bg-sand-300"/>
                     </div>
                     <div className="flex-1 text-center">
-                      <p className="text-[9px] uppercase tracking-widest text-sand-600 font-bold mb-0.5">Check-out</p>
+                      <p className="text-[9px] uppercase tracking-widest text-sand-600 font-bold mb-0.5">{tc('checkOut')}</p>
                       <p className="text-sm font-semibold text-stone-900">{fmtD(range.to)}</p>
                     </div>
                     <button onClick={() => setRange(undefined)} className="ml-2 text-sand-300 hover:text-red-400 transition-colors">
@@ -397,33 +390,32 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                 </>
               ) : (
                 <div className="flex items-center justify-center gap-2 py-3 text-stone-400 text-xs">
-                  <CalendarDays size={13}/> Select your check-in and check-out dates
+                  <CalendarDays size={13}/> {t('selectCheckDates')}
                 </div>
               )}
 
               <PrimaryBtn onClick={() => setStep(1)} disabled={!range?.from || !range?.to || nights < 1}>
-                Continue <ChevronRight size={15} strokeWidth={2.5}/>
+                {t('continue')} <ChevronRight size={15} strokeWidth={2.5}/>
               </PrimaryBtn>
             </div>
           )}
 
-          {/* ── STEP 1: DETAILS ── */}
           {step === 1 && (
             <div className="space-y-4 px-6">
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">Full name *</label>
+                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">{t('fullNameRequired')}</label>
                 <input className={INPUT} type="text" required value={form.name} onChange={e => set('name', e.target.value)} placeholder="Maria Müller"/>
               </div>
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">Email *</label>
+                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">{t('emailRequired')}</label>
                 <input className={INPUT} type="email" required value={form.email} onChange={e => set('email', e.target.value)} placeholder="maria@email.com"/>
               </div>
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">Phone</label>
+                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">{t('phoneShort')}</label>
                 <input className={INPUT} type="tel" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+49 123 456 789"/>
               </div>
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">Guests *</label>
+                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">{t('guestsRequired')}</label>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-xl border border-sand-200 bg-white overflow-hidden shrink-0">
                     <button
@@ -445,39 +437,38 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                     </button>
                   </div>
                   <span className="text-sm text-stone-500">
-                    {guestCount === 1 ? '1 guest' : `${guestCount} guests`}
-                    {apt.maxGuests ? <span className="text-stone-300 text-xs ml-1">/ {apt.maxGuests} max</span> : null}
+                    {guestCount === 1 ? t('guestOne') : t('guestMany', { count: guestCount })}
+                    {apt.maxGuests ? <span className="text-stone-300 text-xs ml-1">{t('maxGuests', { count: apt.maxGuests })}</span> : null}
                   </span>
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">Special requests</label>
+                <label className="block text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1.5">{t('specialRequests')}</label>
                 <textarea className={INPUT + ' resize-none'} rows={3} value={form.message} onChange={e => set('message', e.target.value)} placeholder="Early check-in, baby cot, allergies…"/>
               </div>
               <div className="flex gap-3 pt-1">
                 <BackBtn onClick={() => setStep(0)}/>
                 <button onClick={() => setStep(2)} disabled={!form.name || !form.email}
                   className="flex-1 py-3.5 rounded-2xl bg-sand-600 hover:bg-sand-700 text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-lg active:scale-[.98] disabled:opacity-30 disabled:cursor-not-allowed">
-                  Review <ChevronRight size={15} strokeWidth={2.5}/>
+                  {t('review')} <ChevronRight size={15} strokeWidth={2.5}/>
                 </button>
               </div>
             </div>
           )}
 
-          {/* ── STEP 2: CONFIRM ── */}
           {step === 2 && (
             <div className="space-y-4">
               <div className="rounded-2xl border border-sand-100 overflow-hidden text-sm">
                 {([
-                  ['Apartment', apt.name],
-                  ['Check-in',  range?.from ? fmtD(range.from) : ''],
-                  ['Check-out', range?.to   ? fmtD(range.to)   : ''],
-                  ['Duration',  `${nights} night${nights !== 1 ? 's' : ''}`],
-                  ['Guests',    `${guestCount}`],
-                  ['Name',      form.name],
-                  ['Email',     form.email],
-                  ...(form.phone   ? [['Phone',   form.phone]]   : []),
-                  ...(form.message ? [['Notes',   form.message]] : []),
+                  [t('apartmentLabel'), apt.name],
+                  [tc('checkIn'),  range?.from ? fmtD(range.from) : ''],
+                  [tc('checkOut'), range?.to   ? fmtD(range.to)   : ''],
+                  [t('duration'),  `${nights} ${nights !== 1 ? t('nightsLabel') : t('night')}`],
+                  [t('guests'),    `${guestCount}`],
+                  [t('name'),      form.name],
+                  [t('email'),     form.email],
+                  ...(form.phone   ? [[t('phoneShort'),   form.phone]]   : []),
+                  ...(form.message ? [[t('notes'),   form.message]] : []),
                 ] as [string,string][]).map(([label, value]) => (
                   <div key={label} className="flex items-start justify-between px-4 py-2.5 border-b border-sand-100 last:border-0 even:bg-sand-50/40">
                     <span className="text-stone-400 text-xs font-semibold uppercase tracking-wider shrink-0 mr-4">{label}</span>
@@ -486,32 +477,31 @@ export default function ApartmentBookingSidebar({ apt, locale, calendarTitle, wh
                 ))}
               </div>
               {pricing && range?.from && range?.to && <PriceBox from={range.from} to={range.to} pricing={pricing} guests={guestCount} totalLabel={t('total')}/>}
-              <p className="text-center text-stone-400 text-xs">No payment now — we confirm availability first.</p>
+              <p className="text-center text-stone-400 text-xs">{t('noPaymentNow')}</p>
               <div className="flex gap-3">
                 <BackBtn onClick={() => setStep(1)}/>
                 <button onClick={handleSubmit} disabled={sending}
                   className="flex-1 py-3.5 rounded-2xl bg-sand-600 hover:bg-sand-700 text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-lg active:scale-[.98] disabled:opacity-60">
                   {sending ? <Loader2 size={15} className="animate-spin"/> : <Check size={15} strokeWidth={2.5}/>}
-                  {sending ? 'Sending…' : 'Send request'}
+                  {sending ? t('pending') : t('submit')}
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* WhatsApp */}
         {phone && step < 2 && (
           <div className="px-6 pb-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="flex-1 h-px bg-sand-100"/>
-              <span className="text-[10px] uppercase tracking-widest text-stone-300 font-semibold">or contact directly</span>
+              <span className="text-[10px] uppercase tracking-widest text-stone-300 font-semibold">{t('orContactDirectly')}</span>
               <div className="flex-1 h-px bg-sand-100"/>
             </div>
             <a href={`https://wa.me/${phone}?text=${encodeURIComponent('Hi! I\'m interested in ' + apt.name)}`}
               target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2.5 w-full py-3 rounded-2xl border border-stone-200 text-stone-400 text-sm font-medium hover:border-stone-300 hover:text-stone-600 transition-all duration-200 active:scale-[.98]">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              Chat on WhatsApp
+              {t('chatOnWhatsapp')}
             </a>
           </div>
         )}
