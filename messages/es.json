@@ -9,29 +9,31 @@
   "hero": {
     "subtitle": "Baška · Isla de Krk · Croacia",
     "cta": "Explorar apartamentos",
-    "scroll": "Desliza para descubrir"
+    "scroll": "Desplázate para descubrir"
   },
   "apartments": {
     "title": "Nuestros apartamentos",
     "subtitle": "Tres retiros únicos, cada uno diseñado para un ritmo diferente de la vida en la isla.",
     "guests": "huéspedes",
-    "bedrooms": "habitaciones",
+    "bedrooms": "dormitorios",
     "bathrooms": "baños",
     "sqm": "m²",
-    "seaView": "Vista al mar",
+    "seaView": "Vistas al mar",
     "balcony": "Balcón",
     "parking": "Aparcamiento",
     "viewApartment": "Ver apartamento",
     "amenities": "Servicios",
     "gallery": "Galería",
-    "availability": "Disponibilidad"
+    "availability": "Disponibilidad",
+    "allApartments": "Todos los apartamentos",
+    "aboutApartment": "Sobre este apartamento"
   },
   "calendar": {
     "title": "Disponibilidad",
     "available": "Disponible",
     "booked": "Reservado",
     "loading": "Cargando calendario…",
-    "error": "No se pudo cargar la disponibilidad. Por favor contáctenos.",
+    "error": "No se pudo cargar la disponibilidad. Contáctenos.",
     "selectDates": "Selecciona tus fechas",
     "checkIn": "Llegada",
     "checkOut": "Salida",
@@ -39,17 +41,20 @@
     "minStay": "Estancia mínima: {n} noches"
   },
   "booking": {
-    "title": "Solicitar una reserva",
+    "title": "Solicitud de reserva",
     "name": "Nombre completo",
-    "email": "Dirección de correo",
+    "email": "Correo electrónico",
     "phone": "Número de teléfono",
     "guests": "Número de huéspedes",
     "message": "Mensaje (opcional)",
     "submit": "Enviar solicitud",
-    "success": "¡Su solicitud ha sido enviada! Confirmaremos en 24 horas.",
+    "success": "¡Tu solicitud ha sido enviada! Confirmaremos en 24 horas.",
     "error": "Algo salió mal. Inténtalo de nuevo o contáctanos directamente.",
     "pending": "Enviando…",
-    "terms": "Al enviar, aceptas nuestra política de cancelación."
+    "terms": "Al enviar aceptas nuestra política de cancelación.",
+    "steps": ["Fechas", "Detalles", "Confirmación"],
+    "total": "Total",
+    "back": "Volver"
   },
   "reviews": {
     "title": "Lo que dicen nuestros huéspedes",
@@ -58,7 +63,7 @@
   },
   "location": {
     "title": "Encuéntranos en Baška",
-    "subtitle": "Skopalj 19, Baška, Isla de Krk — a pocos pasos de la famosa playa de Baška.",
+    "subtitle": "Skopalj 19, Baška, Isla de Krk — a poca distancia de la famosa playa de Baška.",
     "directions": "Cómo llegar"
   },
   "contact": {
@@ -77,11 +82,11 @@
     "title": "¿Por qué reservar directamente?",
     "subtitle": "La forma más inteligente de reservar",
     "direct": "Reserva directa",
-    "directDesc": "Conecta directamente con los propietarios. Sin intermediarios, sin tarifas ocultas — solo hospitalidad auténtica.",
+    "directDesc": "Conéctate directamente con los propietarios. Sin intermediarios, sin tarifas ocultas.",
     "price": "Garantía de mejor precio",
-    "priceDesc": "Ahorra hasta un 20 % en comparación con las plataformas de reservas. La misma habitación por menos.",
+    "priceDesc": "Ahorra hasta un 20% en comparación con las plataformas de reserva.",
     "available": "Servicio personalizado",
-    "availableDesc": "Tu anfitrión está disponible 24/7 por WhatsApp, correo o teléfono. Personas reales, ayuda real.",
+    "availableDesc": "Tu anfitrión está disponible 24/7 por WhatsApp, correo o teléfono.",
     "verified": "Excelencia comprobada",
     "verifiedDesc": "Valoraciones de 5 estrellas en todas las plataformas con más de 2.000 huéspedes satisfechos.",
     "registered": "Oficialmente autorizado",
@@ -90,7 +95,7 @@
   "features": {
     "wifi": "Wi-Fi gratuito",
     "ac": "Aire acondicionado",
-    "kitchen": "Cocina totalmente equipada",
+    "kitchen": "Cocina completamente equipada",
     "tv": "Smart TV",
     "washer": "Lavadora",
     "dishwasher": "Lavavajillas",
@@ -98,10 +103,10 @@
     "bbq": "Zona de barbacoa",
     "pool": "Piscina",
     "parking": "Aparcamiento gratuito",
-    "petFriendly": "Se admiten mascotas",
+    "petFriendly": "Mascotas permitidas",
     "beachTowels": "Toallas de playa",
     "beachAccess": "Acceso a la playa",
     "terrace": "Terraza",
-    "seaView": "Vista al mar"
+    "seaView": "Vistas al mar"
   }
 }

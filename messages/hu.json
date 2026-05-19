@@ -2,36 +2,38 @@
   "nav": {
     "home": "Főoldal",
     "apartments": "Apartmanok",
-    "location": "Helyszín",
+    "location": "Elhelyezkedés",
     "contact": "Kapcsolat",
-    "bookNow": "Foglaljon most"
+    "bookNow": "Foglalás"
   },
   "hero": {
-    "subtitle": "Baška · Krk sziget · Horvátország",
-    "cta": "Fedezze fel az apartmanokat",
-    "scroll": "Görgessen lefelé"
+    "subtitle": "Baška · Krk-sziget · Horvátország",
+    "cta": "Apartmanok felfedezése",
+    "scroll": "Görgetés a felfedezéshez"
   },
   "apartments": {
     "title": "Apartmanjaink",
-    "subtitle": "Három különleges pihenőhely, mindegyik az szigeti élet más ritmusára tervezve.",
+    "subtitle": "Három egyedi menedék, mindegyik az szigeti élet más-más ritmusára tervezve.",
     "guests": "vendég",
     "bedrooms": "hálószoba",
     "bathrooms": "fürdőszoba",
     "sqm": "m²",
-    "seaView": "Tengerre néző kilátás",
+    "seaView": "Tengerre néző",
     "balcony": "Erkély",
-    "parking": "Parkoló",
+    "parking": "Parkolás",
     "viewApartment": "Apartman megtekintése",
     "amenities": "Felszereltség",
     "gallery": "Galéria",
-    "availability": "Elérhetőség"
+    "availability": "Elérhetőség",
+    "allApartments": "Összes apartman",
+    "aboutApartment": "Az apartmanról"
   },
   "calendar": {
     "title": "Elérhetőség",
     "available": "Szabad",
     "booked": "Foglalt",
     "loading": "Naptár betöltése…",
-    "error": "Nem sikerült betölteni az elérhetőséget. Kérjük, lépjen velünk kapcsolatba.",
+    "error": "Nem sikerült betölteni az elérhetőséget. Kérjük, vegye fel velünk a kapcsolatot.",
     "selectDates": "Válassza ki a dátumokat",
     "checkIn": "Érkezés",
     "checkOut": "Távozás",
@@ -45,24 +47,27 @@
     "phone": "Telefonszám",
     "guests": "Vendégek száma",
     "message": "Üzenet (opcionális)",
-    "submit": "Kérelem elküldése",
-    "success": "Kérelmét elküldtük! 24 órán belül megerősítjük.",
-    "error": "Valami hiba történt. Kérjük, próbálja újra vagy lépjen velünk kapcsolatba.",
-    "pending": "Küldés…",
-    "terms": "Az elküldéssel elfogadja lemondási szabályzatunkat."
+    "submit": "Kérelem küldése",
+    "success": "Kérelmét elküldtük! 24 órán belül visszaigazolunk.",
+    "error": "Valami hiba történt. Kérjük, próbálja újra vagy vegye fel velünk a kapcsolatot.",
+    "pending": "Küldés folyamatban…",
+    "terms": "Az elküldéssel elfogadja lemondási szabályzatunkat.",
+    "steps": ["Dátumok", "Részletek", "Megerősítés"],
+    "total": "Összesen",
+    "back": "Vissza"
   },
   "reviews": {
     "title": "Mit mondanak vendégeink",
-    "subtitle": "Ellenőrzött értékelések az Airbnb-ről és a Booking.com-ról",
-    "viewAll": "Összes értékelés megtekintése"
+    "subtitle": "Ellenőrzött vélemények az Airbnb-ről és a Booking.com-ról",
+    "viewAll": "Összes vélemény megtekintése"
   },
   "location": {
-    "title": "Találjon ránk Baškában",
-    "subtitle": "Skopalj 19, Baška, Krk sziget — néhány perces sétára a hírneves Baška strandtól.",
-    "directions": "Útvonaltervezés"
+    "title": "Találjon meg minket Baškąn",
+    "subtitle": "Skopalj 19, Baška, Krk-sziget — rövid sétára a híres Baška strandtól.",
+    "directions": "Útvonal"
   },
   "contact": {
-    "title": "Lépjen velünk kapcsolatba",
+    "title": "Lépjen kapcsolatba velünk",
     "phone": "Telefon",
     "email": "E-mail",
     "whatsapp": "WhatsApp",
@@ -70,38 +75,38 @@
   },
   "footer": {
     "rights": "Minden jog fenntartva.",
-    "privacy": "Adatvédelmi szabályzat",
+    "privacy": "Adatvédelmi irányelvek",
     "terms": "Általános szerződési feltételek"
   },
   "whyBook": {
-    "title": "Miért foglaljon közvetlenül?",
+    "title": "Miért érdemes közvetlenül foglalni?",
     "subtitle": "Az okosabb foglalási mód",
     "direct": "Közvetlen foglalás",
-    "directDesc": "Lépjen közvetlen kapcsolatba a tulajdonosokkal. Nincsenek közvetítők, nincsenek rejtett díjak — csak hiteles vendégszeretet.",
+    "directDesc": "Lépjen kapcsolatba közvetlenül a tulajdonosokkal. Nincs közvetítő, nincsenek rejtett díjak.",
     "price": "Legjobb ár garancia",
-    "priceDesc": "Takarítson meg akár 20%-ot a foglalási platformokhoz képest. Ugyanaz a szoba kevesebbért.",
-    "available": "Személyes kiszolgálás",
-    "availableDesc": "Vendéglátója 0-24 elérhető WhatsApp-on, e-mailben vagy telefonon. Valódi emberek, valódi segítség.",
-    "verified": "Bevált kiváló minőség",
+    "priceDesc": "Takarítson meg akár 20%-ot a foglalási platformokhoz képest.",
+    "available": "Személyes szolgáltatás",
+    "availableDesc": "A házigazdája 24/7 elérhető WhatsApp-on, e-mailen vagy telefonon.",
+    "verified": "Bizonyított kiválóság",
     "verifiedDesc": "5 csillagos értékelések minden platformon, több mint 2 000 elégedett vendéggel.",
     "registered": "Hivatalosan engedélyezett",
-    "registeredDesc": "Bejegyezve a Horvát Idegenforgalmi Minisztériumnál. Tartózkodása védett és biztosított."
+    "registeredDesc": "A horvát idegenforgalmi minisztériumnál bejegyezve. Tartózkodása védett és biztosított."
   },
   "features": {
     "wifi": "Ingyenes Wi-Fi",
-    "ac": "Légkondicionáló",
+    "ac": "Légkondicionálás",
     "kitchen": "Teljesen felszerelt konyha",
     "tv": "Smart TV",
     "washer": "Mosógép",
     "dishwasher": "Mosogatógép",
     "coffee": "Kávéfőző",
-    "bbq": "Grillező terület",
+    "bbq": "Grillezési lehetőség",
     "pool": "Úszómedence",
-    "parking": "Ingyenes parkoló",
-    "petFriendly": "Kedvencbarát",
-    "beachTowels": "Strandtörölközők",
-    "beachAccess": "Strandhozzáférés",
+    "parking": "Ingyenes parkolás",
+    "petFriendly": "Kisállatok megengedett",
+    "beachTowels": "Strandtörülközők",
+    "beachAccess": "Strandbejárat",
     "terrace": "Terasz",
-    "seaView": "Tengerre néző kilátás"
+    "seaView": "Tengerre néző"
   }
 }

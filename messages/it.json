@@ -8,12 +8,12 @@
   },
   "hero": {
     "subtitle": "Baška · Isola di Krk · Croazia",
-    "cta": "Scopri gli appartamenti",
-    "scroll": "Scorri per scoprire"
+    "cta": "Esplora gli appartamenti",
+    "scroll": "Scopri di più"
   },
   "apartments": {
     "title": "I nostri appartamenti",
-    "subtitle": "Tre rifugi distinti, ognuno pensato per un diverso ritmo della vita sull'isola.",
+    "subtitle": "Tre rifugi unici, ognuno pensato per un ritmo diverso della vita sull'isola.",
     "guests": "ospiti",
     "bedrooms": "camere da letto",
     "bathrooms": "bagni",
@@ -22,9 +22,11 @@
     "balcony": "Balcone",
     "parking": "Parcheggio",
     "viewApartment": "Vedi appartamento",
-    "amenities": "Dotazioni",
+    "amenities": "Servizi",
     "gallery": "Galleria",
-    "availability": "Disponibilità"
+    "availability": "Disponibilità",
+    "allApartments": "Tutti gli appartamenti",
+    "aboutApartment": "Informazioni sull'appartamento"
   },
   "calendar": {
     "title": "Disponibilità",
@@ -41,7 +43,7 @@
   "booking": {
     "title": "Richiesta di prenotazione",
     "name": "Nome completo",
-    "email": "Indirizzo e-mail",
+    "email": "Indirizzo email",
     "phone": "Numero di telefono",
     "guests": "Numero di ospiti",
     "message": "Messaggio (opzionale)",
@@ -49,7 +51,10 @@
     "success": "La tua richiesta è stata inviata! Confermeremo entro 24 ore.",
     "error": "Qualcosa è andato storto. Riprova o contattaci direttamente.",
     "pending": "Invio in corso…",
-    "terms": "Inviando accetti la nostra politica di cancellazione."
+    "terms": "Inviando accetti la nostra politica di cancellazione.",
+    "steps": ["Date", "Dettagli", "Conferma"],
+    "total": "Totale",
+    "back": "Indietro"
   },
   "reviews": {
     "title": "Cosa dicono i nostri ospiti",
@@ -59,12 +64,12 @@
   "location": {
     "title": "Trovaci a Baška",
     "subtitle": "Skopalj 19, Baška, Isola di Krk — a pochi passi dalla famosa spiaggia di Baška.",
-    "directions": "Ottieni indicazioni"
+    "directions": "Come arrivare"
   },
   "contact": {
     "title": "Contattaci",
     "phone": "Telefono",
-    "email": "E-mail",
+    "email": "Email",
     "whatsapp": "WhatsApp",
     "address": "Indirizzo"
   },
@@ -75,17 +80,17 @@
   },
   "whyBook": {
     "title": "Perché prenotare direttamente?",
-    "subtitle": "Il modo più intelligente per prenotare",
+    "subtitle": "Il modo più intelligente di prenotare",
     "direct": "Prenotazione diretta",
-    "directDesc": "Contatta direttamente i proprietari. Nessun intermediario, nessuna commissione nascosta — solo autentica ospitalità.",
-    "price": "Garanzia miglior prezzo",
-    "priceDesc": "Risparmia fino al 20% rispetto alle piattaforme di prenotazione. La stessa camera a meno.",
-    "available": "Servizio personalizzato",
-    "availableDesc": "Il tuo host è disponibile 24/7 via WhatsApp, e-mail o telefono. Persone vere, aiuto concreto.",
-    "verified": "Eccellenza comprovata",
+    "directDesc": "Connettiti direttamente con i proprietari. Nessun intermediario, nessuna commissione nascosta.",
+    "price": "Garanzia del miglior prezzo",
+    "priceDesc": "Risparmia fino al 20% rispetto alle piattaforme di prenotazione.",
+    "available": "Servizio personale",
+    "availableDesc": "Il tuo host è disponibile 24/7 via WhatsApp, email o telefono.",
+    "verified": "Eccellenza certificata",
     "verifiedDesc": "Valutazioni a 5 stelle su tutte le piattaforme con oltre 2.000 ospiti soddisfatti.",
     "registered": "Ufficialmente autorizzato",
-    "registeredDesc": "Registrato presso il Ministero del turismo croato. Il tuo soggiorno è protetto e assicurato."
+    "registeredDesc": "Registrato presso il Ministero del Turismo croato. Il tuo soggiorno è protetto e assicurato."
   },
   "features": {
     "wifi": "Wi-Fi gratuito",
@@ -98,7 +103,7 @@
     "bbq": "Area barbecue",
     "pool": "Piscina",
     "parking": "Parcheggio gratuito",
-    "petFriendly": "Animali ammessi",
+    "petFriendly": "Animali domestici ammessi",
     "beachTowels": "Asciugamani da spiaggia",
     "beachAccess": "Accesso alla spiaggia",
     "terrace": "Terrazza",

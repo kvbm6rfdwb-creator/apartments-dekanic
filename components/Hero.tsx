@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Weather from '@/components/WeatherSimple';
+import { useTranslations } from 'next-intl';
 
 interface HeroProps {
   heroImage?: string;
@@ -13,10 +14,11 @@ interface HeroProps {
 
 export default function Hero({
   heroImage      = '/images/hero.jpg',
-  heroTitle      = 'Apartments Dekanić',
-  heroSubtitle   = 'Baška · Island Krk · Croatia',
-  heroButtonText = 'Explore apartments',
+  heroTitle,
+  heroSubtitle,
+  heroButtonText,
 }: HeroProps) {
+  const t = useTranslations('hero');
   const bgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const fn = () => {
@@ -26,13 +28,13 @@ export default function Hero({
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  const subtitle   = heroSubtitle   ?? t('subtitle');
+  const buttonText = heroButtonText ?? t('cta');
+
   return (
     <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background container — always dark so broken/loading img is invisible */}
       <div ref={bgRef} className="absolute inset-0 will-change-transform bg-stone-900">
-        {/* Dark gradient always visible as fallback */}
         <div className="absolute inset-0 bg-gradient-to-br from-stone-800 via-stone-700 to-stone-900" />
-        {/* Hero image — starts invisible, fades in on load */}
         <img
           key={heroImage}
           src={heroImage || '/images/hero.jpg'}
@@ -48,32 +50,28 @@ export default function Hero({
         />
       </div>
 
-      {/* Dark overlay */}
       <div className="absolute inset-0 hero-overlay" />
 
-      {/* Decorative blurs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-sand-600/10 blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-terra-600/10 blur-3xl" />
       </div>
 
-      {/* Text content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <p className="text-sand-300 text-xs tracking-[.35em] uppercase font-medium mb-5 opacity-0 animate-[fadeIn_1s_.2s_ease_forwards]">
-          {heroSubtitle}
+          {subtitle}
         </p>
         <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-light leading-[1.08] mb-6 opacity-0 animate-[fadeUp_.9s_.4s_cubic-bezier(.16,1,.3,1)_forwards]">
-          {heroTitle}
+          {heroTitle || 'Apartments Dekanić'}
         </h1>
         <a
           href="#apartments"
           className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl text-sm tracking-wide opacity-0 animate-[fadeIn_1s_.8s_ease_forwards]"
         >
-          {heroButtonText}
+          {buttonText}
         </a>
       </div>
 
-      {/* Weather Widget positioned in hero wallpaper area */}
       <div className="absolute bottom-24 left-0 right-0 px-6 z-20">
         <div className="max-w-4xl mx-auto">
           <Weather />

@@ -24,7 +24,9 @@
     "viewApartment": "View Apartment",
     "amenities": "Amenities",
     "gallery": "Gallery",
-    "availability": "Availability"
+    "availability": "Availability",
+    "allApartments": "All Apartments",
+    "aboutApartment": "About this apartment"
   },
   "calendar": {
     "title": "Availability",
@@ -49,7 +51,10 @@
     "success": "Your request has been sent! We will confirm within 24 hours.",
     "error": "Something went wrong. Please try again or contact us directly.",
     "pending": "Sending…",
-    "terms": "By submitting you agree to our cancellation policy."
+    "terms": "By submitting you agree to our cancellation policy.",
+    "steps": ["Dates", "Details", "Confirm"],
+    "total": "Total",
+    "back": "Back"
   },
   "reviews": {
     "title": "What Our Guests Say",

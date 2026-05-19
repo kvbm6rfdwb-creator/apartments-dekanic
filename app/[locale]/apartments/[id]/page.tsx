@@ -53,7 +53,6 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
   const t  = await getTranslations({ locale, namespace: 'apartments' });
   const tc = await getTranslations({ locale, namespace: 'calendar' });
 
-  // Sanitize whatsapp number — strip non-digits, ensure starts with 385
   const rawWa = String(data.property?.whatsapp || '');
   const whatsapp = rawWa.replace(/[^0-9]/g, '') || '385984841330';
 
@@ -61,7 +60,7 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
     <div className="min-h-screen bg-sand-50 pt-20">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <Link href={`/${locale}#apartments`} className="inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-sand-600 transition-colors">
-          <ChevronLeft size={16} /> All Apartments
+          <ChevronLeft size={16} /> {t('allApartments')}
         </Link>
       </div>
 
@@ -97,7 +96,7 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
           </div>
 
           <div>
-            <h2 className="font-serif text-3xl text-stone-900 mb-4">About this apartment</h2>
+            <h2 className="font-serif text-3xl text-stone-900 mb-4">{t('aboutApartment')}</h2>
             <p className="text-stone-600 leading-relaxed">{apt.description || 'No description yet.'}</p>
           </div>
 

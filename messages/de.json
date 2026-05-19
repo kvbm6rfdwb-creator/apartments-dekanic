@@ -9,11 +9,11 @@
   "hero": {
     "subtitle": "Baška · Insel Krk · Kroatien",
     "cta": "Apartments entdecken",
-    "scroll": "Nach unten scrollen"
+    "scroll": "Entdecken Sie mehr"
   },
   "apartments": {
     "title": "Unsere Apartments",
-    "subtitle": "Drei besondere Rückzugsorte, jeder für ein anderes Tempo des Insellebens gestaltet.",
+    "subtitle": "Drei einzigartige Rückzugsorte, jeder für ein anderes Tempo des Insellebens.",
     "guests": "Gäste",
     "bedrooms": "Schlafzimmer",
     "bathrooms": "Badezimmer",
@@ -24,7 +24,9 @@
     "viewApartment": "Apartment ansehen",
     "amenities": "Ausstattung",
     "gallery": "Galerie",
-    "availability": "Verfügbarkeit"
+    "availability": "Verfügbarkeit",
+    "allApartments": "Alle Apartments",
+    "aboutApartment": "Über dieses Apartment"
   },
   "calendar": {
     "title": "Verfügbarkeit",
@@ -32,14 +34,14 @@
     "booked": "Gebucht",
     "loading": "Kalender wird geladen…",
     "error": "Verfügbarkeit konnte nicht geladen werden. Bitte kontaktieren Sie uns.",
-    "selectDates": "Reisedaten auswählen",
+    "selectDates": "Wählen Sie Ihre Daten",
     "checkIn": "Anreise",
     "checkOut": "Abreise",
     "nights": "Nächte",
     "minStay": "Mindestaufenthalt: {n} Nächte"
   },
   "booking": {
-    "title": "Reservierungsanfrage",
+    "title": "Buchungsanfrage",
     "name": "Vollständiger Name",
     "email": "E-Mail-Adresse",
     "phone": "Telefonnummer",
@@ -47,22 +49,25 @@
     "message": "Nachricht (optional)",
     "submit": "Anfrage senden",
     "success": "Ihre Anfrage wurde gesendet! Wir bestätigen innerhalb von 24 Stunden.",
-    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.",
     "pending": "Wird gesendet…",
-    "terms": "Mit dem Absenden stimmen Sie unserer Stornierungsrichtlinie zu."
+    "terms": "Mit dem Absenden stimmen Sie unserer Stornierungsrichtlinie zu.",
+    "steps": ["Daten", "Details", "Bestätigung"],
+    "total": "Gesamt",
+    "back": "Zurück"
   },
   "reviews": {
     "title": "Was unsere Gäste sagen",
     "subtitle": "Verifizierte Bewertungen von Airbnb & Booking.com",
-    "viewAll": "Alle Bewertungen anzeigen"
+    "viewAll": "Alle Bewertungen ansehen"
   },
   "location": {
     "title": "Finden Sie uns in Baška",
-    "subtitle": "Skopalj 19, Baška, Insel Krk — nur wenige Gehminuten vom berühmten Strand Baška.",
-    "directions": "Route berechnen"
+    "subtitle": "Skopalj 19, Baška, Insel Krk — nur ein kurzer Spaziergang vom berühmten Strand.",
+    "directions": "Wegbeschreibung"
   },
   "contact": {
-    "title": "Kontakt aufnehmen",
+    "title": "Kontaktieren Sie uns",
     "phone": "Telefon",
     "email": "E-Mail",
     "whatsapp": "WhatsApp",
@@ -71,21 +76,21 @@
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
     "privacy": "Datenschutzrichtlinie",
-    "terms": "Allgemeine Geschäftsbedingungen"
+    "terms": "Nutzungsbedingungen"
   },
   "whyBook": {
     "title": "Warum direkt buchen?",
-    "subtitle": "Die clevere Art zu buchen",
+    "subtitle": "Der klügere Weg zu buchen",
     "direct": "Direktbuchung",
-    "directDesc": "Treten Sie direkt mit den Eigentümern in Kontakt. Keine Vermittler, keine versteckten Gebühren — nur echte Gastfreundschaft.",
+    "directDesc": "Verbinden Sie sich direkt mit den Eigentümern. Keine Vermittler, keine versteckten Gebühren.",
     "price": "Bestpreisgarantie",
-    "priceDesc": "Sparen Sie bis zu 20 % gegenüber Buchungsplattformen. Dasselbe Zimmer für weniger.",
+    "priceDesc": "Sparen Sie bis zu 20% im Vergleich zu Buchungsplattformen.",
     "available": "Persönlicher Service",
-    "availableDesc": "Ihr Gastgeber ist rund um die Uhr per WhatsApp, E-Mail oder Telefon erreichbar. Echte Menschen, echte Hilfe.",
+    "availableDesc": "Ihr Gastgeber ist rund um die Uhr per WhatsApp, E-Mail oder Telefon erreichbar.",
     "verified": "Bewährte Exzellenz",
     "verifiedDesc": "5-Sterne-Bewertungen auf allen Plattformen mit über 2.000 zufriedenen Gästen.",
     "registered": "Offiziell lizenziert",
-    "registeredDesc": "Registriert beim kroatischen Ministerium für Tourismus. Ihr Aufenthalt ist geschützt und versichert."
+    "registeredDesc": "Beim kroatischen Tourismusministerium registriert. Ihr Aufenthalt ist geschützt und versichert."
   },
   "features": {
     "wifi": "Kostenloses WLAN",
@@ -98,7 +103,7 @@
     "bbq": "Grillbereich",
     "pool": "Schwimmbad",
     "parking": "Kostenloser Parkplatz",
-    "petFriendly": "Haustiere willkommen",
+    "petFriendly": "Haustiere erlaubt",
     "beachTowels": "Strandtücher",
     "beachAccess": "Strandzugang",
     "terrace": "Terrasse",

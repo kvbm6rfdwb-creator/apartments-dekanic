@@ -4,34 +4,36 @@
     "apartments": "Apartmani",
     "location": "Lokacija",
     "contact": "Kontakt",
-    "bookNow": "Rezervirajte"
+    "bookNow": "Rezerviraj"
   },
   "hero": {
     "subtitle": "Baška · Otok Krk · Hrvatska",
-    "cta": "Pogledajte apartmane",
-    "scroll": "Pomičite se prema dolje"
+    "cta": "Pregledaj apartmane",
+    "scroll": "Skrolaj za više"
   },
   "apartments": {
     "title": "Naši apartmani",
-    "subtitle": "Tri posebna smještaja, svaki osmišljen za drugačiji tempo otočkog života.",
+    "subtitle": "Tri jedinstvena boravišta, svako osmišljeno za drugačiji ritam otočnog života.",
     "guests": "gostiju",
     "bedrooms": "spavaće sobe",
     "bathrooms": "kupaonice",
     "sqm": "m²",
     "seaView": "Pogled na more",
     "balcony": "Balkon",
-    "parking": "Parking",
+    "parking": "Parkiranje",
     "viewApartment": "Pogledaj apartman",
     "amenities": "Sadržaji",
     "gallery": "Galerija",
-    "availability": "Dostupnost"
+    "availability": "Dostupnost",
+    "allApartments": "Svi apartmani",
+    "aboutApartment": "O ovom apartmanu"
   },
   "calendar": {
     "title": "Dostupnost",
-    "available": "Slobodno",
-    "booked": "Zauzeto",
-    "loading": "Učitavanje…",
-    "error": "Nije moguće učitati kalendar. Kontaktirajte nas.",
+    "available": "Dostupno",
+    "booked": "Rezervirano",
+    "loading": "Učitavanje kalendara…",
+    "error": "Nije moguće učitati dostupnost. Kontaktirajte nas.",
     "selectDates": "Odaberite datume",
     "checkIn": "Dolazak",
     "checkOut": "Odlazak",
@@ -39,32 +41,35 @@
     "minStay": "Minimalni boravak: {n} noći"
   },
   "booking": {
-    "title": "Zahtjev za rezervaciju",
+    "title": "Pošalji upit za rezervaciju",
     "name": "Ime i prezime",
-    "email": "E-mail adresa",
+    "email": "Email adresa",
     "phone": "Broj telefona",
     "guests": "Broj gostiju",
     "message": "Poruka (neobavezno)",
-    "submit": "Pošalji zahtjev",
-    "success": "Vaš zahtjev je poslan! Potvrdit ćemo unutar 24 sata.",
-    "error": "Nešto je pošlo po krivu. Kontaktirajte nas.",
+    "submit": "Pošalji upit",
+    "success": "Vaš upit je poslan! Potvrditi ćemo dostupnost u roku od 24 sata.",
+    "error": "Nešto je pošlo po zlu. Pokušajte ponovo ili nas kontaktirajte direktno.",
     "pending": "Slanje…",
-    "terms": "Slanjem prihvaćate naša pravila otkazivanja."
+    "terms": "Slanjem prihvaćate našu politiku otkazivanja.",
+    "steps": ["Datumi", "Detalji", "Potvrda"],
+    "total": "Ukupno",
+    "back": "Natrag"
   },
   "reviews": {
     "title": "Što kažu naši gosti",
     "subtitle": "Provjerene recenzije s Airbnb & Booking.com",
-    "viewAll": "Pogledajte sve recenzije"
+    "viewAll": "Pogledaj sve recenzije"
   },
   "location": {
     "title": "Pronađite nas u Baški",
     "subtitle": "Skopalj 19, Baška, Otok Krk — kratka šetnja do poznate Baške plaže.",
-    "directions": "Upute za put"
+    "directions": "Upute za dolazak"
   },
   "contact": {
     "title": "Kontaktirajte nas",
     "phone": "Telefon",
-    "email": "E-mail",
+    "email": "Email",
     "whatsapp": "WhatsApp",
     "address": "Adresa"
   },
@@ -77,19 +82,19 @@
     "title": "Zašto rezervirati direktno?",
     "subtitle": "Pametniji način rezervacije",
     "direct": "Direktna rezervacija",
-    "directDesc": "Povežite se izravno s vlasnicima smještaja. Bez posrednika, bez skrivenih naknada — samo autentično gostoprimstvo.",
-    "price": "Garancija najbolje cijene",
-    "priceDesc": "Uštedite do 20% u usporedbi s platformama za rezervacije. Ista soba za manju cijenu.",
+    "directDesc": "Povežite se izravno s vlasnicima. Bez posrednika, bez skrivenih naknada.",
+    "price": "Garancija najniže cijene",
+    "priceDesc": "Uštedite do 20% u usporedbi s platformama za rezervacije.",
     "available": "Osobna usluga",
-    "availableDesc": "Vaš domaćin dostupan je 24/7 putem WhatsAppa, e-maila ili telefona. Pravi ljudi, prava pomoć.",
+    "availableDesc": "Vaš domaćin dostupan je 24/7 putem WhatsAppa, emaila ili telefona.",
     "verified": "Provjerena izvrsnost",
-    "verifiedDesc": "Ocjena 5 zvjezdica na svim platformama s više od 2.000 zadovoljnih gostiju.",
-    "registered": "Službeno licencirano",
-    "registeredDesc": "Registrirano pri Ministarstvu turizma RH. Vaš boravak je zaštićen i osiguran."
+    "verifiedDesc": "Ocjene 5 zvjezdica na svim platformama s više od 2.000 zadovoljnih gostiju.",
+    "registered": "Službeno licencirani",
+    "registeredDesc": "Registrirani pri Ministarstvu turizma RH. Vaš boravak je zaštićen i osiguran."
   },
   "features": {
     "wifi": "Besplatni Wi-Fi",
-    "ac": "Klima uređaj",
+    "ac": "Klimatizacija",
     "kitchen": "Potpuno opremljena kuhinja",
     "tv": "Smart TV",
     "washer": "Perilica rublja",
@@ -97,8 +102,8 @@
     "coffee": "Aparat za kavu",
     "bbq": "Roštilj",
     "pool": "Bazen",
-    "parking": "Besplatni parking",
-    "petFriendly": "Kućni ljubimci dobrodošli",
+    "parking": "Besplatno parkiranje",
+    "petFriendly": "Kućni ljubimci dopušteni",
     "beachTowels": "Ručnici za plažu",
     "beachAccess": "Pristup plaži",
     "terrace": "Terasa",
