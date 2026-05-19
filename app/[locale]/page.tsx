@@ -7,6 +7,7 @@ import Location from '@/components/Location';
 import Contact from '@/components/Contact';
 import WhyBookDirectly from '@/components/WhyBookDirectly';
 import Weather from '@/components/WeatherSimple';
+import { setRequestLocale } from 'next-intl/server';
 
 import { routing } from '@/routing';
 
@@ -20,6 +21,7 @@ export const revalidate = 0;
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  setRequestLocale(locale);
 
   // Read file at request time — not statically bundled
   let site: any = {};

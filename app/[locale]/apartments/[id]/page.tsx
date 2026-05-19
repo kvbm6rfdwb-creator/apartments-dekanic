@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { loadSiteData } from '@/lib/loadData';
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import ApartmentGallery from '@/components/ApartmentGallery';
 import ApartmentBookingSidebar from '@/components/ApartmentBookingSidebar';
 import { ALL_AMENITIES } from '@/lib/amenities';
@@ -44,6 +44,7 @@ function Stat({ icon, label, highlight }: { icon: React.ReactNode; label: string
 
 export default async function ApartmentPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
   const { locale, id } = await params;
+  setRequestLocale(locale);
 
   const data = await loadData();
   const apt  = data.apartments.find((a: any) => a.id === id || a.slug === id);
