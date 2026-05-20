@@ -15,7 +15,7 @@ export default function BookingForm({ aptId, aptName, maxGuests, dateRange, loca
   const field = 'w-full px-4 py-3 rounded-xl border border-sand-200 bg-white text-stone-800 text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-sand-400 focus:border-transparent transition-all';
   const handleSubmit=async(e:React.FormEvent)=>{
     e.preventDefault();
-    if(!dateRange?.from||!dateRange?.to){toast.error('Please select your check-in and check-out dates.');return;}
+    if(!dateRange?.from||!dateRange?.to){toast.error(t('selectCheckDates'));return;}
     setLoading(true);
     try{
       const res=await fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -45,7 +45,7 @@ export default function BookingForm({ aptId, aptName, maxGuests, dateRange, loca
           {dateRange.from.toLocaleDateString()} → {dateRange.to.toLocaleDateString()}
         </div>
       ):(
-        <p className="text-amber-600 text-xs font-medium bg-amber-50 px-4 py-2.5 rounded-xl border border-amber-200">⬆ Please select your dates in the calendar above first.</p>
+        <p className="text-amber-600 text-xs font-medium bg-amber-50 px-4 py-2.5 rounded-xl border border-amber-200">⬆ {t('selectCheckDates')}</p>
       )}
       <div><label className="block text-[10px] font-semibold text-stone-500 mb-1.5 uppercase tracking-widest">{t('message')}</label>
         <textarea className={field+' resize-none'} rows={3} value={form.message} onChange={e=>set('message',e.target.value)} placeholder="Any questions or special requests…"/></div>
