@@ -2,25 +2,25 @@
   "nav": {
     "home": "Főoldal",
     "apartments": "Apartmanok",
-    "location": "Elhelyezkedés",
+    "location": "Helyszín",
     "contact": "Kapcsolat",
     "bookNow": "Foglalás"
   },
   "hero": {
     "subtitle": "Baška · Krk-sziget · Horvátország",
-    "cta": "Apartmanok felfedezése",
-    "scroll": "Görgetés a felfedezéshez"
+    "cta": "Fedezze fel az apartmanokat",
+    "scroll": "Görgessen a felfedezéshez"
   },
   "apartments": {
     "title": "Apartmanjaink",
-    "subtitle": "Három egyedi menedék, mindegyik az szigeti élet más-más ritmusára tervezve.",
+    "subtitle": "Három egyedi menedék, mindegyiket a szigeti élet más ritmusára terveztük.",
     "guests": "vendég",
     "bedrooms": "hálószoba",
     "bathrooms": "fürdőszoba",
     "sqm": "m²",
-    "seaView": "Tengerre néző",
+    "seaView": "Tengerre néző kilátás",
     "balcony": "Erkély",
-    "parking": "Parkolás",
+    "parking": "Parkoló",
     "viewApartment": "Apartman megtekintése",
     "amenities": "Felszereltség",
     "gallery": "Galéria",
@@ -30,11 +30,11 @@
   },
   "calendar": {
     "title": "Elérhetőség",
-    "available": "Szabad",
+    "available": "Elérhető",
     "booked": "Foglalt",
     "loading": "Naptár betöltése…",
-    "error": "Nem sikerült betölteni az elérhetőséget. Kérjük, vegye fel velünk a kapcsolatot.",
-    "selectDates": "Válassza ki a dátumokat",
+    "error": "Nem sikerült betölteni az elérhetőséget. Kérjük, lépjen kapcsolatba velünk.",
+    "selectDates": "Válasszon dátumokat",
     "checkIn": "Érkezés",
     "checkOut": "Távozás",
     "nights": "éjszaka",
@@ -45,26 +45,52 @@
     "name": "Teljes név",
     "email": "E-mail cím",
     "phone": "Telefonszám",
-    "guests": "Vendégek száma",
+    "guests": "Vendégek",
     "message": "Üzenet (opcionális)",
     "submit": "Kérelem küldése",
-    "success": "Kérelmét elküldtük! 24 órán belül visszaigazolunk.",
-    "error": "Valami hiba történt. Kérjük, próbálja újra vagy vegye fel velünk a kapcsolatot.",
-    "pending": "Küldés folyamatban…",
-    "terms": "Az elküldéssel elfogadja lemondási szabályzatunkat.",
+    "success": "Kérelmét elküldtük! 24 órán belül visszaigazoljuk.",
+    "error": "Valami hiba történt. Kérjük, próbálja újra, vagy lépjen kapcsolatba velünk közvetlenül.",
+    "pending": "Küldés…",
+    "terms": "A beküldéssel elfogadja lemondási feltételeinket.",
     "steps": ["Dátumok", "Részletek", "Megerősítés"],
     "total": "Összesen",
-    "back": "Vissza"
+    "back": "Vissza",
+    "directBooking": "Közvetlen foglalás",
+    "noFeesBestPrice": "Díjak nélkül · Legjobb ár garantálva",
+    "selectCheckDates": "Válassza ki az érkezési és távozási dátumokat",
+    "continue": "Folytatás",
+    "fullNameRequired": "Teljes név *",
+    "emailRequired": "E-mail *",
+    "phoneShort": "Telefon",
+    "guestsRequired": "Vendégek *",
+    "guestOne": "1 vendég",
+    "guestMany": "{count} vendég",
+    "maxGuests": "/ max. {count}",
+    "specialRequests": "Különleges kérések",
+    "review": "Áttekintés",
+    "apartmentLabel": "Apartman",
+    "duration": "Időtartam",
+    "nightsLabel": "éjszaka",
+    "night": "éjszaka",
+    "notes": "Megjegyzések",
+    "noPaymentNow": "Most nincs fizetés — először visszaigazoljuk az elérhetőséget.",
+    "orContactDirectly": "vagy lépjen kapcsolatba közvetlenül",
+    "chatOnWhatsapp": "WhatsApp-csevegés",
+    "requestSent": "Kérelem elküldve!",
+    "confirmReply": "Visszaigazoljuk az elérhetőséget és válaszolunk a <email></email> címre néhány órán belül.",
+    "estimatedTotal": "Becsült teljes összeg",
+    "followUpWhatsapp": "Kövesse nyomon WhatsApp-on",
+    "minStayWarning": "Erre az időszakra a minimális tartózkodás {n} éjszaka."
   },
   "reviews": {
     "title": "Mit mondanak vendégeink",
-    "subtitle": "Ellenőrzött vélemények az Airbnb-ről és a Booking.com-ról",
-    "viewAll": "Összes vélemény megtekintése"
+    "subtitle": "Ellenőrzött értékelések az Airbnb-ről és a Booking.com-ról",
+    "viewAll": "Összes értékelés megtekintése"
   },
   "location": {
-    "title": "Találjon meg minket Baškąn",
-    "subtitle": "Skopalj 19, Baška, Krk-sziget — rövid sétára a híres Baška strandtól.",
-    "directions": "Útvonal"
+    "title": "Találjon meg minket Baškában",
+    "subtitle": "Skopalj 19, Baška, Krk-sziget — rövid sétára a híres Baška-strandtól.",
+    "directions": "Útbaigazítás"
   },
   "contact": {
     "title": "Lépjen kapcsolatba velünk",
@@ -76,25 +102,25 @@
   "footer": {
     "rights": "Minden jog fenntartva.",
     "privacy": "Adatvédelmi irányelvek",
-    "terms": "Általános szerződési feltételek"
+    "terms": "Szolgáltatási feltételek"
   },
   "whyBook": {
-    "title": "Miért érdemes közvetlenül foglalni?",
+    "title": "Miért foglaljon közvetlenül?",
     "subtitle": "Az okosabb foglalási mód",
     "direct": "Közvetlen foglalás",
     "directDesc": "Lépjen kapcsolatba közvetlenül a tulajdonosokkal. Nincs közvetítő, nincsenek rejtett díjak.",
     "price": "Legjobb ár garancia",
     "priceDesc": "Takarítson meg akár 20%-ot a foglalási platformokhoz képest.",
     "available": "Személyes szolgáltatás",
-    "availableDesc": "A házigazdája 24/7 elérhető WhatsApp-on, e-mailen vagy telefonon.",
-    "verified": "Bizonyított kiválóság",
-    "verifiedDesc": "5 csillagos értékelések minden platformon, több mint 2 000 elégedett vendéggel.",
+    "availableDesc": "Vendéglátója 24/7 elérhető WhatsApp-on, e-mailben vagy telefonon.",
+    "verified": "Igazolt kiválóság",
+    "verifiedDesc": "5 csillagos értékelések minden platformon több mint 2000 elégedett vendéggel.",
     "registered": "Hivatalosan engedélyezett",
-    "registeredDesc": "A horvát idegenforgalmi minisztériumnál bejegyezve. Tartózkodása védett és biztosított."
+    "registeredDesc": "Regisztrálva a Horvát Idegenforgalmi Minisztériumnál. Tartózkodása védett és biztosított."
   },
   "features": {
     "wifi": "Ingyenes Wi-Fi",
-    "ac": "Légkondicionálás",
+    "ac": "Légkondicionáló",
     "kitchen": "Teljesen felszerelt konyha",
     "tv": "Smart TV",
     "washer": "Mosógép",
@@ -102,11 +128,11 @@
     "coffee": "Kávéfőző",
     "bbq": "Grillezési lehetőség",
     "pool": "Úszómedence",
-    "parking": "Ingyenes parkolás",
-    "petFriendly": "Kisállatok megengedett",
-    "beachTowels": "Strandtörülközők",
-    "beachAccess": "Strandbejárat",
+    "parking": "Ingyenes parkoló",
+    "petFriendly": "Háziállat-barát",
+    "beachTowels": "Strandfürdőlepedők",
+    "beachAccess": "Strandhoz való hozzáférés",
     "terrace": "Terasz",
-    "seaView": "Tengerre néző"
+    "seaView": "Tengerre néző kilátás"
   }
 }

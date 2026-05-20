@@ -9,11 +9,11 @@
   "hero": {
     "subtitle": "Baška · Ostrov Krk · Chorvatsko",
     "cta": "Prozkoumat apartmány",
-    "scroll": "Procházet dolů"
+    "scroll": "Posunout pro více"
   },
   "apartments": {
     "title": "Naše apartmány",
-    "subtitle": "Tři jedinečné útočiště, každé navrženo pro jiné tempo ostrovního života.",
+    "subtitle": "Tři jedinečná útočiště, každé navrženo pro jiný rytmus ostrovního života.",
     "guests": "hosté",
     "bedrooms": "ložnice",
     "bathrooms": "koupelny",
@@ -31,10 +31,10 @@
   "calendar": {
     "title": "Dostupnost",
     "available": "Dostupné",
-    "booked": "Rezervováno",
+    "booked": "Zarezervováno",
     "loading": "Načítání kalendáře…",
-    "error": "Nelze načíst dostupnost. Kontaktujte nás prosím.",
-    "selectDates": "Vyberte termín",
+    "error": "Dostupnost nelze načíst. Prosím kontaktujte nás.",
+    "selectDates": "Vybrat data",
     "checkIn": "Příjezd",
     "checkOut": "Odjezd",
     "nights": "nocí",
@@ -45,26 +45,52 @@
     "name": "Celé jméno",
     "email": "E-mailová adresa",
     "phone": "Telefonní číslo",
-    "guests": "Počet hostů",
+    "guests": "Hosté",
     "message": "Zpráva (nepovinné)",
     "submit": "Odeslat žádost",
     "success": "Vaše žádost byla odeslána! Potvrdíme do 24 hodin.",
     "error": "Něco se pokazilo. Zkuste to znovu nebo nás kontaktujte přímo.",
     "pending": "Odesílání…",
-    "terms": "Odesláním souhlasíte s naší storno politikou.",
-    "steps": ["Termíny", "Detaily", "Potvrzení"],
+    "terms": "Odesláním souhlasíte s našimi storno podmínkami.",
+    "steps": ["Data", "Detaily", "Potvrzení"],
     "total": "Celkem",
-    "back": "Zpět"
+    "back": "Zpět",
+    "directBooking": "Přímá rezervace",
+    "noFeesBestPrice": "Bez poplatků · Nejlepší cena zaručena",
+    "selectCheckDates": "Vyberte data příjezdu a odjezdu",
+    "continue": "Pokračovat",
+    "fullNameRequired": "Celé jméno *",
+    "emailRequired": "E-mail *",
+    "phoneShort": "Telefon",
+    "guestsRequired": "Hosté *",
+    "guestOne": "1 host",
+    "guestMany": "{count} hosté",
+    "maxGuests": "/ max. {count}",
+    "specialRequests": "Zvláštní požadavky",
+    "review": "Zkontrolovat",
+    "apartmentLabel": "Apartmán",
+    "duration": "Délka pobytu",
+    "nightsLabel": "nocí",
+    "night": "noc",
+    "notes": "Poznámky",
+    "noPaymentNow": "Žádná platba nyní — nejprve potvrdíme dostupnost.",
+    "orContactDirectly": "nebo kontaktujte přímo",
+    "chatOnWhatsapp": "Chat na WhatsApp",
+    "requestSent": "Žádost odeslána!",
+    "confirmReply": "Potvrdíme dostupnost a odpovíme na <email></email> během několika hodin.",
+    "estimatedTotal": "Odhadovaná celková cena",
+    "followUpWhatsapp": "Sledovat na WhatsApp",
+    "minStayWarning": "Minimální pobyt pro toto období je {n} nocí."
   },
   "reviews": {
     "title": "Co říkají naši hosté",
-    "subtitle": "Ověřené recenze z Airbnb & Booking.com",
+    "subtitle": "Ověřené recenze z Airbnb a Booking.com",
     "viewAll": "Zobrazit všechny recenze"
   },
   "location": {
-    "title": "Najdete nás v Bašce",
-    "subtitle": "Skopalj 19, Baška, Ostrov Krk — krátká procházka od slavné Baška pláže.",
-    "directions": "Navigace"
+    "title": "Najděte nás v Bašce",
+    "subtitle": "Skopalj 19, Baška, Ostrov Krk — krátká procházka na slavnou pláž Baška.",
+    "directions": "Jak se k nám dostat"
   },
   "contact": {
     "title": "Kontaktujte nás",
@@ -76,7 +102,7 @@
   "footer": {
     "rights": "Všechna práva vyhrazena.",
     "privacy": "Zásady ochrany osobních údajů",
-    "terms": "Smluvní podmínky"
+    "terms": "Podmínky služby"
   },
   "whyBook": {
     "title": "Proč rezervovat přímo?",
@@ -84,13 +110,13 @@
     "direct": "Přímá rezervace",
     "directDesc": "Spojte se přímo s majiteli. Žádní zprostředkovatelé, žádné skryté poplatky.",
     "price": "Záruka nejlepší ceny",
-    "priceDesc": "Ušetřete až 20% oproti rezervačním platformám.",
+    "priceDesc": "Ušetřete až 20% ve srovnání s rezervačními platformami.",
     "available": "Osobní servis",
-    "availableDesc": "Váš hostitel je dostupný 24/7 přes WhatsApp, e-mail nebo telefon.",
-    "verified": "Ověřená excelence",
-    "verifiedDesc": "Hodnocení 5 hvězdiček na všech platformách s více než 2 000 spokojených hostů.",
-    "registered": "Oficiálně licencováno",
-    "registeredDesc": "Registrováno u chorvatského ministerstva cestovního ruchu. Váš pobyt je chráněn a pojištěn."
+    "availableDesc": "Váš hostitel je k dispozici 24/7 přes WhatsApp, e-mail nebo telefon.",
+    "verified": "Ověřená dokonalost",
+    "verifiedDesc": "Hodnocení 5 hvězdiček na všech platformách s více než 2 000 spokojenými hosty.",
+    "registered": "Oficiálně licencováni",
+    "registeredDesc": "Registrováni u chorvatského Ministerstva cestovního ruchu. Váš pobyt je chráněn a pojištěn."
   },
   "features": {
     "wifi": "Bezplatné Wi-Fi",
@@ -103,7 +129,7 @@
     "bbq": "Gril",
     "pool": "Bazén",
     "parking": "Bezplatné parkování",
-    "petFriendly": "Domácí zvířata povolena",
+    "petFriendly": "Domácí mazlíčci vítáni",
     "beachTowels": "Plážové ručníky",
     "beachAccess": "Přístup na pláž",
     "terrace": "Terasa",

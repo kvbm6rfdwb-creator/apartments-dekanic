@@ -17,7 +17,7 @@
     "guests": "gości",
     "bedrooms": "sypialnie",
     "bathrooms": "łazienki",
-    "sqm": "m²",
+    "sqm": "m2",
     "seaView": "Widok na morze",
     "balcony": "Balkon",
     "parking": "Parking",
@@ -32,7 +32,7 @@
     "title": "Dostępność",
     "available": "Dostępne",
     "booked": "Zarezerwowane",
-    "loading": "Ładowanie kalendarza…",
+    "loading": "Ładowanie kalendarza...",
     "error": "Nie można załadować dostępności. Skontaktuj się z nami.",
     "selectDates": "Wybierz daty",
     "checkIn": "Przyjazd",
@@ -45,7 +45,7 @@
     "name": "Imię i nazwisko",
     "email": "Adres e-mail",
     "phone": "Numer telefonu",
-    "guests": "Liczba gości",
+    "guests": "Goście",
     "message": "Wiadomość (opcjonalnie)",
     "submit": "Wyślij zapytanie",
     "success": "Twoje zapytanie zostało wysłane! Potwierdzimy w ciągu 24 godzin.",
@@ -54,16 +54,42 @@
     "terms": "Wysyłając, zgadzasz się z naszą polityką anulowania.",
     "steps": ["Daty", "Szczegóły", "Potwierdzenie"],
     "total": "Łącznie",
-    "back": "Wstecz"
+    "back": "Wstecz",
+    "directBooking": "Rezerwacja bezpośrednia",
+    "noFeesBestPrice": "Bez opłat · Gwarancja najlepszej ceny",
+    "selectCheckDates": "Wybierz daty przyjazdu i wyjazdu",
+    "continue": "Kontynuuj",
+    "fullNameRequired": "Imię i nazwisko *",
+    "emailRequired": "E-mail *",
+    "phoneShort": "Telefon",
+    "guestsRequired": "Goście *",
+    "guestOne": "1 gość",
+    "guestMany": "{count} gości",
+    "maxGuests": "/ maks. {count}",
+    "specialRequests": "Specjalne życzenia",
+    "review": "Sprawdź",
+    "apartmentLabel": "Apartament",
+    "duration": "Czas pobytu",
+    "nightsLabel": "nocy",
+    "night": "noc",
+    "notes": "Uwagi",
+    "noPaymentNow": "Brak płatności teraz — najpierw potwierdzamy dostępność.",
+    "orContactDirectly": "lub skontaktuj się bezpośrednio",
+    "chatOnWhatsapp": "Czat na WhatsApp",
+    "requestSent": "Zapytanie wysłane!",
+    "confirmReply": "Potwierdzimy dostępność i odpowiemy na <email></email> w ciągu kilku godzin.",
+    "estimatedTotal": "Szacowany koszt całkowity",
+    "followUpWhatsapp": "Kontynuuj na WhatsApp",
+    "minStayWarning": "Minimalny pobyt dla tego okresu wynosi {n} nocy."
   },
   "reviews": {
     "title": "Co mówią nasi goście",
-    "subtitle": "Zweryfikowane opinie z Airbnb & Booking.com",
+    "subtitle": "Zweryfikowane opinie z Airbnb i Booking.com",
     "viewAll": "Zobacz wszystkie opinie"
   },
   "location": {
     "title": "Znajdź nas w Bašce",
-    "subtitle": "Skopalj 19, Baška, Wyspa Krk — krótki spacer od słynnej plaży Baška.",
+    "subtitle": "Skopalj 19, Baška, Wyspa Krk — krótki spacer do słynnej plaży Baška.",
     "directions": "Jak dojechać"
   },
   "contact": {
@@ -76,11 +102,11 @@
   "footer": {
     "rights": "Wszelkie prawa zastrzeżone.",
     "privacy": "Polityka prywatności",
-    "terms": "Regulamin"
+    "terms": "Warunki użytkowania"
   },
   "whyBook": {
     "title": "Dlaczego rezerwować bezpośrednio?",
-    "subtitle": "Mądrzejszy sposób na rezerwację",
+    "subtitle": "Mądrzejszy sposób rezerwacji",
     "direct": "Rezerwacja bezpośrednia",
     "directDesc": "Połącz się bezpośrednio z właścicielami. Bez pośredników, bez ukrytych opłat.",
     "price": "Gwarancja najlepszej ceny",
@@ -88,9 +114,9 @@
     "available": "Obsługa osobista",
     "availableDesc": "Twój gospodarz jest dostępny 24/7 przez WhatsApp, e-mail lub telefon.",
     "verified": "Potwierdzona doskonałość",
-    "verifiedDesc": "Oceny 5 gwiazdek na wszystkich platformach z ponad 2 000 zadowolonych gości.",
-    "registered": "Oficjalnie licencjonowany",
-    "registeredDesc": "Zarejestrowany w chorwackim Ministerstwie Turystyki. Twój pobyt jest chroniony i ubezpieczony."
+    "verifiedDesc": "Oceny 5 gwiazdek na wszystkich platformach z ponad 2000 zadowolonymi gośćmi.",
+    "registered": "Oficjalnie licencjonowani",
+    "registeredDesc": "Zarejestrowani w chorwackim Ministerstwie Turystyki. Twój pobyt jest chroniony i ubezpieczony."
   },
   "features": {
     "wifi": "Bezpłatne Wi-Fi",
@@ -103,7 +129,7 @@
     "bbq": "Grill",
     "pool": "Basen",
     "parking": "Bezpłatny parking",
-    "petFriendly": "Zwierzęta domowe dozwolone",
+    "petFriendly": "Przyjazny dla zwierząt",
     "beachTowels": "Ręczniki plażowe",
     "beachAccess": "Dostęp do plaży",
     "terrace": "Taras",
