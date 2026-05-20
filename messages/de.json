@@ -82,6 +82,22 @@
     "followUpWhatsapp": "Über WhatsApp nachfragen",
     "minStayWarning": "Der Mindestaufenthalt für diesen Zeitraum beträgt {n} Nächte."
   },
+  "weather": {
+    "currentConditions": "Aktuelle Bedingungen",
+    "temperature": "Temperatur",
+    "humidity": "Luftfeuchtigkeit",
+    "airQuality": "Luftqualität",
+    "wind": "Wind",
+    "today": "Heute",
+    "aqi": {
+      "good": "Gut",
+      "moderate": "Mäßig",
+      "usg": "Empf. Gruppen",
+      "unhealthy": "Ungesund",
+      "veryUnhealthy": "Sehr ungesund",
+      "hazardous": "Gefährlich"
+    }
+  },
   "reviews": {
     "title": "Was unsere Gäste sagen",
     "subtitle": "Verifizierte Bewertungen von Airbnb und Booking.com",

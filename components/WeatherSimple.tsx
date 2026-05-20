@@ -8,6 +8,8 @@ import {
   StatTempGlyph,
   StatWindGlyph,
 } from './WeatherStatGlyphs';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 // Baška, Island Krk coordinates
 const LAT = 44.9695;
@@ -21,14 +23,14 @@ type DayRow = {
   icon: WeatherKind;
 };
 
-function aqiLabel(usAqi?: number) {
-  if (usAqi == null || Number.isNaN(usAqi)) return '—';
-  if (usAqi <= 50) return 'Good';
-  if (usAqi <= 100) return 'Moderate';
-  if (usAqi <= 150) return 'USG';
-  if (usAqi <= 200) return 'Unhealthy';
-  if (usAqi <= 300) return 'Very Unhealthy';
-  return 'Hazardous';
+function aqiIndex(usAqi?: number): number {
+  if (usAqi == null || Number.isNaN(usAqi)) return -1;
+  if (usAqi <= 50) return 0;
+  if (usAqi <= 100) return 1;
+  if (usAqi <= 150) return 2;
+  if (usAqi <= 200) return 3;
+  if (usAqi <= 300) return 4;
+  return 5;
 }
 
 function localISODate() {
@@ -45,7 +47,7 @@ function localISOHour() {
 
 function wmoToKind(code?: number): WeatherKind {
   if (code == null || Number.isNaN(code)) return 'cloud';
-  if (code <= 1) return 'sun'; // clear / mainly clear
+  if (code <= 1) return 'sun';
   if (code === 2) return 'partly';
   if (code === 3) return 'cloud';
   if (code === 45 || code === 48) return 'fog';
@@ -59,14 +61,12 @@ function kindForCurrentHour(opts: { weatherCode?: number; precipitation?: number
   const code = opts.weatherCode;
   const precip = opts.precipitation ?? 0;
   const base = wmoToKind(code);
-  // If the model says it's precipitating this hour, always show rain/snow/storm.
   if (base === 'storm' || base === 'snow' || base === 'rain' || base === 'fog') return base;
   if (precip >= 0.2) return 'rain';
   return base;
 }
 
 function findHourIndex(times: string[], target: string) {
-  // ISO strings sort lexicographically, so we can find "latest <= target"
   const exact = times.indexOf(target);
   if (exact >= 0) return exact;
   let best = -1;
@@ -90,13 +90,7 @@ function kindForDayFromHourly(dateISO: string, hourly: any): WeatherKind {
   let stormHours = 0;
   let fogHours = 0;
   const counts: Record<WeatherKind, number> = {
-    sun: 0,
-    partly: 0,
-    cloud: 0,
-    fog: 0,
-    rain: 0,
-    snow: 0,
-    storm: 0,
+    sun: 0, partly: 0, cloud: 0, fog: 0, rain: 0, snow: 0, storm: 0,
   };
 
   let radSum = 0;
@@ -124,14 +118,11 @@ function kindForDayFromHourly(dateISO: string, hourly: any): WeatherKind {
     }
   }
 
-  // If there's meaningful precip/storm across the daylight hours, prefer that.
   if (stormHours >= 1) return 'storm';
   if (snowHours >= 2) return 'snow';
   if (rainHours >= 2) return 'rain';
   if (fogHours >= 3) return 'fog';
 
-  // Otherwise pick based on how "sunny" the day is overall (daylight radiation avg),
-  // falling back to the most common WMO kind.
   const radAvg = radN ? radSum / radN : 0;
   if (radAvg >= 300) return 'sun';
   if (radAvg >= 140) return 'partly';
@@ -145,13 +136,20 @@ function kindForDayFromHourly(dateISO: string, hourly: any): WeatherKind {
 }
 
 export default function WeatherSimple() {
+  const t = useTranslations('weather');
+  const locale = useLocale();
+
   const [mounted, setMounted] = useState(false);
   const [tempC, setTempC] = useState<number | null>(null);
   const [humidity, setHumidity] = useState<number | null>(null);
   const [windKmh, setWindKmh] = useState<number | null>(null);
-  const [airQuality, setAirQuality] = useState<string>('—');
+  const [aqiIdx, setAqiIdx] = useState<number>(-1);
   const [days, setDays] = useState<DayRow[]>([]);
   const [currentKind, setCurrentKind] = useState<WeatherKind>('cloud');
+
+  // AQI label keys mapped by index
+  const aqiKeys = ['good', 'moderate', 'usg', 'unhealthy', 'veryUnhealthy', 'hazardous'] as const;
+  const airQuality = aqiIdx >= 0 ? t(`aqi.${aqiKeys[aqiIdx]}`) : '—';
 
   React.useEffect(() => {
     setMounted(true);
@@ -164,7 +162,6 @@ export default function WeatherSimple() {
 
     const fetchAll = async () => {
       try {
-        // Weather (Open-Meteo)
         const res = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&timezone=auto&forecast_days=7&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=weather_code,precipitation,shortwave_radiation,is_day`
         );
@@ -175,7 +172,7 @@ export default function WeatherSimple() {
           setTempC(data?.current?.temperature_2m ?? null);
           setHumidity(data?.current?.relative_humidity_2m ?? null);
           setWindKmh(data?.current?.wind_speed_10m ?? null);
-          // Current-day icon: use the current HOUR's forecast (hour-by-hour), not the daily summary.
+
           const hourKey = data?.current?.time ?? localISOHour();
           const timesHourly: string[] = data?.hourly?.time ?? [];
           const hourIdx =
@@ -197,7 +194,6 @@ export default function WeatherSimple() {
           const highs: number[] = data?.daily?.temperature_2m_max ?? [];
           const lows: number[] = data?.daily?.temperature_2m_min ?? [];
 
-          // Use local date string (Open-Meteo daily time is in local timezone when timezone=auto)
           const todayStr = localISODate();
           const startIndex = Math.max(0, times.findIndex(t => t === todayStr));
           const orderedIdx = [...times.keys()].slice(startIndex).concat([...times.keys()].slice(0, startIndex));
@@ -206,9 +202,8 @@ export default function WeatherSimple() {
             const date = times[i];
             const label =
               idx === 0
-                ? 'Today'
-                : new Date(date + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short' });
-            // Whole-day predicted icon: derive from hourly daytime pattern (more representative than a single daily code)
+                ? t('today')
+                : new Date(date + 'T12:00:00').toLocaleDateString(locale, { weekday: 'short' });
             const icon: DayRow['icon'] = kindForDayFromHourly(date, data?.hourly);
             return {
               date,
@@ -226,22 +221,20 @@ export default function WeatherSimple() {
       }
 
       try {
-        // Air quality (Open-Meteo Air Quality)
         const aqRes = await fetch(
           `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${LAT}&longitude=${LNG}&hourly=us_aqi&timezone=auto`
         );
         if (!aqRes.ok) throw new Error(`AQ fetch failed: ${aqRes.status}`);
         const aq = await aqRes.json();
         const aqi: number | undefined = aq?.hourly?.us_aqi?.[0];
-        if (!cancelled) setAirQuality(aqiLabel(aqi));
+        if (!cancelled) setAqiIdx(aqiIndex(aqi));
       } catch {
         // Keep last known value on failure
       }
     };
 
     fetchAll();
-    // Refresh current conditions frequently; forecast/aqi comes along for free in the same call.
-    const id = window.setInterval(fetchAll, 2 * 60 * 1000); // refresh every 2 minutes
+    const id = window.setInterval(fetchAll, 2 * 60 * 1000);
     const onVis = () => {
       if (document.visibilityState === 'visible') fetchAll();
     };
@@ -259,7 +252,7 @@ export default function WeatherSimple() {
     const d = new Date();
     d.setDate(d.getDate() + idx);
     const iso = d.toISOString().slice(0, 10);
-    const label = idx === 0 ? 'Today' : d.toLocaleDateString(undefined, { weekday: 'short' });
+    const label = idx === 0 ? t('today') : d.toLocaleDateString(locale, { weekday: 'short' });
     return { date: iso, label, high: null, low: null, icon: 'cloud' };
   });
 
@@ -268,15 +261,11 @@ export default function WeatherSimple() {
 
   return (
     <div className="w-full max-w-3xl mx-auto px-6">
-      {/* Current conditions label */}
       <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium text-center mb-1.5">
-        Current conditions
+        {t('currentConditions')}
       </p>
 
-
-      {/* Shared width wrapper (keeps both rows aligned + slightly narrower) */}
       <div className="mx-auto w-full max-w-xl">
-        {/* Temperature to Wind Stats Row */}
         <div className="flex w-full flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
           <div className="flex items-center gap-2">
             <StatLocationGlyph className="w-[26px] h-[26px]" />
@@ -285,34 +274,33 @@ export default function WeatherSimple() {
           <div className="flex items-center gap-2">
             <StatTempGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">Temperature</span>
+              <span className="text-white/60 text-[12px] leading-tight">{t('temperature')}</span>
               <span className="text-white text-[17px] font-medium leading-tight">{tempC == null ? '—' : `${Math.round(tempC)}°C`}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <StatHumidityGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">Humidity</span>
+              <span className="text-white/60 text-[12px] leading-tight">{t('humidity')}</span>
               <span className="text-white text-[17px] font-medium leading-tight">{humidity == null ? '—' : `${Math.round(humidity)}%`}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <StatAirQualityGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">Air Quality</span>
+              <span className="text-white/60 text-[12px] leading-tight">{t('airQuality')}</span>
               <span className="text-white text-[17px] font-medium leading-tight">{airQuality}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <StatWindGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">Wind</span>
+              <span className="text-white/60 text-[12px] leading-tight">{t('wind')}</span>
               <span className="text-white text-[17px] font-medium leading-tight">{windKmh == null ? '—' : `${Math.round(windKmh)}km/h`}</span>
             </div>
           </div>
         </div>
 
-        {/* Minimal 7-Day Grid */}
         <div className="flex w-full items-stretch gap-1">
           {renderDaysWithCurrent.map((day, index) => (
             <div
@@ -324,11 +312,9 @@ export default function WeatherSimple() {
               }`}
             >
               <div className="text-white/90 text-xs font-medium mb-1">{day.label}</div>
-
               <div className="mb-1">
                 <WeatherGlyph kind={day.icon} className="w-[22px] h-[22px]" />
               </div>
-
               <div className="text-white font-bold text-xs">{day.high == null ? '—' : `${day.high}°`}</div>
               <div className="text-white/50 text-xs">{day.low == null ? '—' : `${day.low}°`}</div>
             </div>

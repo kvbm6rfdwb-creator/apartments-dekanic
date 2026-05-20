@@ -82,6 +82,22 @@
     "followUpWhatsapp": "Prati na WhatsApp-u",
     "minStayWarning": "Minimalni boravak za ovaj period je {n} noći."
   },
+  "weather": {
+    "currentConditions": "Trenutni uvjeti",
+    "temperature": "Temperatura",
+    "humidity": "Vlažnost",
+    "airQuality": "Kvaliteta zraka",
+    "wind": "Vjetar",
+    "today": "Danas",
+    "aqi": {
+      "good": "Dobra",
+      "moderate": "Umjerena",
+      "usg": "Osjetljive grupe",
+      "unhealthy": "Nezdrava",
+      "veryUnhealthy": "Vrlo nezdrava",
+      "hazardous": "Opasna"
+    }
+  },
   "reviews": {
     "title": "Što kažu naši gosti",
     "subtitle": "Provjerene recenzije s Airbnb-a i Booking.com-a",
