@@ -7,6 +7,8 @@ import ApartmentBookingSidebar from '@/components/ApartmentBookingSidebar';
 import { ALL_AMENITIES } from '@/lib/amenities';
 import { Users, BedDouble, Bath, Eye, ParkingCircle, Wind, Maximize2, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { headers } from 'next/headers';
+import { translateContent } from '@/lib/translateContent';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +55,19 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
   const t  = await getTranslations({ locale, namespace: 'apartments' });
   const tc = await getTranslations({ locale, namespace: 'calendar' });
 
+  // Translate apartment dynamic content (tagline + description)
+  // Google auto-detects whatever language the owner typed them in
+  const headersList = await headers();
+  const host    = headersList.get('host') || 'localhost:3000';
+  const proto   = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const baseUrl = `${proto}://${host}`;
+
+  const rawTexts = [apt.tagline || '', apt.description || ''];
+  const [translatedTagline, translatedDescription] =
+    locale !== 'en'
+      ? await translateContent(rawTexts, locale, baseUrl)
+      : rawTexts;
+
   const rawWa = String(data.property?.whatsapp || '');
   const whatsapp = rawWa.replace(/[^0-9]/g, '') || '385984841330';
 
@@ -71,7 +86,7 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
           <div>
             <p className="text-sand-600 text-xs tracking-widest uppercase font-semibold mb-1">Baška, Island Krk · Croatia</p>
             <h1 className="font-serif text-4xl md:text-5xl text-stone-900 font-light">{apt.name}</h1>
-            <p className="text-stone-400 italic mt-2">{apt.tagline}</p>
+            <p className="text-stone-400 italic mt-2">{translatedTagline || apt.tagline}</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -97,7 +112,7 @@ export default async function ApartmentPage({ params }: { params: Promise<{ loca
 
           <div>
             <h2 className="font-serif text-3xl text-stone-900 mb-4">{t('aboutApartment')}</h2>
-            <p className="text-stone-600 leading-relaxed">{apt.description || 'No description yet.'}</p>
+            <p className="text-stone-600 leading-relaxed">{translatedDescription || apt.description || 'No description yet.'}</p>
           </div>
 
           {apt.amenities?.length > 0 && (

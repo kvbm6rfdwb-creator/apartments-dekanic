@@ -8,14 +8,14 @@ import Contact from '@/components/Contact';
 import WhyBookDirectly from '@/components/WhyBookDirectly';
 import Weather from '@/components/WeatherSimple';
 import { setRequestLocale } from 'next-intl/server';
-
 import { routing } from '@/routing';
+import { headers } from 'next/headers';
+import { translateContent } from '@/lib/translateContent';
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
 }
 
-// Force dynamic so Next.js always reads the latest apartments.json from disk
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -23,7 +23,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
 
-  // Read file at request time — not statically bundled
   let site: any = {};
   let data: any = null;
   let sections: Array<{ id: string; enabled: boolean }> = [
@@ -40,7 +39,24 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     sections = data.site?.sections || sections;
   } catch {}
 
-  const enabled = sections.filter(s => s.enabled).map(s => s.id);
+  // Translate dynamic hero content from whatever language the owner typed it in
+  const headersList = await headers();
+  const host   = headersList.get('host') || 'localhost:3000';
+  const proto  = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const baseUrl = `${proto}://${host}`;
+
+  const rawTexts = [
+    site.heroTitle    || '',
+    site.heroSubtitle || '',
+    site.heroButtonText || '',
+  ];
+
+  const [translatedTitle, translatedSubtitle, translatedButton] =
+    locale !== 'en'
+      ? await translateContent(rawTexts, locale, baseUrl)
+      : rawTexts;
+
+  const enabled = sections.filter((s: any) => s.enabled).map((s: any) => s.id);
 
   return (
     <>
@@ -50,9 +66,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Hero
               key="hero"
               heroImage={site.heroImage}
-              heroTitle={site.heroTitle}
-              heroSubtitle={site.heroSubtitle}
-              heroButtonText={site.heroButtonText}
+              heroTitle={translatedTitle || site.heroTitle}
+              heroSubtitle={translatedSubtitle || site.heroSubtitle}
+              heroButtonText={translatedButton || site.heroButtonText}
             />
           );
         }
