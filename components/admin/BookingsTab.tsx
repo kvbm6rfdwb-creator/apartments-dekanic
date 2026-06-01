@@ -18,7 +18,8 @@ interface Booking {
   notes: string;
 }
 interface Apartment { id: string; name: string; ical?: Record<string, string>; pricing?: any; }
-interface BlockedRange { start: string; end: string; source: 'airbnb' | 'booking' | 'ical'; }
+// source must match CellInfo type: 'airbnb' | 'booking' | 'private'
+interface BlockedRange { start: string; end: string; source: 'airbnb' | 'booking' | 'private'; }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 function toISO(d: Date) { return d.toISOString().slice(0, 10); }
@@ -122,7 +123,6 @@ function AddReservationDrawer({
     guests: 2, status: 'confirmed', source: 'Direct', totalPrice: 0, notes: '',
   });
 
-  // Reset when opened
   useEffect(() => {
     if (open) {
       const ci = initialCheckIn || today;
@@ -169,7 +169,6 @@ function AddReservationDrawer({
     <div className="fixed inset-0 z-50 flex justify-end" style={{ backdropFilter: 'blur(2px)', background: 'rgba(0,0,0,0.25)' }}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="relative w-full max-w-md bg-white h-full flex flex-col shadow-2xl overflow-y-auto">
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100">
           <div>
             <h2 className="font-bold text-stone-900 text-lg">New Reservation</h2>
@@ -179,7 +178,6 @@ function AddReservationDrawer({
         </div>
 
         <div className="flex-1 px-6 py-5 space-y-5">
-          {/* Guest name — the one truly required field */}
           <div>
             <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Guest name *</label>
             <input autoFocus value={form.guestName || ''} onChange={e => set('guestName', e.target.value)}
@@ -187,7 +185,6 @@ function AddReservationDrawer({
               className="w-full px-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-stone-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-sand-400 focus:bg-white transition-all" />
           </div>
 
-          {/* Apartment */}
           <div>
             <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Apartment</label>
             <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(apartments.length, 3)}, 1fr)` }}>
@@ -202,7 +199,6 @@ function AddReservationDrawer({
             </div>
           </div>
 
-          {/* Dates */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Check-in</label>
@@ -222,7 +218,6 @@ function AddReservationDrawer({
             </div>
           </div>
 
-          {/* Source */}
           <div>
             <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Source</label>
             <div className="flex flex-wrap gap-2">
@@ -235,7 +230,6 @@ function AddReservationDrawer({
             </div>
           </div>
 
-          {/* Status */}
           <div>
             <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Status</label>
             <div className="flex gap-2">
@@ -252,7 +246,6 @@ function AddReservationDrawer({
             </div>
           </div>
 
-          {/* Optional fields — collapsed */}
           <details className="group">
             <summary className="text-xs font-bold text-stone-400 uppercase tracking-widest cursor-pointer select-none hover:text-stone-600 list-none flex items-center gap-1.5">
               <span className="group-open:rotate-90 transition-transform inline-block">›</span> Optional details
@@ -296,7 +289,6 @@ function AddReservationDrawer({
           </details>
         </div>
 
-        {/* Footer */}
         <div className="px-6 py-4 border-t border-stone-100 bg-stone-50 flex gap-3">
           <button onClick={onClose}
             className="flex-1 py-3 rounded-xl border border-stone-200 text-stone-600 text-sm font-semibold hover:bg-stone-100 transition-all">Cancel</button>
@@ -326,15 +318,12 @@ function FullCalendar({
   const year = base.getFullYear();
   const month = base.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7; // Mon-first
+  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
   const todayStr = toISO(today);
 
-  // Build a map: dateStr → Map<aptId, { type, booking? }>
   type CellInfo = { type: 'private' | 'airbnb' | 'booking' | 'free'; booking?: Booking };
   const cellMap = useMemo(() => {
     const map: Record<string, Record<string, CellInfo>> = {};
-
-    // Walk every day in visible month (+ neighbours for safety)
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
@@ -343,23 +332,19 @@ function FullCalendar({
       for (const apt of apartments) map[ds][apt.id] = { type: 'free' };
     }
 
-    // Mark private bookings
     for (const b of bookings) {
       if (!b.checkIn || !b.checkOut || b.status === 'cancelled') continue;
       const sk = sourceKey(b.source);
-      const type = sk === 'airbnb' ? 'airbnb' : sk === 'booking' ? 'booking' : 'private';
+      const type: CellInfo['type'] = sk === 'airbnb' ? 'airbnb' : sk === 'booking' ? 'booking' : 'private';
       let cur = new Date(b.checkIn);
       const out = new Date(b.checkOut);
       while (cur < out) {
         const ds = toISO(cur);
-        if (map[ds] && map[ds][b.apartment] !== undefined) {
-          map[ds][b.apartment] = { type, booking: b };
-        }
+        if (map[ds]?.[b.apartment] !== undefined) map[ds][b.apartment] = { type, booking: b };
         cur.setDate(cur.getDate() + 1);
       }
     }
 
-    // Mark iCal blocked ranges
     for (const apt of apartments) {
       const ranges = blockedByApt[apt.id] || [];
       for (const r of ranges) {
@@ -367,9 +352,8 @@ function FullCalendar({
         const out = new Date(r.end);
         while (cur < out) {
           const ds = toISO(cur);
-          if (map[ds] && (map[ds][apt.id]?.type === 'free')) {
-            map[ds][apt.id] = { type: r.source };
-          }
+          // r.source is now typed as 'airbnb' | 'booking' | 'private' — matches CellInfo
+          if (map[ds]?.[apt.id]?.type === 'free') map[ds][apt.id] = { type: r.source };
           cur.setDate(cur.getDate() + 1);
         }
       }
@@ -390,7 +374,6 @@ function FullCalendar({
 
   return (
     <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
-      {/* Month nav */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-stone-100">
         <button onClick={() => setMonthOffset(v => v - 1)}
           className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-all">
@@ -406,17 +389,12 @@ function FullCalendar({
         </button>
       </div>
 
-      {/* Apartment rows */}
       <div className="overflow-x-auto">
         <div style={{ minWidth: `${32 + 7 * (daysInMonth + firstDow)}px` }}>
-          {/* Header row: apartment labels + day numbers */}
           <div className="flex border-b border-stone-100">
             <div className="w-32 flex-shrink-0 px-3 py-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest">Apartment</div>
             <div className="flex-1 grid" style={{ gridTemplateColumns: `repeat(${daysInMonth + firstDow}, minmax(0, 1fr))` }}>
-              {/* Empty cells for days before month start */}
-              {Array.from({ length: firstDow }).map((_, i) => (
-                <div key={`e${i}`} className="h-8" />
-              ))}
+              {Array.from({ length: firstDow }).map((_, i) => <div key={`e${i}`} className="h-8" />)}
               {Array.from({ length: daysInMonth }).map((_, i) => {
                 const day = i + 1;
                 const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -427,16 +405,15 @@ function FullCalendar({
                     isToday ? 'text-sand-700' : dow >= 5 ? 'text-stone-400' : 'text-stone-500'
                   }`}>
                     <span>{DOW[dow].slice(0, 1)}</span>
-                    <span className={`${isToday ? 'w-5 h-5 rounded-full bg-sand-400 text-white flex items-center justify-center text-[9px]' : ''}`}>{day}</span>
+                    <span className={isToday ? 'w-5 h-5 rounded-full bg-sand-400 text-white flex items-center justify-center text-[9px]' : ''}>{day}</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* One row per apartment */}
           {apartments.map((apt, aptIdx) => (
-            <div key={apt.id} className={`flex border-b last:border-b-0 ${ aptIdx % 2 === 0 ? 'bg-white' : 'bg-stone-50/50' }`}>
+            <div key={apt.id} className={`flex border-b last:border-b-0 ${aptIdx % 2 === 0 ? 'bg-white' : 'bg-stone-50/50'}`}>
               <div className="w-32 flex-shrink-0 px-3 py-2 flex items-center">
                 <span className="text-xs font-semibold text-stone-700 truncate">{apt.name}</span>
               </div>
@@ -445,16 +422,18 @@ function FullCalendar({
                 {Array.from({ length: daysInMonth }).map((_, i) => {
                   const day = i + 1;
                   const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                  const cell = cellMap[ds]?.[apt.id] ?? { type: 'free' };
+                  const cell = cellMap[ds]?.[apt.id] ?? { type: 'free' as const };
                   const isToday = ds === todayStr;
                   return (
                     <div
                       key={day}
-                      title={cell.booking ? `${cell.booking.guestName} · ${nights(cell.booking.checkIn, cell.booking.checkOut)}n` : cell.type !== 'free' ? `Blocked (${cell.type})` : `Add reservation`}
+                      title={
+                        cell.booking
+                          ? `${cell.booking.guestName} · ${nights(cell.booking.checkIn, cell.booking.checkOut)}n`
+                          : cell.type !== 'free' ? `Blocked (${cell.type})` : 'Add reservation'
+                      }
                       onClick={() => cell.type === 'free' && onDayClick(ds, apt.id)}
-                      className={`h-6 rounded-sm transition-all ${
-                        cellStyle(cell.type)
-                      } ${isToday ? 'ring-1 ring-offset-0 ring-sand-400' : ''}`}
+                      className={`h-6 rounded-sm transition-all ${cellStyle(cell.type)} ${isToday ? 'ring-1 ring-offset-0 ring-sand-400' : ''}`}
                     />
                   );
                 })}
@@ -464,7 +443,6 @@ function FullCalendar({
         </div>
       </div>
 
-      {/* Legend */}
       <div className="flex items-center gap-4 px-5 py-3 border-t border-stone-100 bg-stone-50">
         <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Legend:</span>
         {Object.entries(SOURCE_COLORS).map(([k, v]) => (
@@ -480,7 +458,7 @@ function FullCalendar({
   );
 }
 
-// ─── Upcoming Bookings List ────────────────────────────────────────────────────
+// ─── Bookings List ─────────────────────────────────────────────────────────────
 function BookingsList({
   bookings, apartments, onDelete, onUpdate
 }: {
@@ -504,9 +482,8 @@ function BookingsList({
     const col = SOURCE_COLORS[sk];
     const isPast = b.checkOut < todayStr;
     return (
-      <div className={`border rounded-2xl p-4 transition-all ${ isPast ? 'bg-stone-50 border-stone-100 opacity-60' : 'bg-white border-stone-200 shadow-sm' }`}>
+      <div className={`border rounded-2xl p-4 transition-all ${isPast ? 'bg-stone-50 border-stone-100 opacity-60' : 'bg-white border-stone-200 shadow-sm'}`}>
         <div className="flex items-start gap-3">
-          {/* Avatar */}
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center text-sm font-bold text-stone-600 flex-shrink-0">
             {(b.guestName || '?').charAt(0).toUpperCase()}
           </div>
@@ -530,7 +507,6 @@ function BookingsList({
             {b.guestPhone && <p className="text-xs text-stone-400 mt-0.5">{b.guestPhone}{b.guestEmail ? ` · ${b.guestEmail}` : ''}</p>}
             {b.notes && <p className="text-xs text-stone-400 mt-1 italic">{b.notes}</p>}
           </div>
-          {/* Status toggle + delete */}
           <div className="flex items-center gap-1 flex-shrink-0">
             <select value={b.status} onChange={e => onUpdate(b.id, 'status', e.target.value)}
               className={`px-2 py-1 rounded-lg border text-[10px] font-bold focus:outline-none ${
@@ -555,7 +531,6 @@ function BookingsList({
 
   return (
     <div className="space-y-5">
-      {/* Upcoming */}
       <div>
         <h3 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3">Upcoming & Active · {upcoming.length}</h3>
         {upcoming.length === 0 ? (
@@ -567,8 +542,6 @@ function BookingsList({
           <div className="space-y-2">{upcoming.map(b => <BookingCard key={b.id} b={b} />)}</div>
         )}
       </div>
-
-      {/* Past */}
       {past.length > 0 && (
         <details>
           <summary className="text-xs font-bold text-stone-400 uppercase tracking-widest cursor-pointer list-none flex items-center gap-1.5 select-none hover:text-stone-500">
@@ -591,7 +564,6 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
   const [drawerCheckIn, setDrawerCheckIn] = useState<string | undefined>();
   const [drawerAptId, setDrawerAptId] = useState<string | undefined>();
 
-  // Fetch iCal blocked ranges
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
@@ -602,17 +574,16 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
           const r = await fetch(`/api/calendar?apt=${encodeURIComponent(apt.id)}`);
           if (!r.ok) continue;
           const d = await r.json();
-          // API returns { blocked: [{start, end}] }
           if (Array.isArray(d.blocked)) {
             result[apt.id] = d.blocked
               .filter((b: any) => b?.start && b?.end)
-              .map((b: any) => {
-                // Determine source from URL key names if possible
+              .map((b: any): BlockedRange => {
                 const keys = Object.keys(apt.ical || {});
-                const airbnbKey = keys.find(k => k.toLowerCase().includes('airbnb'));
-                const bookingKey = keys.find(k => k.toLowerCase().includes('booking'));
-                const src = airbnbKey ? 'airbnb' : bookingKey ? 'booking' : 'ical';
-                return { start: b.start, end: b.end, source: src } as BlockedRange;
+                const hasAirbnb = keys.some(k => k.toLowerCase().includes('airbnb'));
+                const hasBooking = keys.some(k => k.toLowerCase().includes('booking'));
+                // Map to CellInfo-compatible types only
+                const source: BlockedRange['source'] = hasAirbnb ? 'airbnb' : hasBooking ? 'booking' : 'private';
+                return { start: b.start, end: b.end, source };
               });
           }
         } catch {}
@@ -639,9 +610,7 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
   }, [setData]);
 
   const handleDayClick = (date: string, aptId: string) => {
-    setDrawerCheckIn(date);
-    setDrawerAptId(aptId);
-    setDrawerOpen(true);
+    setDrawerCheckIn(date); setDrawerAptId(aptId); setDrawerOpen(true);
   };
 
   const confirmed = bookings.filter(b => b.status === 'confirmed').length;
@@ -651,7 +620,6 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
 
   return (
     <div className="space-y-5">
-      {/* KPI bar */}
       <div className="grid grid-cols-4 gap-3">
         {[
           { label: 'Total', value: bookings.length, color: 'text-stone-900' },
@@ -666,7 +634,6 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
         ))}
       </div>
 
-      {/* Action bar */}
       <div className="flex items-center gap-2">
         <button onClick={() => { setDrawerCheckIn(undefined); setDrawerAptId(undefined); setDrawerOpen(true); }}
           className="flex items-center gap-2 px-4 py-2.5 bg-stone-900 text-white text-sm font-bold rounded-xl hover:bg-stone-800 transition-all">
@@ -679,23 +646,10 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
         </button>
       </div>
 
-      {/* Main calendar */}
-      <FullCalendar
-        bookings={bookings}
-        apartments={apartments}
-        blockedByApt={blockedByApt}
-        onDayClick={handleDayClick}
-      />
+      <FullCalendar bookings={bookings} apartments={apartments} blockedByApt={blockedByApt} onDayClick={handleDayClick} />
 
-      {/* Bookings list */}
-      <BookingsList
-        bookings={bookings}
-        apartments={apartments}
-        onDelete={deleteBooking}
-        onUpdate={updateBooking}
-      />
+      <BookingsList bookings={bookings} apartments={apartments} onDelete={deleteBooking} onUpdate={updateBooking} />
 
-      {/* Drawer */}
       <AddReservationDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
