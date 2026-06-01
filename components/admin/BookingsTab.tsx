@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Component } from 'react';
 import { Calendar, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Download } from 'lucide-react';
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -72,9 +72,9 @@ function calcPrice(apt: any, checkIn: string, checkOut: string): number {
     const d = Number(dateStr.slice(8, 10));
     const md = `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     for (const s of seasons) {
-      if (s.from <= s.to) { // normal range
+      if (s.from <= s.to) {
         if (md >= s.from && md <= s.to) return s;
-      } else { // wraps year end
+      } else {
         if (md >= s.from || md <= s.to) return s;
       }
     }
@@ -93,6 +93,32 @@ function calcPrice(apt: any, checkIn: string, checkOut: string): number {
   return total;
 }
 
+// Error boundary to prevent the whole admin from crashing
+class TabErrorBoundary extends Component<{ children: React.ReactNode }, { error: string | null }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(err: any) {
+    return { error: err?.message || 'Unknown error' };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+          <p className="font-semibold text-red-700 mb-1">Something went wrong loading this tab</p>
+          <p className="text-xs text-red-500 font-mono">{this.state.error}</p>
+          <button onClick={() => this.setState({ error: null })}
+            className="mt-4 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-xl transition-all">
+            Try again
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // Mini occupancy calendar
 function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartments: any[] }) {
   const [monthOffset, setMonthOffset] = useState(0);
@@ -104,36 +130,34 @@ function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartmen
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
-  // Fetch blocked dates from external calendars
+  // Fetch blocked dates — one request per apartment, not per iCal URL
   useEffect(() => {
+    let cancelled = false;
     const fetchBlockedDates = async () => {
-      try {
-        const allBlocked: string[] = [];
-        for (const apt of apartments) {
-          if (apt.ical) {
-            const urls = Object.values(apt.ical as Record<string, string>);
-            for (const url of urls) {
-              try {
-                const response = await fetch(`/api/calendar?apt=${apt.id}`);
-                if (response.ok) {
-                  const data = await response.json();
-                  allBlocked.push(...data.blocked);
-                }
-              } catch {}
-            }
+      const allBlocked: string[] = [];
+      for (const apt of apartments) {
+        if (!apt.id || !apt.ical || Object.keys(apt.ical).length === 0) continue;
+        try {
+          const response = await fetch(`/api/calendar?apt=${encodeURIComponent(apt.id)}`);
+          if (!response.ok) continue;
+          const data = await response.json();
+          // data.blocked is an array of ISO date strings "YYYY-MM-DD"
+          if (Array.isArray(data.blocked)) {
+            allBlocked.push(...data.blocked.filter((d: any) => typeof d === 'string'));
           }
+        } catch {
+          // silently ignore — calendar is supplementary info
         }
-        setBlockedDates(allBlocked);
-      } catch {}
+      }
+      if (!cancelled) setBlockedDates(allBlocked);
     };
-
     fetchBlockedDates();
+    return () => { cancelled = true; };
   }, [apartments]);
 
   const occupied = useMemo(() => {
     const map = new Map<string, number>();
-    
-    // Mark booking dates
+
     bookings.forEach(b => {
       if (!b.checkIn || !b.checkOut || b.status === 'cancelled') return;
       const start = new Date(b.checkIn);
@@ -145,20 +169,14 @@ function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartmen
         map.set(dateStr, (map.get(dateStr) || 0) + 1);
       }
     });
-    
-    // Mark blocked dates from external calendars
-    blockedDates.forEach(blocked => {
-      const [start, end] = blocked.split(',').map(d => d.trim());
-      if (start && end) {
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-          const dateStr = d.toISOString().slice(0, 10);
-          map.set(dateStr, (map.get(dateStr) || 0) + 1);
-        }
+
+    // blockedDates are individual "YYYY-MM-DD" strings from the API
+    blockedDates.forEach(dateStr => {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        map.set(dateStr, (map.get(dateStr) || 0) + 1);
       }
     });
-    
+
     return map;
   }, [bookings, blockedDates]);
 
@@ -177,7 +195,7 @@ function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartmen
         </button>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center mb-1">
-        {['M','T','W','T','F','S','S'].map(d => <span key={d} className="text-[9px] font-bold text-stone-300">{d}</span>)}
+        {['M','T','W','T','F','S','S'].map((d, i) => <span key={i} className="text-[9px] font-bold text-stone-300">{d}</span>)}
       </div>
       <div className="grid grid-cols-7 gap-1">
         {Array.from({ length: emptyStart }).map((_, i) => <div key={`e${i}`} />)}
@@ -204,7 +222,7 @@ function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartmen
   );
 }
 
-export default function BookingsTab({ data, setData }: { data: any; setData: any }) {
+function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterSource, setFilterSource] = useState<string>('all');
   const bookings: any[] = data.bookings || [];
@@ -219,6 +237,30 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
       bk[bIdx] = { ...bk[bIdx], [key]: value };
       return { ...d, bookings: bk };
     });
+  };
+
+  const addBooking = () => {
+    const firstApt = apartments[0];
+    setData((d: any) => ({
+      ...d,
+      bookings: [
+        ...(d.bookings || []),
+        {
+          id: `booking_${Date.now()}`,
+          guestName: '',
+          guestEmail: '',
+          guestPhone: '',
+          apartment: firstApt?.id || '',
+          checkIn: '',
+          checkOut: '',
+          guests: 2,
+          status: 'confirmed',
+          source: 'Direct',
+          totalPrice: 0,
+          notes: '',
+        },
+      ],
+    }));
   };
 
   const filteredBookings = bookings
@@ -248,7 +290,7 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
       {/* Occupancy calendar */}
       <OccupancyCalendar bookings={bookings} apartments={apartments} />
 
-      {/* Filters */}
+      {/* Filters + Add */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Filters:</span>
         <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
@@ -273,9 +315,14 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
           <button onClick={() => { setFilterStatus('all'); setFilterSource('all'); }}
             className="text-[11px] text-stone-400 hover:text-stone-700 underline">Clear</button>
         )}
+        <div className="flex-1" />
         <button onClick={() => exportBookingsCSV(filteredBookings)}
-          className="flex items-center gap-1.5 px-3 py-2 bg-sand-600 text-white text-xs font-semibold rounded-xl hover:bg-sand-700 transition-all">
+          className="flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-xl transition-all">
           <Download size={13} /> Export CSV
+        </button>
+        <button onClick={addBooking}
+          className="flex items-center gap-1.5 px-3 py-2 bg-sand-600 text-white text-xs font-semibold rounded-xl hover:bg-sand-700 transition-all">
+          + Add Reservation
         </button>
       </div>
 
@@ -284,13 +331,11 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
           Guest info + reservation details. Price auto-calculates from apartment rates when dates are set.
         </p>
 
-        
-        {/* Bookings list */}
         <div className="space-y-3">
           {filteredBookings.length === 0 && (
             <div className="text-center py-10 border-2 border-dashed border-stone-200 rounded-2xl text-stone-400 text-xs">
-              <p className="font-semibold text-sm mb-1">No reservations match</p>
-              <p>Try adjusting the filters or add a new reservation.</p>
+              <p className="font-semibold text-sm mb-1">No reservations yet</p>
+              <p>Click "Add Reservation" above to create one.</p>
             </div>
           )}
           {filteredBookings.map((booking: any) => {
@@ -299,15 +344,15 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
             const apt = apartments.find((a: any) => a.id === booking.apartment);
             const autoPrice = apt && booking.checkIn && booking.checkOut ? calcPrice(apt, booking.checkIn, booking.checkOut) : 0;
             return (
-              <div key={booking.id} className="bg-stone-50 border border-stone-100 rounded-2xl p-4 space-y-3">
+              <div key={booking.id || realIdx} className="bg-stone-50 border border-stone-100 rounded-2xl p-4 space-y-3">
                 {/* Row 1: guest + status + delete */}
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sand-100 to-sand-200 flex items-center justify-center text-sm font-bold text-sand-700 flex-shrink-0">
                     {(booking.guestName || '?').charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 grid grid-cols-[1fr_120px] gap-2">
-                    <Input value={booking.guestName} onChange={v => updateBooking(realIdx, 'guestName', v)} placeholder="Guest full name" />
-                    <select value={booking.status} onChange={e => updateBooking(realIdx, 'status', e.target.value)}
+                    <Input value={booking.guestName || ''} onChange={v => updateBooking(realIdx, 'guestName', v)} placeholder="Guest full name" />
+                    <select value={booking.status || 'confirmed'} onChange={e => updateBooking(realIdx, 'status', e.target.value)}
                       className={`w-full px-2 py-2 rounded-xl border text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sand-200 ${
                         booking.status === 'confirmed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                         booking.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
@@ -328,32 +373,29 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
                 <div className="grid grid-cols-[1fr_1fr_1fr_60px] gap-2">
                   <div>
                     <Label>Check-in</Label>
-                    <Input type="date" value={booking.checkIn} onChange={v => {
+                    <Input type="date" value={booking.checkIn || ''} onChange={v => {
                       updateBooking(realIdx, 'checkIn', v);
                       if (v && booking.checkOut && apt) {
-                        const price = calcPrice(apt, v, booking.checkOut);
-                        updateBooking(realIdx, 'totalPrice', price);
+                        updateBooking(realIdx, 'totalPrice', calcPrice(apt, v, booking.checkOut));
                       }
                     }} />
                   </div>
                   <div>
                     <Label>Check-out</Label>
-                    <Input type="date" value={booking.checkOut} onChange={v => {
+                    <Input type="date" value={booking.checkOut || ''} onChange={v => {
                       updateBooking(realIdx, 'checkOut', v);
                       if (booking.checkIn && v && apt) {
-                        const price = calcPrice(apt, booking.checkIn, v);
-                        updateBooking(realIdx, 'totalPrice', price);
+                        updateBooking(realIdx, 'totalPrice', calcPrice(apt, booking.checkIn, v));
                       }
                     }} />
                   </div>
                   <div>
                     <Label>Apartment</Label>
-                    <select value={booking.apartment} onChange={e => {
+                    <select value={booking.apartment || ''} onChange={e => {
                       updateBooking(realIdx, 'apartment', e.target.value);
                       const newApt = apartments.find((a: any) => a.id === e.target.value);
                       if (booking.checkIn && booking.checkOut && newApt) {
-                        const price = calcPrice(newApt, booking.checkIn, booking.checkOut);
-                        updateBooking(realIdx, 'totalPrice', price);
+                        updateBooking(realIdx, 'totalPrice', calcPrice(newApt, booking.checkIn, booking.checkOut));
                       }
                     }}
                       className="w-full px-2 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-200">
@@ -362,7 +404,7 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
                   </div>
                   <div>
                     <Label>Guests</Label>
-                    <Input type="number" value={booking.guests} onChange={v => updateBooking(realIdx, 'guests', Number(v))} placeholder="2" />
+                    <Input type="number" value={booking.guests ?? ''} onChange={v => updateBooking(realIdx, 'guests', Number(v))} placeholder="2" />
                   </div>
                 </div>
 
@@ -370,22 +412,22 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
                 <div className="grid grid-cols-[1fr_1fr_100px_100px] gap-2">
                   <div>
                     <Label>Email</Label>
-                    <Input type="email" value={booking.guestEmail} onChange={v => updateBooking(realIdx, 'guestEmail', v)} placeholder="guest@email.com" />
+                    <Input type="email" value={booking.guestEmail || ''} onChange={v => updateBooking(realIdx, 'guestEmail', v)} placeholder="guest@email.com" />
                   </div>
                   <div>
                     <Label>Phone</Label>
-                    <Input value={booking.guestPhone} onChange={v => updateBooking(realIdx, 'guestPhone', v)} placeholder="+385 91 ..." />
+                    <Input value={booking.guestPhone || ''} onChange={v => updateBooking(realIdx, 'guestPhone', v)} placeholder="+385 91 ..." />
                   </div>
                   <div>
                     <Label>Source</Label>
-                    <select value={booking.source} onChange={e => updateBooking(realIdx, 'source', e.target.value)}
+                    <select value={booking.source || 'Direct'} onChange={e => updateBooking(realIdx, 'source', e.target.value)}
                       className="w-full px-2 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-200">
                       {['Direct','Phone','Email','Walk-in','Agency','Airbnb','Booking.com'].map(s => <option key={s}>{s}</option>)}
                     </select>
                   </div>
                   <div>
                     <Label>Total (€)</Label>
-                    <Input type="number" value={booking.totalPrice} onChange={v => updateBooking(realIdx, 'totalPrice', Number(v))} placeholder={String(autoPrice || 0)} />
+                    <Input type="number" value={booking.totalPrice ?? ''} onChange={v => updateBooking(realIdx, 'totalPrice', Number(v))} placeholder={String(autoPrice || 0)} />
                     {autoPrice > 0 && booking.totalPrice !== autoPrice && (
                       <p className="text-[10px] text-stone-400 mt-0.5">Auto: {fmt(autoPrice)}</p>
                     )}
@@ -396,7 +438,7 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
                 <div className="flex gap-2 items-start">
                   <div className="flex-1">
                     <Label>Internal notes</Label>
-                    <textarea value={booking.notes} onChange={e => updateBooking(realIdx, 'notes', e.target.value)}
+                    <textarea value={booking.notes || ''} onChange={e => updateBooking(realIdx, 'notes', e.target.value)}
                       rows={1} placeholder="Any notes (early check-in, extra bed, etc.)"
                       className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sand-200" />
                   </div>
@@ -413,5 +455,13 @@ export default function BookingsTab({ data, setData }: { data: any; setData: any
         </div>
       </Section>
     </div>
+  );
+}
+
+export default function BookingsTab({ data, setData }: { data: any; setData: any }) {
+  return (
+    <TabErrorBoundary>
+      <BookingsTabInner data={data} setData={setData} />
+    </TabErrorBoundary>
   );
 }
