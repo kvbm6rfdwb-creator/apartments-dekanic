@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartments",
+    "location": "Lage",
+    "contact": "Kontakt",
+    "bookNow": "Jetzt buchen"
+  },
+  "hero": {
+    "subtitle": "Direkt an der Adriaküste · Baška · Kroatien",
+    "cta": "Apartments entdecken"
+  },
   "weather": {
     "currentConditions": "Aktuelle Bedingungen",
     "temperature": "Temperatur",

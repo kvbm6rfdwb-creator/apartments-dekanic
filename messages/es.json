@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartamentos",
+    "location": "Ubicación",
+    "contact": "Contacto",
+    "bookNow": "Reservar"
+  },
+  "hero": {
+    "subtitle": "Directamente en la costa adriática · Baška · Croacia",
+    "cta": "Explorar los apartamentos"
+  },
   "weather": {
     "currentConditions": "Condiciones actuales",
     "temperature": "Temperatura",

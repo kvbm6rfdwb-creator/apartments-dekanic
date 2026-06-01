@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Appartements",
+    "location": "Emplacement",
+    "contact": "Contact",
+    "bookNow": "Réserver"
+  },
+  "hero": {
+    "subtitle": "Directement sur la côte adriatique · Baška · Croatie",
+    "cta": "Explorer les appartements"
+  },
   "weather": {
     "currentConditions": "Conditions actuelles",
     "temperature": "Température",

@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartmány",
+    "location": "Poloha",
+    "contact": "Kontakt",
+    "bookNow": "Rezervovat"
+  },
+  "hero": {
+    "subtitle": "Přímo na pobřeží Jadranu · Baška · Chorvatsko",
+    "cta": "Prozkoumat apartmány"
+  },
   "weather": {
     "currentConditions": "Aktuální podmínky",
     "temperature": "Teplota",

@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartmanok",
+    "location": "Helyszín",
+    "contact": "Kapcsolat",
+    "bookNow": "Foglalás"
+  },
+  "hero": {
+    "subtitle": "Közvetlenül az Adriai-tenger partján · Baška · Horvátország",
+    "cta": "Fedezze fel az apartmanokat"
+  },
   "weather": {
     "currentConditions": "Aktuális körülmények",
     "temperature": "Hőmérséklet",

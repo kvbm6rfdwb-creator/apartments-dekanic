@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartmaji",
+    "location": "Lokacija",
+    "contact": "Kontakt",
+    "bookNow": "Rezerviraj"
+  },
+  "hero": {
+    "subtitle": "Neposredno ob jadranski obali · Baška · Hrvaška",
+    "cta": "Razišči apartmaje"
+  },
   "weather": {
     "currentConditions": "Trenutne razmere",
     "temperature": "Temperatura",

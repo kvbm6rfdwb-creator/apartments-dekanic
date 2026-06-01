@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartamenty",
+    "location": "Lokalizacja",
+    "contact": "Kontakt",
+    "bookNow": "Zarezerwuj"
+  },
+  "hero": {
+    "subtitle": "Bezpośrednio na wybrzeżu adriatyckim · Baška · Chorwacja",
+    "cta": "Przeglądaj apartamenty"
+  },
   "weather": {
     "currentConditions": "Aktualne warunki",
     "temperature": "Temperatura",

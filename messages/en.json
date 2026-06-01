@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "apartments": "Apartments",
+    "location": "Location",
+    "contact": "Contact",
+    "bookNow": "Book Now"
+  },
+  "hero": {
+    "subtitle": "Directly on the Adriatic Coast · Baška · Croatia",
+    "cta": "Explore the Apartments"
+  },
   "weather": {
     "currentConditions": "Current Conditions",
     "temperature": "Temperature",
