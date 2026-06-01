@@ -1,64 +1,36 @@
 "use client";
-import React, { useState, useMemo, useEffect, Component } from 'react';
-import { Calendar, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Download } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useCallback, Component } from 'react';
+import { ChevronLeft, ChevronRight, X, Download, Plus, Check } from 'lucide-react';
 
-function Label({ children }: { children: React.ReactNode }) {
-  return <label className="block text-xs font-semibold text-stone-500 uppercase tracking-widest mb-1.5">{children}</label>;
+// ─── Types ───────────────────────────────────────────────────────────────────
+interface Booking {
+  id: string;
+  guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  apartment: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  source: string;
+  totalPrice: number;
+  notes: string;
 }
-function Input({ value, onChange, type = 'text', placeholder = '', step }: { value: string | number; onChange: (v: string) => void; type?: string; placeholder?: string; step?: string | number }) {
-  return (
-    <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} step={step}
-      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400 transition-all" />
-  );
-}
+interface Apartment { id: string; name: string; ical?: Record<string, string>; pricing?: any; }
+interface BlockedRange { start: string; end: string; source: 'airbnb' | 'booking' | 'ical'; }
 
-function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="bg-white rounded-2xl border border-stone-200" style={{overflow: "visible"}}>
-      <button onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-stone-50 transition-colors">
-        <h3 className="font-semibold text-stone-800">{title}</h3>
-        {open ? <ChevronUp size={16} className="text-stone-400" /> : <ChevronDown size={16} className="text-stone-400" />}
-      </button>
-      {open && <div className="px-6 pb-6 pt-2 space-y-4 border-t border-stone-100">{children}</div>}
-    </div>
-  );
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function toISO(d: Date) { return d.toISOString().slice(0, 10); }
+function addDays(dateStr: string, n: number) {
+  const d = new Date(dateStr); d.setDate(d.getDate() + n); return toISO(d);
 }
-
-function fmt(n: number) {
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-}
-
 function nights(ci: string, co: string) {
   return Math.max(0, Math.round((new Date(co).getTime() - new Date(ci).getTime()) / 86400000));
 }
-
-function exportBookingsCSV(bookings: any[]) {
-  const rows = [
-    ['Guest Name', 'Email', 'Phone', 'Apartment', 'Check-in', 'Check-out', 'Nights', 'Platform', 'Revenue', 'Status'].join(','),
-    ...bookings.map(b => [
-      `"${b.guestName || ''}"`,
-      `"${b.guestEmail || ''}"`,
-      `"${b.guestPhone || ''}"`,
-      `"${b.apartmentId || ''}"`,
-      b.checkIn,
-      b.checkOut,
-      nights(b.checkIn, b.checkOut),
-      b.platform || 'Direct',
-      b.totalRevenue || 0,
-      b.status || 'confirmed'
-    ].join(','))
-  ];
-  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `dekanic-bookings-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+function fmt(n: number) {
+  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
 }
-
 function calcPrice(apt: any, checkIn: string, checkOut: string): number {
   if (!checkIn || !checkOut) return 0;
   const n = nights(checkIn, checkOut);
@@ -66,219 +38,626 @@ function calcPrice(apt: any, checkIn: string, checkOut: string): number {
   const pricing = apt?.pricing || {};
   const defaultNightly = pricing.defaultNightly || 80;
   const seasons = pricing.seasons || [];
-
-  function seasonForDate(dateStr: string) {
-    const m = Number(dateStr.slice(5, 7));
-    const d = Number(dateStr.slice(8, 10));
-    const md = `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  function seasonForDate(ds: string) {
+    const md = ds.slice(5, 10);
     for (const s of seasons) {
-      if (s.from <= s.to) {
-        if (md >= s.from && md <= s.to) return s;
-      } else {
-        if (md >= s.from || md <= s.to) return s;
-      }
+      if (s.from <= s.to) { if (md >= s.from && md <= s.to) return s; }
+      else { if (md >= s.from || md <= s.to) return s; }
     }
     return null;
   }
-
   let total = 0;
   const start = new Date(checkIn);
   for (let i = 0; i < n; i++) {
-    const d = new Date(start);
-    d.setDate(d.getDate() + i);
-    const ds = d.toISOString().slice(0, 10);
-    const s = seasonForDate(ds);
+    const d = new Date(start); d.setDate(d.getDate() + i);
+    const s = seasonForDate(toISO(d));
     total += s ? s.nightly : defaultNightly;
   }
   return total;
 }
 
-// Error boundary to prevent the whole admin from crashing
+function exportCSV(bookings: Booking[]) {
+  const rows = [
+    ['Guest', 'Email', 'Phone', 'Apartment', 'Check-in', 'Check-out', 'Nights', 'Source', 'Total €', 'Status'].join(','),
+    ...bookings.map(b => [
+      `"${b.guestName || ''}"`, `"${b.guestEmail || ''}"`, `"${b.guestPhone || ''}"`,
+      `"${b.apartment || ''}"`, b.checkIn, b.checkOut,
+      nights(b.checkIn, b.checkOut), b.source || '', b.totalPrice || 0, b.status || ''
+    ].join(','))
+  ];
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url;
+  a.download = `dekanic-bookings-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// Source colour legend
+const SOURCE_COLORS: Record<string, { bg: string; text: string; dot: string; label: string }> = {
+  airbnb:  { bg: 'bg-rose-100',   text: 'text-rose-700',   dot: '#f43f5e', label: 'Airbnb' },
+  booking: { bg: 'bg-blue-100',   text: 'text-blue-700',   dot: '#3b82f6', label: 'Booking.com' },
+  direct:  { bg: 'bg-emerald-100', text: 'text-emerald-700', dot: '#10b981', label: 'Direct / Private' },
+};
+function sourceKey(s: string) {
+  const l = (s || '').toLowerCase();
+  if (l.includes('airbnb')) return 'airbnb';
+  if (l.includes('booking')) return 'booking';
+  return 'direct';
+}
+
+// ─── Error boundary ───────────────────────────────────────────────────────────
 class TabErrorBoundary extends Component<{ children: React.ReactNode }, { error: string | null }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { error: null };
-  }
-  static getDerivedStateFromError(err: any) {
-    return { error: err?.message || 'Unknown error' };
-  }
+  constructor(props: any) { super(props); this.state = { error: null }; }
+  static getDerivedStateFromError(e: any) { return { error: e?.message || 'Unknown error' }; }
   render() {
-    if (this.state.error) {
-      return (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-          <p className="font-semibold text-red-700 mb-1">Something went wrong loading this tab</p>
-          <p className="text-xs text-red-500 font-mono">{this.state.error}</p>
-          <button onClick={() => this.setState({ error: null })}
-            className="mt-4 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-xl transition-all">
-            Try again
-          </button>
-        </div>
-      );
-    }
+    if (this.state.error) return (
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+        <p className="font-semibold text-red-700 mb-1">Something went wrong</p>
+        <p className="text-xs text-red-400 font-mono mb-4">{this.state.error}</p>
+        <button onClick={() => this.setState({ error: null })}
+          className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-xl">Retry</button>
+      </div>
+    );
     return this.props.children;
   }
 }
 
-// Mini occupancy calendar
-function OccupancyCalendar({ bookings, apartments }: { bookings: any[]; apartments: any[] }) {
-  const [monthOffset, setMonthOffset] = useState(0);
-  const [blockedDates, setBlockedDates] = useState<string[]>([]);
-  const today = new Date();
-  const viewMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
-  const year = viewMonth.getFullYear();
-  const month = viewMonth.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
+// ─── Add-Reservation Drawer ────────────────────────────────────────────────────
+function AddReservationDrawer({
+  open, onClose, apartments, initialCheckIn, initialApartmentId, onSave
+}: {
+  open: boolean;
+  onClose: () => void;
+  apartments: Apartment[];
+  initialCheckIn?: string;
+  initialApartmentId?: string;
+  onSave: (b: Booking) => void;
+}) {
+  const today = toISO(new Date());
+  const [form, setForm] = useState<Partial<Booking>>({
+    guestName: '', guestEmail: '', guestPhone: '',
+    apartment: initialApartmentId || apartments[0]?.id || '',
+    checkIn: initialCheckIn || today,
+    checkOut: initialCheckIn ? addDays(initialCheckIn, 2) : addDays(today, 2),
+    guests: 2, status: 'confirmed', source: 'Direct', totalPrice: 0, notes: '',
+  });
 
-  // Fetch blocked dates — one request per apartment, not per iCal URL
+  // Reset when opened
   useEffect(() => {
-    let cancelled = false;
-    const fetchBlockedDates = async () => {
-      const allBlocked: string[] = [];
-      for (const apt of apartments) {
-        if (!apt.id || !apt.ical || Object.keys(apt.ical).length === 0) continue;
-        try {
-          const response = await fetch(`/api/calendar?apt=${encodeURIComponent(apt.id)}`);
-          if (!response.ok) continue;
-          const data = await response.json();
-          // data.blocked is an array of ISO date strings "YYYY-MM-DD"
-          if (Array.isArray(data.blocked)) {
-            allBlocked.push(...data.blocked.filter((d: any) => typeof d === 'string'));
-          }
-        } catch {
-          // silently ignore — calendar is supplementary info
-        }
-      }
-      if (!cancelled) setBlockedDates(allBlocked);
-    };
-    fetchBlockedDates();
-    return () => { cancelled = true; };
-  }, [apartments]);
+    if (open) {
+      const ci = initialCheckIn || today;
+      setForm({
+        guestName: '', guestEmail: '', guestPhone: '',
+        apartment: initialApartmentId || apartments[0]?.id || '',
+        checkIn: ci,
+        checkOut: addDays(ci, 2),
+        guests: 2, status: 'confirmed', source: 'Direct', totalPrice: 0, notes: '',
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, initialCheckIn, initialApartmentId]);
 
-  const occupied = useMemo(() => {
-    const map = new Map<string, number>();
+  const apt = apartments.find(a => a.id === form.apartment);
+  const autoPrice = apt && form.checkIn && form.checkOut ? calcPrice(apt, form.checkIn, form.checkOut) : 0;
+  const n = form.checkIn && form.checkOut ? nights(form.checkIn, form.checkOut) : 0;
 
-    bookings.forEach(b => {
-      if (!b.checkIn || !b.checkOut || b.status === 'cancelled') return;
-      const start = new Date(b.checkIn);
-      const n = nights(b.checkIn, b.checkOut);
-      for (let i = 0; i < n; i++) {
-        const d = new Date(start);
-        d.setDate(d.getDate() + i);
-        const dateStr = d.toISOString().slice(0, 10);
-        map.set(dateStr, (map.get(dateStr) || 0) + 1);
-      }
+  const set = (k: keyof Booking, v: any) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleSave = () => {
+    if (!form.guestName?.trim()) return;
+    if (!form.checkIn || !form.checkOut || n <= 0) return;
+    onSave({
+      id: `booking_${Date.now()}`,
+      guestName: form.guestName!,
+      guestEmail: form.guestEmail || '',
+      guestPhone: form.guestPhone || '',
+      apartment: form.apartment!,
+      checkIn: form.checkIn!,
+      checkOut: form.checkOut!,
+      guests: form.guests || 2,
+      status: form.status as Booking['status'] || 'confirmed',
+      source: form.source || 'Direct',
+      totalPrice: form.totalPrice || autoPrice,
+      notes: form.notes || '',
     });
+    onClose();
+  };
 
-    // blockedDates are individual "YYYY-MM-DD" strings from the API
-    blockedDates.forEach(dateStr => {
-      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        map.set(dateStr, (map.get(dateStr) || 0) + 1);
-      }
-    });
-
-    return map;
-  }, [bookings, blockedDates]);
-
-  const totalApts = apartments.length;
-  const emptyStart = (firstDayOfWeek + 6) % 7; // Monday-first
+  if (!open) return null;
 
   return (
-    <div className="bg-white rounded-2xl border border-stone-100 p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-      <div className="flex items-center justify-between mb-3">
-        <button onClick={() => setMonthOffset(v => v - 1)} className="text-stone-400 hover:text-stone-700">
-          <ChevronLeft size={16} />
-        </button>
-        <p className="text-xs font-bold text-stone-700">{viewMonth.toLocaleString('en', { month: 'long', year: 'numeric' })}</p>
-        <button onClick={() => setMonthOffset(v => v + 1)} className="text-stone-400 hover:text-stone-700">
-          <ChevronRight size={16} />
-        </button>
-      </div>
-      <div className="grid grid-cols-7 gap-1 text-center mb-1">
-        {['M','T','W','T','F','S','S'].map((d, i) => <span key={i} className="text-[9px] font-bold text-stone-300">{d}</span>)}
-      </div>
-      <div className="grid grid-cols-7 gap-1">
-        {Array.from({ length: emptyStart }).map((_, i) => <div key={`e${i}`} />)}
-        {Array.from({ length: daysInMonth }).map((_, i) => {
-          const day = i + 1;
-          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const count = occupied.get(dateStr) || 0;
-          const isToday = dateStr === today.toISOString().slice(0, 10);
-          const pct = totalApts > 0 ? count / totalApts : 0;
-          return (
-            <div key={day} className={`relative h-7 rounded-md flex items-center justify-center text-[10px] font-semibold ${isToday ? 'ring-1 ring-sand-400' : ''}`}
-              style={{ backgroundColor: pct === 0 ? '#f5f5f4' : pct >= 1 ? '#fecaca' : `rgba(251, 191, 36, ${pct})`, color: pct > 0.5 ? '#7f1d1d' : '#44403c' }}>
-              {day}
+    <div className="fixed inset-0 z-50 flex justify-end" style={{ backdropFilter: 'blur(2px)', background: 'rgba(0,0,0,0.25)' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="relative w-full max-w-md bg-white h-full flex flex-col shadow-2xl overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100">
+          <div>
+            <h2 className="font-bold text-stone-900 text-lg">New Reservation</h2>
+            {n > 0 && <p className="text-xs text-stone-400 mt-0.5">{n} night{n !== 1 ? 's' : ''}{autoPrice > 0 ? ` · ${fmt(autoPrice)}` : ''}</p>}
+          </div>
+          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-stone-400 hover:bg-stone-100"><X size={16} /></button>
+        </div>
+
+        <div className="flex-1 px-6 py-5 space-y-5">
+          {/* Guest name — the one truly required field */}
+          <div>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Guest name *</label>
+            <input autoFocus value={form.guestName || ''} onChange={e => set('guestName', e.target.value)}
+              placeholder="e.g. Ivan Horvat"
+              className="w-full px-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-stone-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-sand-400 focus:bg-white transition-all" />
+          </div>
+
+          {/* Apartment */}
+          <div>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Apartment</label>
+            <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(apartments.length, 3)}, 1fr)` }}>
+              {apartments.map(a => (
+                <button key={a.id} onClick={() => set('apartment', a.id)}
+                  className={`px-3 py-2.5 rounded-xl border text-xs font-semibold text-center transition-all ${
+                    form.apartment === a.id
+                      ? 'bg-stone-900 text-white border-stone-900'
+                      : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
+                  }`}>{a.name}</button>
+              ))}
             </div>
-          );
-        })}
-      </div>
-      <div className="flex items-center gap-3 mt-2 text-[10px] text-stone-400">
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-red-200" /> Full</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-200" /> Partial</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-stone-100" /> Free</span>
+          </div>
+
+          {/* Dates */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Check-in</label>
+              <input type="date" value={form.checkIn || ''}
+                onChange={e => {
+                  const ci = e.target.value;
+                  set('checkIn', ci);
+                  if (form.checkOut && ci >= form.checkOut) set('checkOut', addDays(ci, 1));
+                }}
+                className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Check-out</label>
+              <input type="date" value={form.checkOut || ''} min={form.checkIn ? addDays(form.checkIn, 1) : ''}
+                onChange={e => set('checkOut', e.target.value)}
+                className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+            </div>
+          </div>
+
+          {/* Source */}
+          <div>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Source</label>
+            <div className="flex flex-wrap gap-2">
+              {['Direct', 'Phone', 'Email', 'Airbnb', 'Booking.com', 'Agency', 'Walk-in'].map(s => (
+                <button key={s} onClick={() => set('source', s)}
+                  className={`px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${
+                    form.source === s ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
+                  }`}>{s}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Status</label>
+            <div className="flex gap-2">
+              {(['confirmed', 'pending', 'cancelled'] as const).map(s => (
+                <button key={s} onClick={() => set('status', s)}
+                  className={`flex-1 py-2 rounded-xl border text-xs font-bold capitalize transition-all ${
+                    form.status === s
+                      ? s === 'confirmed' ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
+                        : s === 'pending' ? 'bg-amber-100 text-amber-700 border-amber-300'
+                        : 'bg-red-100 text-red-600 border-red-300'
+                      : 'bg-white text-stone-400 border-stone-200 hover:border-stone-300'
+                  }`}>{s}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Optional fields — collapsed */}
+          <details className="group">
+            <summary className="text-xs font-bold text-stone-400 uppercase tracking-widest cursor-pointer select-none hover:text-stone-600 list-none flex items-center gap-1.5">
+              <span className="group-open:rotate-90 transition-transform inline-block">›</span> Optional details
+            </summary>
+            <div className="mt-4 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Email</label>
+                  <input type="email" value={form.guestEmail || ''} onChange={e => set('guestEmail', e.target.value)}
+                    placeholder="guest@email.com"
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Phone</label>
+                  <input value={form.guestPhone || ''} onChange={e => set('guestPhone', e.target.value)}
+                    placeholder="+385 91 ..."
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Guests</label>
+                  <input type="number" min={1} value={form.guests || ''} onChange={e => set('guests', Number(e.target.value))}
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Total price (€)</label>
+                  <input type="number" value={form.totalPrice || ''} onChange={e => set('totalPrice', Number(e.target.value))}
+                    placeholder={autoPrice > 0 ? String(autoPrice) : '0'}
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-400" />
+                  {autoPrice > 0 && <p className="text-[10px] text-stone-400 mt-0.5">Auto-calculated: {fmt(autoPrice)}</p>}
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Notes</label>
+                <textarea value={form.notes || ''} onChange={e => set('notes', e.target.value)} rows={2}
+                  placeholder="Early check-in, extra bed, etc."
+                  className="w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sand-400" />
+              </div>
+            </div>
+          </details>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-stone-100 bg-stone-50 flex gap-3">
+          <button onClick={onClose}
+            className="flex-1 py-3 rounded-xl border border-stone-200 text-stone-600 text-sm font-semibold hover:bg-stone-100 transition-all">Cancel</button>
+          <button onClick={handleSave}
+            disabled={!form.guestName?.trim() || n <= 0}
+            className="flex-1 py-3 rounded-xl bg-stone-900 text-white text-sm font-bold flex items-center justify-center gap-2 hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+            <Check size={15} /> Save Reservation
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [filterSource, setFilterSource] = useState<string>('all');
-  const bookings: any[] = data.bookings || [];
-  const apartments = data.apartments || [];
+// ─── Full Calendar ─────────────────────────────────────────────────────────────
+function FullCalendar({
+  bookings, apartments, blockedByApt, onDayClick
+}: {
+  bookings: Booking[];
+  apartments: Apartment[];
+  blockedByApt: Record<string, BlockedRange[]>;
+  onDayClick: (date: string, aptId: string) => void;
+}) {
+  const [monthOffset, setMonthOffset] = useState(0);
+  const today = new Date();
+  const base = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
+  const year = base.getFullYear();
+  const month = base.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7; // Mon-first
+  const todayStr = toISO(today);
 
-  const removeBooking = (bIdx: number) => {
-    setData((d: any) => ({ ...d, bookings: (d.bookings || []).filter((_: any, i: number) => i !== bIdx) }));
-  };
-  const updateBooking = (bIdx: number, key: string, value: any) => {
-    setData((d: any) => {
-      const bk = [...(d.bookings || [])];
-      bk[bIdx] = { ...bk[bIdx], [key]: value };
-      return { ...d, bookings: bk };
-    });
-  };
+  // Build a map: dateStr → Map<aptId, { type, booking? }>
+  type CellInfo = { type: 'private' | 'airbnb' | 'booking' | 'free'; booking?: Booking };
+  const cellMap = useMemo(() => {
+    const map: Record<string, Record<string, CellInfo>> = {};
 
-  const addBooking = () => {
-    const firstApt = apartments[0];
-    setData((d: any) => ({
-      ...d,
-      bookings: [
-        ...(d.bookings || []),
-        {
-          id: `booking_${Date.now()}`,
-          guestName: '',
-          guestEmail: '',
-          guestPhone: '',
-          apartment: firstApt?.id || '',
-          checkIn: '',
-          checkOut: '',
-          guests: 2,
-          status: 'confirmed',
-          source: 'Direct',
-          totalPrice: 0,
-          notes: '',
-        },
-      ],
-    }));
-  };
+    // Walk every day in visible month (+ neighbours for safety)
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const ds = toISO(new Date(d));
+      map[ds] = {};
+      for (const apt of apartments) map[ds][apt.id] = { type: 'free' };
+    }
 
-  const filteredBookings = bookings
-    .filter((b: any) => {
-      const statusOk = filterStatus === 'all' || b.status === filterStatus;
-      const sourceOk = filterSource === 'all' || (b.source || '').toLowerCase().includes(filterSource.toLowerCase());
-      return statusOk && sourceOk;
-    })
-    .sort((a: any, b: any) => (b.checkIn || '').localeCompare(a.checkIn || ''));
+    // Mark private bookings
+    for (const b of bookings) {
+      if (!b.checkIn || !b.checkOut || b.status === 'cancelled') continue;
+      const sk = sourceKey(b.source);
+      const type = sk === 'airbnb' ? 'airbnb' : sk === 'booking' ? 'booking' : 'private';
+      let cur = new Date(b.checkIn);
+      const out = new Date(b.checkOut);
+      while (cur < out) {
+        const ds = toISO(cur);
+        if (map[ds] && map[ds][b.apartment] !== undefined) {
+          map[ds][b.apartment] = { type, booking: b };
+        }
+        cur.setDate(cur.getDate() + 1);
+      }
+    }
+
+    // Mark iCal blocked ranges
+    for (const apt of apartments) {
+      const ranges = blockedByApt[apt.id] || [];
+      for (const r of ranges) {
+        let cur = new Date(r.start);
+        const out = new Date(r.end);
+        while (cur < out) {
+          const ds = toISO(cur);
+          if (map[ds] && (map[ds][apt.id]?.type === 'free')) {
+            map[ds][apt.id] = { type: r.source };
+          }
+          cur.setDate(cur.getDate() + 1);
+        }
+      }
+    }
+
+    return map;
+  }, [bookings, apartments, blockedByApt, year, month]);
+
+  const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function cellStyle(type: string): string {
+    if (type === 'airbnb')  return 'bg-rose-400';
+    if (type === 'booking') return 'bg-blue-400';
+    if (type === 'private') return 'bg-emerald-400';
+    return 'bg-stone-100 hover:bg-stone-200 cursor-pointer';
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Summary bar */}
-      <div className="grid grid-cols-3 gap-3">
+    <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+      {/* Month nav */}
+      <div className="flex items-center justify-between px-5 py-3 border-b border-stone-100">
+        <button onClick={() => setMonthOffset(v => v - 1)}
+          className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-all">
+          <ChevronLeft size={16} />
+        </button>
+        <div className="text-center">
+          <p className="font-bold text-stone-900">{MONTH_NAMES[month]} {year}</p>
+          <p className="text-[10px] text-stone-400">Click a free day to add a reservation</p>
+        </div>
+        <button onClick={() => setMonthOffset(v => v + 1)}
+          className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-all">
+          <ChevronRight size={16} />
+        </button>
+      </div>
+
+      {/* Apartment rows */}
+      <div className="overflow-x-auto">
+        <div style={{ minWidth: `${32 + 7 * (daysInMonth + firstDow)}px` }}>
+          {/* Header row: apartment labels + day numbers */}
+          <div className="flex border-b border-stone-100">
+            <div className="w-32 flex-shrink-0 px-3 py-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest">Apartment</div>
+            <div className="flex-1 grid" style={{ gridTemplateColumns: `repeat(${daysInMonth + firstDow}, minmax(0, 1fr))` }}>
+              {/* Empty cells for days before month start */}
+              {Array.from({ length: firstDow }).map((_, i) => (
+                <div key={`e${i}`} className="h-8" />
+              ))}
+              {Array.from({ length: daysInMonth }).map((_, i) => {
+                const day = i + 1;
+                const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = ds === todayStr;
+                const dow = (firstDow + i) % 7;
+                return (
+                  <div key={day} className={`h-8 flex flex-col items-center justify-center text-[10px] font-bold ${
+                    isToday ? 'text-sand-700' : dow >= 5 ? 'text-stone-400' : 'text-stone-500'
+                  }`}>
+                    <span>{DOW[dow].slice(0, 1)}</span>
+                    <span className={`${isToday ? 'w-5 h-5 rounded-full bg-sand-400 text-white flex items-center justify-center text-[9px]' : ''}`}>{day}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* One row per apartment */}
+          {apartments.map((apt, aptIdx) => (
+            <div key={apt.id} className={`flex border-b last:border-b-0 ${ aptIdx % 2 === 0 ? 'bg-white' : 'bg-stone-50/50' }`}>
+              <div className="w-32 flex-shrink-0 px-3 py-2 flex items-center">
+                <span className="text-xs font-semibold text-stone-700 truncate">{apt.name}</span>
+              </div>
+              <div className="flex-1 grid py-1 gap-0.5" style={{ gridTemplateColumns: `repeat(${daysInMonth + firstDow}, minmax(0, 1fr))` }}>
+                {Array.from({ length: firstDow }).map((_, i) => <div key={`e${i}`} />)}
+                {Array.from({ length: daysInMonth }).map((_, i) => {
+                  const day = i + 1;
+                  const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                  const cell = cellMap[ds]?.[apt.id] ?? { type: 'free' };
+                  const isToday = ds === todayStr;
+                  return (
+                    <div
+                      key={day}
+                      title={cell.booking ? `${cell.booking.guestName} · ${nights(cell.booking.checkIn, cell.booking.checkOut)}n` : cell.type !== 'free' ? `Blocked (${cell.type})` : `Add reservation`}
+                      onClick={() => cell.type === 'free' && onDayClick(ds, apt.id)}
+                      className={`h-6 rounded-sm transition-all ${
+                        cellStyle(cell.type)
+                      } ${isToday ? 'ring-1 ring-offset-0 ring-sand-400' : ''}`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="flex items-center gap-4 px-5 py-3 border-t border-stone-100 bg-stone-50">
+        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Legend:</span>
+        {Object.entries(SOURCE_COLORS).map(([k, v]) => (
+          <span key={k} className="flex items-center gap-1.5 text-[11px] text-stone-600">
+            <span className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: v.dot }} />{v.label}
+          </span>
+        ))}
+        <span className="flex items-center gap-1.5 text-[11px] text-stone-400">
+          <span className="w-3 h-3 rounded-sm bg-stone-200 flex-shrink-0" /> Free
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Upcoming Bookings List ────────────────────────────────────────────────────
+function BookingsList({
+  bookings, apartments, onDelete, onUpdate
+}: {
+  bookings: Booking[];
+  apartments: Apartment[];
+  onDelete: (id: string) => void;
+  onUpdate: (id: string, key: string, value: any) => void;
+}) {
+  const todayStr = toISO(new Date());
+  const upcoming = [...bookings]
+    .filter(b => b.checkOut >= todayStr || b.status === 'pending')
+    .sort((a, b) => (a.checkIn || '').localeCompare(b.checkIn || ''));
+  const past = [...bookings]
+    .filter(b => b.checkOut < todayStr && b.status !== 'pending')
+    .sort((a, b) => (b.checkIn || '').localeCompare(a.checkIn || ''));
+
+  function BookingCard({ b }: { b: Booking }) {
+    const apt = apartments.find(a => a.id === b.apartment);
+    const n = nights(b.checkIn, b.checkOut);
+    const sk = sourceKey(b.source);
+    const col = SOURCE_COLORS[sk];
+    const isPast = b.checkOut < todayStr;
+    return (
+      <div className={`border rounded-2xl p-4 transition-all ${ isPast ? 'bg-stone-50 border-stone-100 opacity-60' : 'bg-white border-stone-200 shadow-sm' }`}>
+        <div className="flex items-start gap-3">
+          {/* Avatar */}
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center text-sm font-bold text-stone-600 flex-shrink-0">
+            {(b.guestName || '?').charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-semibold text-stone-900 text-sm">{b.guestName || '(no name)'}</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${col.bg} ${col.text}`}>{b.source || 'Direct'}</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                b.status === 'confirmed' ? 'bg-emerald-50 text-emerald-700' :
+                b.status === 'pending' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-500'
+              }`}>{b.status}</span>
+            </div>
+            <div className="flex items-center gap-3 mt-1 text-xs text-stone-500 flex-wrap">
+              <span>{apt?.name || b.apartment}</span>
+              <span>·</span>
+              <span>{b.checkIn} → {b.checkOut}</span>
+              <span>·</span>
+              <span>{n} night{n !== 1 ? 's' : ''}</span>
+              {b.totalPrice > 0 && <><span>·</span><span className="font-semibold text-stone-700">{fmt(b.totalPrice)}</span></>}
+            </div>
+            {b.guestPhone && <p className="text-xs text-stone-400 mt-0.5">{b.guestPhone}{b.guestEmail ? ` · ${b.guestEmail}` : ''}</p>}
+            {b.notes && <p className="text-xs text-stone-400 mt-1 italic">{b.notes}</p>}
+          </div>
+          {/* Status toggle + delete */}
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <select value={b.status} onChange={e => onUpdate(b.id, 'status', e.target.value)}
+              className={`px-2 py-1 rounded-lg border text-[10px] font-bold focus:outline-none ${
+                b.status === 'confirmed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                b.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                'bg-red-50 text-red-500 border-red-200'
+              }`}>
+              <option value="confirmed">Confirmed</option>
+              <option value="pending">Pending</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button onClick={() => {
+              if (confirm(`Delete reservation for ${b.guestName}?`)) onDelete(b.id);
+            }} className="w-7 h-7 rounded-lg flex items-center justify-center text-stone-300 hover:text-red-500 hover:bg-red-50 transition-all">
+              <X size={13} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-5">
+      {/* Upcoming */}
+      <div>
+        <h3 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3">Upcoming & Active · {upcoming.length}</h3>
+        {upcoming.length === 0 ? (
+          <div className="text-center py-8 border-2 border-dashed border-stone-200 rounded-2xl">
+            <p className="text-stone-400 text-sm">No upcoming reservations</p>
+            <p className="text-stone-300 text-xs mt-1">Click a free day in the calendar above to add one</p>
+          </div>
+        ) : (
+          <div className="space-y-2">{upcoming.map(b => <BookingCard key={b.id} b={b} />)}</div>
+        )}
+      </div>
+
+      {/* Past */}
+      {past.length > 0 && (
+        <details>
+          <summary className="text-xs font-bold text-stone-400 uppercase tracking-widest cursor-pointer list-none flex items-center gap-1.5 select-none hover:text-stone-500">
+            <span>›</span> Past reservations · {past.length}
+          </summary>
+          <div className="mt-3 space-y-2">{past.map(b => <BookingCard key={b.id} b={b} />)}</div>
+        </details>
+      )}
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
+  const bookings: Booking[] = data.bookings || [];
+  const apartments: Apartment[] = data.apartments || [];
+
+  const [blockedByApt, setBlockedByApt] = useState<Record<string, BlockedRange[]>>({});
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerCheckIn, setDrawerCheckIn] = useState<string | undefined>();
+  const [drawerAptId, setDrawerAptId] = useState<string | undefined>();
+
+  // Fetch iCal blocked ranges
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      const result: Record<string, BlockedRange[]> = {};
+      for (const apt of apartments) {
+        if (!apt.id || !apt.ical || Object.keys(apt.ical).length === 0) continue;
+        try {
+          const r = await fetch(`/api/calendar?apt=${encodeURIComponent(apt.id)}`);
+          if (!r.ok) continue;
+          const d = await r.json();
+          // API returns { blocked: [{start, end}] }
+          if (Array.isArray(d.blocked)) {
+            result[apt.id] = d.blocked
+              .filter((b: any) => b?.start && b?.end)
+              .map((b: any) => {
+                // Determine source from URL key names if possible
+                const keys = Object.keys(apt.ical || {});
+                const airbnbKey = keys.find(k => k.toLowerCase().includes('airbnb'));
+                const bookingKey = keys.find(k => k.toLowerCase().includes('booking'));
+                const src = airbnbKey ? 'airbnb' : bookingKey ? 'booking' : 'ical';
+                return { start: b.start, end: b.end, source: src } as BlockedRange;
+              });
+          }
+        } catch {}
+      }
+      if (!cancelled) setBlockedByApt(result);
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [apartments]);
+
+  const addBooking = useCallback((b: Booking) => {
+    setData((d: any) => ({ ...d, bookings: [...(d.bookings || []), b] }));
+  }, [setData]);
+
+  const deleteBooking = useCallback((id: string) => {
+    setData((d: any) => ({ ...d, bookings: (d.bookings || []).filter((b: any) => b.id !== id) }));
+  }, [setData]);
+
+  const updateBooking = useCallback((id: string, key: string, value: any) => {
+    setData((d: any) => ({
+      ...d,
+      bookings: (d.bookings || []).map((b: any) => b.id === id ? { ...b, [key]: value } : b),
+    }));
+  }, [setData]);
+
+  const handleDayClick = (date: string, aptId: string) => {
+    setDrawerCheckIn(date);
+    setDrawerAptId(aptId);
+    setDrawerOpen(true);
+  };
+
+  const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+  const pending = bookings.filter(b => b.status === 'pending').length;
+  const todayStr = toISO(new Date());
+  const activeNow = bookings.filter(b => b.checkIn <= todayStr && b.checkOut > todayStr && b.status === 'confirmed').length;
+
+  return (
+    <div className="space-y-5">
+      {/* KPI bar */}
+      <div className="grid grid-cols-4 gap-3">
         {[
-          { label: 'Total bookings', value: bookings.length, color: 'text-stone-900' },
-          { label: 'Confirmed', value: bookings.filter((b:any)=>b.status==='confirmed').length, color: 'text-emerald-700' },
-          { label: 'Pending', value: bookings.filter((b:any)=>b.status==='pending').length, color: 'text-amber-600' },
+          { label: 'Total', value: bookings.length, color: 'text-stone-900' },
+          { label: 'Confirmed', value: confirmed, color: 'text-emerald-700' },
+          { label: 'Pending', value: pending, color: 'text-amber-600' },
+          { label: 'Staying now', value: activeNow, color: 'text-blue-600' },
         ].map(s => (
           <div key={s.label} className="bg-white border border-stone-100 rounded-2xl px-4 py-3 shadow-sm">
             <p className={`text-2xl font-black tabular-nums ${s.color}`}>{s.value}</p>
@@ -287,173 +666,44 @@ function BookingsTabInner({ data, setData }: { data: any; setData: any }) {
         ))}
       </div>
 
-      {/* Occupancy calendar */}
-      <OccupancyCalendar bookings={bookings} apartments={apartments} />
-
-      {/* Filters + Add */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Filters:</span>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-          className="px-2 py-1.5 rounded-lg border border-stone-200 bg-white text-stone-700 text-xs focus:outline-none focus:ring-2 focus:ring-sand-200">
-          <option value="all">All statuses</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="pending">Pending</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-        <select value={filterSource} onChange={e => setFilterSource(e.target.value)}
-          className="px-2 py-1.5 rounded-lg border border-stone-200 bg-white text-stone-700 text-xs focus:outline-none focus:ring-2 focus:ring-sand-200">
-          <option value="all">All sources</option>
-          <option value="direct">Direct</option>
-          <option value="phone">Phone</option>
-          <option value="email">Email</option>
-          <option value="walk-in">Walk-in</option>
-          <option value="agency">Agency</option>
-          <option value="airbnb">Airbnb</option>
-          <option value="booking">Booking.com</option>
-        </select>
-        {(filterStatus !== 'all' || filterSource !== 'all') && (
-          <button onClick={() => { setFilterStatus('all'); setFilterSource('all'); }}
-            className="text-[11px] text-stone-400 hover:text-stone-700 underline">Clear</button>
-        )}
-        <div className="flex-1" />
-        <button onClick={() => exportBookingsCSV(filteredBookings)}
-          className="flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-xl transition-all">
-          <Download size={13} /> Export CSV
+      {/* Action bar */}
+      <div className="flex items-center gap-2">
+        <button onClick={() => { setDrawerCheckIn(undefined); setDrawerAptId(undefined); setDrawerOpen(true); }}
+          className="flex items-center gap-2 px-4 py-2.5 bg-stone-900 text-white text-sm font-bold rounded-xl hover:bg-stone-800 transition-all">
+          <Plus size={15} /> Add Reservation
         </button>
-        <button onClick={addBooking}
-          className="flex items-center gap-1.5 px-3 py-2 bg-sand-600 text-white text-xs font-semibold rounded-xl hover:bg-sand-700 transition-all">
-          + Add Reservation
+        <div className="flex-1" />
+        <button onClick={() => exportCSV(bookings)}
+          className="flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 text-xs font-semibold rounded-xl transition-all">
+          <Download size={13} /> Export CSV
         </button>
       </div>
 
-      <Section title={`Reservations · ${filteredBookings.length}`} defaultOpen={true}>
-        <p className="text-xs text-stone-400 -mt-1 mb-4">
-          Guest info + reservation details. Price auto-calculates from apartment rates when dates are set.
-        </p>
+      {/* Main calendar */}
+      <FullCalendar
+        bookings={bookings}
+        apartments={apartments}
+        blockedByApt={blockedByApt}
+        onDayClick={handleDayClick}
+      />
 
-        <div className="space-y-3">
-          {filteredBookings.length === 0 && (
-            <div className="text-center py-10 border-2 border-dashed border-stone-200 rounded-2xl text-stone-400 text-xs">
-              <p className="font-semibold text-sm mb-1">No reservations yet</p>
-              <p>Click "Add Reservation" above to create one.</p>
-            </div>
-          )}
-          {filteredBookings.map((booking: any) => {
-            const realIdx = bookings.findIndex((b: any) => b.id === booking.id);
-            const n = booking.checkIn && booking.checkOut ? nights(booking.checkIn, booking.checkOut) : 0;
-            const apt = apartments.find((a: any) => a.id === booking.apartment);
-            const autoPrice = apt && booking.checkIn && booking.checkOut ? calcPrice(apt, booking.checkIn, booking.checkOut) : 0;
-            return (
-              <div key={booking.id || realIdx} className="bg-stone-50 border border-stone-100 rounded-2xl p-4 space-y-3">
-                {/* Row 1: guest + status + delete */}
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sand-100 to-sand-200 flex items-center justify-center text-sm font-bold text-sand-700 flex-shrink-0">
-                    {(booking.guestName || '?').charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex-1 grid grid-cols-[1fr_120px] gap-2">
-                    <Input value={booking.guestName || ''} onChange={v => updateBooking(realIdx, 'guestName', v)} placeholder="Guest full name" />
-                    <select value={booking.status || 'confirmed'} onChange={e => updateBooking(realIdx, 'status', e.target.value)}
-                      className={`w-full px-2 py-2 rounded-xl border text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sand-200 ${
-                        booking.status === 'confirmed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                        booking.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                        'bg-red-50 text-red-600 border-red-200'
-                      }`}>
-                      <option value="confirmed">✓ Confirmed</option>
-                      <option value="pending">⏳ Pending</option>
-                      <option value="cancelled">✗ Cancelled</option>
-                    </select>
-                  </div>
-                  <button type="button" onClick={() => removeBooking(realIdx)}
-                    className="w-8 h-8 rounded-xl flex items-center justify-center text-stone-300 hover:text-red-500 hover:bg-red-50 transition-all flex-shrink-0">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
-                  </button>
-                </div>
+      {/* Bookings list */}
+      <BookingsList
+        bookings={bookings}
+        apartments={apartments}
+        onDelete={deleteBooking}
+        onUpdate={updateBooking}
+      />
 
-                {/* Row 2: dates + apartment + guests */}
-                <div className="grid grid-cols-[1fr_1fr_1fr_60px] gap-2">
-                  <div>
-                    <Label>Check-in</Label>
-                    <Input type="date" value={booking.checkIn || ''} onChange={v => {
-                      updateBooking(realIdx, 'checkIn', v);
-                      if (v && booking.checkOut && apt) {
-                        updateBooking(realIdx, 'totalPrice', calcPrice(apt, v, booking.checkOut));
-                      }
-                    }} />
-                  </div>
-                  <div>
-                    <Label>Check-out</Label>
-                    <Input type="date" value={booking.checkOut || ''} onChange={v => {
-                      updateBooking(realIdx, 'checkOut', v);
-                      if (booking.checkIn && v && apt) {
-                        updateBooking(realIdx, 'totalPrice', calcPrice(apt, booking.checkIn, v));
-                      }
-                    }} />
-                  </div>
-                  <div>
-                    <Label>Apartment</Label>
-                    <select value={booking.apartment || ''} onChange={e => {
-                      updateBooking(realIdx, 'apartment', e.target.value);
-                      const newApt = apartments.find((a: any) => a.id === e.target.value);
-                      if (booking.checkIn && booking.checkOut && newApt) {
-                        updateBooking(realIdx, 'totalPrice', calcPrice(newApt, booking.checkIn, booking.checkOut));
-                      }
-                    }}
-                      className="w-full px-2 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-200">
-                      {apartments.map((a: any) => <option key={a.id} value={a.id}>{a.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <Label>Guests</Label>
-                    <Input type="number" value={booking.guests ?? ''} onChange={v => updateBooking(realIdx, 'guests', Number(v))} placeholder="2" />
-                  </div>
-                </div>
-
-                {/* Row 3: contact + source + price */}
-                <div className="grid grid-cols-[1fr_1fr_100px_100px] gap-2">
-                  <div>
-                    <Label>Email</Label>
-                    <Input type="email" value={booking.guestEmail || ''} onChange={v => updateBooking(realIdx, 'guestEmail', v)} placeholder="guest@email.com" />
-                  </div>
-                  <div>
-                    <Label>Phone</Label>
-                    <Input value={booking.guestPhone || ''} onChange={v => updateBooking(realIdx, 'guestPhone', v)} placeholder="+385 91 ..." />
-                  </div>
-                  <div>
-                    <Label>Source</Label>
-                    <select value={booking.source || 'Direct'} onChange={e => updateBooking(realIdx, 'source', e.target.value)}
-                      className="w-full px-2 py-2.5 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-sand-200">
-                      {['Direct','Phone','Email','Walk-in','Agency','Airbnb','Booking.com'].map(s => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <Label>Total (€)</Label>
-                    <Input type="number" value={booking.totalPrice ?? ''} onChange={v => updateBooking(realIdx, 'totalPrice', Number(v))} placeholder={String(autoPrice || 0)} />
-                    {autoPrice > 0 && booking.totalPrice !== autoPrice && (
-                      <p className="text-[10px] text-stone-400 mt-0.5">Auto: {fmt(autoPrice)}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Row 4: notes + nights badge */}
-                <div className="flex gap-2 items-start">
-                  <div className="flex-1">
-                    <Label>Internal notes</Label>
-                    <textarea value={booking.notes || ''} onChange={e => updateBooking(realIdx, 'notes', e.target.value)}
-                      rows={1} placeholder="Any notes (early check-in, extra bed, etc.)"
-                      className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-stone-800 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sand-200" />
-                  </div>
-                  {n > 0 && (
-                    <div className="flex-shrink-0 mt-5 bg-sand-50 border border-sand-200 rounded-xl px-3 py-2 text-center">
-                      <p className="text-lg font-black text-sand-800 tabular-nums leading-none">{n}</p>
-                      <p className="text-[10px] text-sand-600 font-semibold">night{n!==1?'s':''}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </Section>
+      {/* Drawer */}
+      <AddReservationDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        apartments={apartments}
+        initialCheckIn={drawerCheckIn}
+        initialApartmentId={drawerAptId}
+        onSave={addBooking}
+      />
     </div>
   );
 }
