@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Weather from '@/components/WeatherSimple';
 import { useTranslations } from 'next-intl';
+
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80';
 
 interface HeroProps {
   heroImage?: string;
@@ -20,6 +22,9 @@ export default function Hero({
 }: HeroProps) {
   const t = useTranslations('hero');
   const bgRef = useRef<HTMLDivElement>(null);
+  const [imgSrc, setImgSrc] = useState(heroImage || FALLBACK_IMAGE);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   useEffect(() => {
     const fn = () => {
       if (bgRef.current) bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
@@ -36,15 +41,17 @@ export default function Hero({
       <div ref={bgRef} className="absolute inset-0 will-change-transform bg-stone-900">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-800 via-stone-700 to-stone-900" />
         <img
-          key={heroImage}
-          src={heroImage || '/images/hero.jpg'}
-          alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700"
-          onError={e => {
-            const img = e.target as HTMLImageElement;
-            if (!img.dataset.fallback) {
-              img.dataset.fallback = '1';
-              img.src = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80';
+          key={imgSrc}
+          src={imgSrc}
+          alt=""
+          aria-hidden="true"
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+            imgLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => {
+            if (imgSrc !== FALLBACK_IMAGE) {
+              setImgSrc(FALLBACK_IMAGE);
             }
           }}
         />
