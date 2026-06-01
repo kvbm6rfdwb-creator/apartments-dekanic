@@ -1,28 +1,14 @@
 {
-  "nav": {
-    "apartments": "Apartmani",
-    "location": "Lokacija",
-    "contact": "Kontakt",
-    "bookNow": "Rezerviraj"
-  },
-  "hero": {
-    "subtitle": "Direktno na jadranskoj obali · Baška · Hrvatska",
-    "cta": "Istraži apartmane"
-  },
-  "weather": {
-    "currentConditions": "Trenutni uvjeti",
-    "temperature": "Temperatura",
-    "humidity": "Vlažnost",
-    "airQuality": "Kvaliteta zraka",
-    "wind": "Vjetar",
-    "today": "Danas",
-    "aqi": {
-      "good": "Dobra",
-      "moderate": "Umjerena",
-      "usg": "Nezdravo za osjetljive",
-      "unhealthy": "Nezdravo",
-      "veryUnhealthy": "Vrlo nezdravo",
-      "hazardous": "Opasno"
-    }
-  }
+  "nav": {"apartments": "Apartmani", "location": "Lokacija", "contact": "Kontakt", "bookNow": "Rezerviraj"},
+  "hero": {"subtitle": "Direktno na jadranskoj obali · Baška · Hrvatska", "cta": "Istraži apartmane"},
+  "weather": {"currentConditions": "Trenutni uvjeti", "temperature": "Temperatura", "humidity": "Vlažnost", "airQuality": "Kvaliteta zraka", "wind": "Vjetar", "today": "Danas", "aqi": {"good": "Dobra", "moderate": "Umjerena", "usg": "Nezdravo za osjetljive", "unhealthy": "Nezdravo", "veryUnhealthy": "Vrlo nezdravo", "hazardous": "Opasno"}},
+  "location": {"title": "Savršena lokacija", "subtitle": "Korak od plaže, sve nadohvat ruke.", "directions": "Upute za dolazak"},
+  "contact": {"title": "Kontaktirajte nas", "phone": "Telefon", "email": "E-pošta", "address": "Adresa", "whatsapp": "Pišite na WhatsApp"},
+  "footer": {"rights": "Sva prava pridržana.", "privacy": "Politika privatnosti", "terms": "Uvjeti korištenja"},
+  "reviews": {"title": "Recenzije gostiju", "subtitle": "Što naši gosti kažu o boravku.", "viewAll": "Prikaži sve recenzije"},
+  "apartments": {"title": "Naši apartmani", "subtitle": "Odaberite savršen dom daleko od doma.", "viewApartment": "Pogledaj apartman", "guests": "gosti", "bedrooms": "spavaće sobe", "bathrooms": "kupaonice", "sqm": "m²", "seaView": "Pogled na more"},
+  "features": {"wifi": "Besplatni Wi-Fi", "parking": "Parking", "airConditioning": "Klima uređaj", "seaView": "Pogled na more", "balcony": "Balkon", "kitchen": "Kuhinja", "washer": "Perilica", "tv": "TV", "pool": "Bazen", "petFriendly": "Kućni ljubimci OK", "breakfast": "Doručak"},
+  "whyBook": {"title": "Zašto rezervirati direktno?", "subtitle": "Uštedite više kada rezervirate izravno kod nas.", "price": "Najbolja cijena", "priceDesc": "Uštedite do 20% u usporedbi s platformama za rezervacije.", "direct": "Direktna rezervacija", "available": "Uvijek dostupni", "availableDesc": "Izravni kontakt znači brze odgovore i personaliziranu uslugu.", "registered": "Registrirani i provjereni", "registeredDesc": "Službeno registrirani u registru Ministarstva turizma RH.", "verified": "Verificirani domaćin", "verifiedDesc": "Službena registracija hrvatskog turizma", "directDesc": "Bez naknada platforme"},
+  "booking": {"title": "Zatražite rezervaciju", "selectCheckDates": "Odaberite datum dolaska i odlaska", "guests": "Gosti", "name": "Puno ime", "email": "E-pošta", "phone": "Telefon", "notes": "Napomene", "specialRequests": "Posebni zahtjevi ili napomene", "submit": "Pošalji zahtjev", "pending": "Slanje…", "success": "Zahtjev poslan!", "error": "Nešto je pošlo po krivu. Pokušajte ponovo.", "terms": "Slanjem prihvaćate naše uvjete.", "estimatedTotal": "Procijenjeni ukupni iznos", "total": "Ukupno", "night": "noć", "noFeesBestPrice": "Bez naknade · Najbolja cijena", "noPaymentNow": "Plaćanje nije potrebno sada", "directBooking": "Direktna rezervacija", "orContactDirectly": "Ili nas kontaktirajte izravno", "chatOnWhatsapp": "Razgovarajte na WhatsApp", "followUpWhatsapp": "Javit ćemo se na WhatsApp", "requestSent": "Zahtjev poslan!", "back": "Natrag", "continue": "Nastavi", "review": "Pregled", "steps": ["Datumi i gosti", "Vaši podaci", "Pregled i slanje"], "apartmentLabel": "Apartman", "guestOne": "gost", "guestsRequired": "Molimo odaberite broj gostiju", "emailRequired": "E-pošta je obavezna", "fullNameRequired": "Puno ime je obavezno", "minStayWarning": "Minimalni boravak je {n} noći", "nightsLabel": "noći", "duration": "Trajanje", "maxGuests": "Maks. {count} gostiju", "phoneShort": "Tel."},
+  "calendar": {"available": "Slobodno", "booked": "Rezervirano", "checkIn": "Dolazak", "checkOut": "Odlazak", "loading": "Učitavanje dostupnosti…"}
 }

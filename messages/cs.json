@@ -1,28 +1,14 @@
 {
-  "nav": {
-    "apartments": "Apartmány",
-    "location": "Poloha",
-    "contact": "Kontakt",
-    "bookNow": "Rezervovat"
-  },
-  "hero": {
-    "subtitle": "Přímo na pobřeží Jadranu · Baška · Chorvatsko",
-    "cta": "Prozkoumat apartmány"
-  },
-  "weather": {
-    "currentConditions": "Aktuální podmínky",
-    "temperature": "Teplota",
-    "humidity": "Vlhkost",
-    "airQuality": "Kvalita ovzduší",
-    "wind": "Vítr",
-    "today": "Dnes",
-    "aqi": {
-      "good": "Dobrá",
-      "moderate": "Mírná",
-      "usg": "Nezdravá pro citlivé skupiny",
-      "unhealthy": "Nezdravá",
-      "veryUnhealthy": "Velmi nezdravá",
-      "hazardous": "Nebezpečná"
-    }
-  }
+  "nav": {"apartments": "Apartmány", "location": "Poloha", "contact": "Kontakt", "bookNow": "Rezervovat"},
+  "hero": {"subtitle": "Přímo na pobřeží Jadranu · Baška · Chorvatsko", "cta": "Prozkoumat apartmány"},
+  "weather": {"currentConditions": "Aktuální podmínky", "temperature": "Teplota", "humidity": "Vlhkost", "airQuality": "Kvalita ovzduší", "wind": "Vítr", "today": "Dnes", "aqi": {"good": "Dobrá", "moderate": "Mírná", "usg": "Nezdravá pro citlivé skupiny", "unhealthy": "Nezdravá", "veryUnhealthy": "Velmi nezdravá", "hazardous": "Nebezpečná"}},
+  "location": {"title": "Perfektní poloha", "subtitle": "Pár kroků od pláže, vše na dosah ruky.", "directions": "Jak se dostat"},
+  "contact": {"title": "Kontaktujte nás", "phone": "Telefon", "email": "E-mail", "address": "Adresa", "whatsapp": "Napište na WhatsApp"},
+  "footer": {"rights": "Všechna práva vyhrazena.", "privacy": "Zásady ochrany osobních údajů", "terms": "Podmínky služby"},
+  "reviews": {"title": "Recenze hostů", "subtitle": "Co říkají naši hosté o svém pobytu.", "viewAll": "Zobrazit všechny recenze"},
+  "apartments": {"title": "Naše apartmány", "subtitle": "Vyberte si svůj dokonalý domov daleko od domova.", "viewApartment": "Zobrazit apartmán", "guests": "hosté", "bedrooms": "ložnice", "bathrooms": "koupelny", "sqm": "m²", "seaView": "Výhled na moře"},
+  "features": {"wifi": "Bezplatné Wi-Fi", "parking": "Parkování", "airConditioning": "Klimatizace", "seaView": "Výhled na moře", "balcony": "Balkon", "kitchen": "Kuchyně", "washer": "Pračka", "tv": "TV", "pool": "Bazén", "petFriendly": "Domácí mazlíčci vítáni", "breakfast": "Snídaně"},
+  "whyBook": {"title": "Proč rezervovat přímo?", "subtitle": "Ušetřete více při přímé rezervaci u nás.", "price": "Nejlepší cena", "priceDesc": "Ušetřete až 20 % ve srovnání s rezervačními platformami.", "direct": "Přímá rezervace", "available": "Vždy dostupné", "availableDesc": "Přímý kontakt znamená rychlé odpovědi a osobní servis.", "registered": "Registrováno a důvěryhodné", "registeredDesc": "Oficiálně registrováno v registru Ministerstva cestovního ruchu Chorvatska.", "verified": "Ověřený hostitel", "verifiedDesc": "Oficiální registrace chorvatského cestovního ruchu", "directDesc": "Žádné poplatky platformy"},
+  "booking": {"title": "Žádost o rezervaci", "selectCheckDates": "Vyberte datum příjezdu a odjezdu", "guests": "Hosté", "name": "Celé jméno", "email": "E-mail", "phone": "Telefon", "notes": "Poznámky", "specialRequests": "Zvláštní požadavky nebo poznámky", "submit": "Odeslat žádost", "pending": "Odesílání…", "success": "Žádost odeslána!", "error": "Něco se pokazilo. Prosím zkuste to znovu.", "terms": "Odesláním souhlasíte s našimi podmínkami.", "estimatedTotal": "Odhadovaná celková cena", "total": "Celkem", "night": "noc", "noFeesBestPrice": "Bez poplatků · Nejlepší cena", "noPaymentNow": "Platba nyní není vyžadována", "directBooking": "Přímá rezervace", "orContactDirectly": "Nebo nás kontaktujte přímo", "chatOnWhatsapp": "Chatujte na WhatsApp", "followUpWhatsapp": "Odpovíme vám na WhatsApp", "requestSent": "Žádost odeslána!", "back": "Zpět", "continue": "Pokračovat", "review": "Přehled", "steps": ["Datum a hosté", "Vaše údaje", "Přehled a odeslání"], "apartmentLabel": "Apartmán", "guestOne": "host", "guestsRequired": "Vyberte prosím počet hostů", "emailRequired": "E-mail je povinný", "fullNameRequired": "Celé jméno je povinné", "minStayWarning": "Minimální délka pobytu je {n} nocí", "nightsLabel": "nocí", "duration": "Délka pobytu", "maxGuests": "Max. {count} hostů", "phoneShort": "Tel."},
+  "calendar": {"available": "Dostupné", "booked": "Rezervováno", "checkIn": "Příjezd", "checkOut": "Odjezd", "loading": "Načítání dostupnosti…"}
 }

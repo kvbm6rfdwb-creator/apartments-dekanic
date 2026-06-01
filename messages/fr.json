@@ -1,28 +1,14 @@
 {
-  "nav": {
-    "apartments": "Appartements",
-    "location": "Emplacement",
-    "contact": "Contact",
-    "bookNow": "Réserver"
-  },
-  "hero": {
-    "subtitle": "Directement sur la côte adriatique · Baška · Croatie",
-    "cta": "Explorer les appartements"
-  },
-  "weather": {
-    "currentConditions": "Conditions actuelles",
-    "temperature": "Température",
-    "humidity": "Humidité",
-    "airQuality": "Qualité de l'air",
-    "wind": "Vent",
-    "today": "Aujourd'hui",
-    "aqi": {
-      "good": "Bonne",
-      "moderate": "Modérée",
-      "usg": "Mauvaise pour les groupes sensibles",
-      "unhealthy": "Mauvaise",
-      "veryUnhealthy": "Très mauvaise",
-      "hazardous": "Dangereuse"
-    }
-  }
+  "nav": {"apartments": "Appartements", "location": "Emplacement", "contact": "Contact", "bookNow": "Réserver"},
+  "hero": {"subtitle": "Directement sur la côte adriatique · Baška · Croatie", "cta": "Explorer les appartements"},
+  "weather": {"currentConditions": "Conditions actuelles", "temperature": "Température", "humidity": "Humidité", "airQuality": "Qualité de l'air", "wind": "Vent", "today": "Aujourd'hui", "aqi": {"good": "Bonne", "moderate": "Modérée", "usg": "Mauvaise pour les groupes sensibles", "unhealthy": "Mauvaise", "veryUnhealthy": "Très mauvaise", "hazardous": "Dangereuse"}},
+  "location": {"title": "Emplacement idéal", "subtitle": "À quelques pas de la plage, tout à portée de main.", "directions": "Itinéraire"},
+  "contact": {"title": "Contactez-nous", "phone": "Téléphone", "email": "E-mail", "address": "Adresse", "whatsapp": "Écrire sur WhatsApp"},
+  "footer": {"rights": "Tous droits réservés.", "privacy": "Politique de confidentialité", "terms": "Conditions d'utilisation"},
+  "reviews": {"title": "Avis des clients", "subtitle": "Ce que nos clients disent de leur séjour.", "viewAll": "Voir tous les avis"},
+  "apartments": {"title": "Nos appartements", "subtitle": "Choisissez votre maison loin de chez vous.", "viewApartment": "Voir l'appartement", "guests": "voyageurs", "bedrooms": "chambres", "bathrooms": "salles de bain", "sqm": "m²", "seaView": "Vue mer"},
+  "features": {"wifi": "Wi-Fi gratuit", "parking": "Parking", "airConditioning": "Climatisation", "seaView": "Vue mer", "balcony": "Balcon", "kitchen": "Cuisine", "washer": "Lave-linge", "tv": "TV", "pool": "Piscine", "petFriendly": "Animaux acceptés", "breakfast": "Petit-déjeuner"},
+  "whyBook": {"title": "Pourquoi réserver directement ?", "subtitle": "Économisez davantage en réservant directement chez nous.", "price": "Meilleur prix", "priceDesc": "Économisez jusqu'à 20% par rapport aux plateformes de réservation.", "direct": "Réservation directe", "available": "Toujours disponible", "availableDesc": "Le contact direct signifie des réponses rapides et un service personnalisé.", "registered": "Enregistré et fiable", "registeredDesc": "Officiellement enregistré au registre du Ministère du Tourisme croate.", "verified": "Hôte vérifié", "verifiedDesc": "Enregistrement officiel du tourisme croate", "directDesc": "Sans frais de plateforme"},
+  "booking": {"title": "Demande de réservation", "selectCheckDates": "Sélectionnez les dates d'arrivée et de départ", "guests": "Voyageurs", "name": "Nom complet", "email": "E-mail", "phone": "Téléphone", "notes": "Notes", "specialRequests": "Demandes spéciales ou notes", "submit": "Envoyer la demande", "pending": "Envoi…", "success": "Demande envoyée !", "error": "Quelque chose s'est mal passé. Veuillez réessayer.", "terms": "En soumettant, vous acceptez nos conditions.", "estimatedTotal": "Total estimé", "total": "Total", "night": "nuit", "noFeesBestPrice": "Sans frais · Meilleur prix", "noPaymentNow": "Aucun paiement requis maintenant", "directBooking": "Réservation directe", "orContactDirectly": "Ou contactez-nous directement", "chatOnWhatsapp": "Discuter sur WhatsApp", "followUpWhatsapp": "Nous vous répondrons sur WhatsApp", "requestSent": "Demande envoyée !", "back": "Retour", "continue": "Continuer", "review": "Vérifier", "steps": ["Dates et voyageurs", "Vos coordonnées", "Vérification et envoi"], "apartmentLabel": "Appartement", "guestOne": "voyageur", "guestsRequired": "Veuillez sélectionner le nombre de voyageurs", "emailRequired": "L'e-mail est requis", "fullNameRequired": "Le nom complet est requis", "minStayWarning": "Le séjour minimum est de {n} nuits", "nightsLabel": "nuits", "duration": "Durée", "maxGuests": "Max {count} voyageurs", "phoneShort": "Tél."},
+  "calendar": {"available": "Disponible", "booked": "Réservé", "checkIn": "Arrivée", "checkOut": "Départ", "loading": "Chargement des disponibilités…"}
 }

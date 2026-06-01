@@ -1,28 +1,14 @@
 {
-  "nav": {
-    "apartments": "Apartments",
-    "location": "Location",
-    "contact": "Contact",
-    "bookNow": "Book Now"
-  },
-  "hero": {
-    "subtitle": "Directly on the Adriatic Coast · Baška · Croatia",
-    "cta": "Explore the Apartments"
-  },
-  "weather": {
-    "currentConditions": "Current Conditions",
-    "temperature": "Temperature",
-    "humidity": "Humidity",
-    "airQuality": "Air Quality",
-    "wind": "Wind",
-    "today": "Today",
-    "aqi": {
-      "good": "Good",
-      "moderate": "Moderate",
-      "usg": "Unhealthy for Sensitive Groups",
-      "unhealthy": "Unhealthy",
-      "veryUnhealthy": "Very Unhealthy",
-      "hazardous": "Hazardous"
-    }
-  }
+  "nav": {"apartments": "Apartments", "location": "Location", "contact": "Contact", "bookNow": "Book Now"},
+  "hero": {"subtitle": "Directly on the Adriatic Coast · Baška · Croatia", "cta": "Explore the Apartments"},
+  "weather": {"currentConditions": "Current Conditions", "temperature": "Temperature", "humidity": "Humidity", "airQuality": "Air Quality", "wind": "Wind", "today": "Today", "aqi": {"good": "Good", "moderate": "Moderate", "usg": "Unhealthy for Sensitive Groups", "unhealthy": "Unhealthy", "veryUnhealthy": "Very Unhealthy", "hazardous": "Hazardous"}},
+  "location": {"title": "Perfect Location", "subtitle": "Steps from the beach, everything within reach.", "directions": "Get Directions"},
+  "contact": {"title": "Contact Us", "phone": "Phone", "email": "Email", "address": "Address", "whatsapp": "Chat on WhatsApp"},
+  "footer": {"rights": "All rights reserved.", "privacy": "Privacy Policy", "terms": "Terms of Service"},
+  "reviews": {"title": "Guest Reviews", "subtitle": "What our guests say about their stay.", "viewAll": "View All Reviews"},
+  "apartments": {"title": "Our Apartments", "subtitle": "Choose your perfect home away from home.", "viewApartment": "View Apartment", "guests": "guests", "bedrooms": "bedrooms", "bathrooms": "bathrooms", "sqm": "m²", "seaView": "Sea View"},
+  "features": {"wifi": "Free Wi-Fi", "parking": "Parking", "airConditioning": "Air Conditioning", "seaView": "Sea View", "balcony": "Balcony", "kitchen": "Kitchen", "washer": "Washer", "tv": "TV", "pool": "Pool", "petFriendly": "Pet Friendly", "breakfast": "Breakfast"},
+  "whyBook": {"title": "Why Book Directly?", "subtitle": "Save more and get the best experience when you book with us.", "price": "Best Price", "priceDesc": "Save up to 20% compared to booking platforms. No hidden fees.", "direct": "Book Direct", "available": "Always Available", "availableDesc": "Direct contact means instant responses and personalised service.", "registered": "Registered & Trusted", "registeredDesc": "Officially registered on the Croatian Ministry of Tourism registry.", "verified": "Verified host", "verifiedDesc": "Official Croatian tourism registration", "directDesc": "No platform fees"},
+  "booking": {"title": "Request Booking", "selectCheckDates": "Select check-in and check-out dates", "guests": "Guests", "name": "Full Name", "email": "Email", "phone": "Phone", "notes": "Notes", "specialRequests": "Special requests or notes", "submit": "Submit Request", "pending": "Sending…", "success": "Request sent!", "error": "Something went wrong. Please try again.", "terms": "By submitting you agree to our terms.", "estimatedTotal": "Estimated Total", "total": "Total", "night": "night", "noFeesBestPrice": "No fees · Best price", "noPaymentNow": "No payment required now", "directBooking": "Direct Booking", "orContactDirectly": "Or contact us directly", "chatOnWhatsapp": "Chat on WhatsApp", "followUpWhatsapp": "We'll follow up on WhatsApp", "requestSent": "Request Sent!", "back": "Back", "continue": "Continue", "review": "Review", "steps": ["Dates & Guests", "Your Details", "Review & Submit"], "apartmentLabel": "Apartment", "guestOne": "guest", "guestsRequired": "Please select number of guests", "emailRequired": "Email is required", "fullNameRequired": "Full name is required", "minStayWarning": "Minimum stay is {n} nights", "nightsLabel": "nights", "duration": "Duration", "maxGuests": "Max {count} guests", "phoneShort": "Phone"},
+  "calendar": {"available": "Available", "booked": "Booked", "checkIn": "Check-in", "checkOut": "Check-out", "loading": "Loading availability…"}
 }

@@ -1,28 +1,14 @@
 {
-  "nav": {
-    "apartments": "Apartments",
-    "location": "Lage",
-    "contact": "Kontakt",
-    "bookNow": "Jetzt buchen"
-  },
-  "hero": {
-    "subtitle": "Direkt an der Adriaküste · Baška · Kroatien",
-    "cta": "Apartments entdecken"
-  },
-  "weather": {
-    "currentConditions": "Aktuelle Bedingungen",
-    "temperature": "Temperatur",
-    "humidity": "Luftfeuchtigkeit",
-    "airQuality": "Luftqualität",
-    "wind": "Wind",
-    "today": "Heute",
-    "aqi": {
-      "good": "Gut",
-      "moderate": "Mäßig",
-      "usg": "Ungesund für empfindliche Gruppen",
-      "unhealthy": "Ungesund",
-      "veryUnhealthy": "Sehr ungesund",
-      "hazardous": "Gefährlich"
-    }
-  }
+  "nav": {"apartments": "Apartments", "location": "Lage", "contact": "Kontakt", "bookNow": "Jetzt buchen"},
+  "hero": {"subtitle": "Direkt an der Adriaküste · Baška · Kroatien", "cta": "Apartments entdecken"},
+  "weather": {"currentConditions": "Aktuelle Bedingungen", "temperature": "Temperatur", "humidity": "Luftfeuchtigkeit", "airQuality": "Luftqualität", "wind": "Wind", "today": "Heute", "aqi": {"good": "Gut", "moderate": "Mäßig", "usg": "Ungesund für empfindliche Gruppen", "unhealthy": "Ungesund", "veryUnhealthy": "Sehr ungesund", "hazardous": "Gefährlich"}},
+  "location": {"title": "Perfekte Lage", "subtitle": "Schritte vom Strand entfernt, alles in Reichweite.", "directions": "Wegbeschreibung"},
+  "contact": {"title": "Kontaktieren Sie uns", "phone": "Telefon", "email": "E-Mail", "address": "Adresse", "whatsapp": "Auf WhatsApp schreiben"},
+  "footer": {"rights": "Alle Rechte vorbehalten.", "privacy": "Datenschutzrichtlinie", "terms": "Nutzungsbedingungen"},
+  "reviews": {"title": "Gästebewertungen", "subtitle": "Was unsere Gäste über ihren Aufenthalt sagen.", "viewAll": "Alle Bewertungen anzeigen"},
+  "apartments": {"title": "Unsere Apartments", "subtitle": "Wählen Sie Ihr perfektes Zuhause fern von Zuhause.", "viewApartment": "Apartment ansehen", "guests": "Gäste", "bedrooms": "Schlafzimmer", "bathrooms": "Badezimmer", "sqm": "m²", "seaView": "Meerblick"},
+  "features": {"wifi": "Kostenloses WLAN", "parking": "Parkplatz", "airConditioning": "Klimaanlage", "seaView": "Meerblick", "balcony": "Balkon", "kitchen": "Küche", "washer": "Waschmaschine", "tv": "TV", "pool": "Pool", "petFriendly": "Haustiere erlaubt", "breakfast": "Frühstück"},
+  "whyBook": {"title": "Warum direkt buchen?", "subtitle": "Sparen Sie mehr, wenn Sie direkt bei uns buchen.", "price": "Bester Preis", "priceDesc": "Sparen Sie bis zu 20% im Vergleich zu Buchungsplattformen.", "direct": "Direkt buchen", "available": "Immer verfügbar", "availableDesc": "Direktkontakt bedeutet schnelle Antworten und persönlichen Service.", "registered": "Registriert & vertrauenswürdig", "registeredDesc": "Offiziell im kroatischen Tourismusministerium registriert.", "verified": "Verifizierter Gastgeber", "verifiedDesc": "Offizielle kroatische Tourismusregistrierung", "directDesc": "Keine Plattformgebühren"},
+  "booking": {"title": "Buchung anfragen", "selectCheckDates": "Check-in und Check-out Datum wählen", "guests": "Gäste", "name": "Vollständiger Name", "email": "E-Mail", "phone": "Telefon", "notes": "Notizen", "specialRequests": "Sonderwünsche oder Anmerkungen", "submit": "Anfrage senden", "pending": "Wird gesendet…", "success": "Anfrage gesendet!", "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.", "terms": "Mit dem Absenden stimmen Sie unseren Bedingungen zu.", "estimatedTotal": "Geschätzter Gesamtbetrag", "total": "Gesamt", "night": "Nacht", "noFeesBestPrice": "Keine Gebühren · Bester Preis", "noPaymentNow": "Keine Zahlung jetzt erforderlich", "directBooking": "Direktbuchung", "orContactDirectly": "Oder kontaktieren Sie uns direkt", "chatOnWhatsapp": "Auf WhatsApp schreiben", "followUpWhatsapp": "Wir melden uns per WhatsApp", "requestSent": "Anfrage gesendet!", "back": "Zurück", "continue": "Weiter", "review": "Überprüfen", "steps": ["Datum & Gäste", "Ihre Daten", "Überprüfen & Absenden"], "apartmentLabel": "Apartment", "guestOne": "Gast", "guestsRequired": "Bitte Anzahl der Gäste auswählen", "emailRequired": "E-Mail ist erforderlich", "fullNameRequired": "Vollständiger Name ist erforderlich", "minStayWarning": "Mindestaufenthalt beträgt {n} Nächte", "nightsLabel": "Nächte", "duration": "Dauer", "maxGuests": "Max. {count} Gäste", "phoneShort": "Tel."},
+  "calendar": {"available": "Verfügbar", "booked": "Gebucht", "checkIn": "Anreise", "checkOut": "Abreise", "loading": "Verfügbarkeit wird geladen…"}
 }
