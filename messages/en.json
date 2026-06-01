@@ -1,0 +1,18 @@
+{
+  "weather": {
+    "currentConditions": "Current Conditions",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "airQuality": "Air Quality",
+    "wind": "Wind",
+    "today": "Today",
+    "aqi": {
+      "good": "Good",
+      "moderate": "Moderate",
+      "usg": "Unhealthy for Sensitive Groups",
+      "unhealthy": "Unhealthy",
+      "veryUnhealthy": "Very Unhealthy",
+      "hazardous": "Hazardous"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "weather": {
+    "currentConditions": "Aktuální podmínky",
+    "temperature": "Teplota",
+    "humidity": "Vlhkost",
+    "airQuality": "Kvalita ovzduší",
+    "wind": "Vítr",
+    "today": "Dnes",
+    "aqi": {
+      "good": "Dobrá",
+      "moderate": "Mírná",
+      "usg": "Nezdravá pro citlivé skupiny",
+      "unhealthy": "Nezdravá",
+      "veryUnhealthy": "Velmi nezdravá",
+      "hazardous": "Nebezpečná"
+    }
+  }
+}

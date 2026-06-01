@@ -1,0 +1,18 @@
+{
+  "weather": {
+    "currentConditions": "Trenutni uvjeti",
+    "temperature": "Temperatura",
+    "humidity": "Vlažnost",
+    "airQuality": "Kvaliteta zraka",
+    "wind": "Vjetar",
+    "today": "Danas",
+    "aqi": {
+      "good": "Dobra",
+      "moderate": "Umjerena",
+      "usg": "Nezdravo za osjetljive",
+      "unhealthy": "Nezdravo",
+      "veryUnhealthy": "Vrlo nezdravo",
+      "hazardous": "Opasno"
+    }
+  }
+}

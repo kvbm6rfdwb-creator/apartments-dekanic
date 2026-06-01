@@ -135,6 +135,11 @@ function kindForDayFromHourly(dateISO: string, hourly: any): WeatherKind {
   return best;
 }
 
+function capitalizeFirst(str: string): string {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export default function WeatherSimple() {
   const t = useTranslations('weather');
   const locale = useLocale();
@@ -203,7 +208,9 @@ export default function WeatherSimple() {
             const label =
               idx === 0
                 ? t('today')
-                : new Date(date + 'T12:00:00').toLocaleDateString(locale, { weekday: 'short' });
+                : capitalizeFirst(
+                    new Date(date + 'T12:00:00').toLocaleDateString(locale, { weekday: 'short' })
+                  );
             const icon: DayRow['icon'] = kindForDayFromHourly(date, data?.hourly);
             return {
               date,
@@ -252,7 +259,10 @@ export default function WeatherSimple() {
     const d = new Date();
     d.setDate(d.getDate() + idx);
     const iso = d.toISOString().slice(0, 10);
-    const label = idx === 0 ? t('today') : d.toLocaleDateString(locale, { weekday: 'short' });
+    const label =
+      idx === 0
+        ? t('today')
+        : capitalizeFirst(d.toLocaleDateString(locale, { weekday: 'short' }));
     return { date: iso, label, high: null, low: null, icon: 'cloud' };
   });
 

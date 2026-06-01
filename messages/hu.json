@@ -1,0 +1,18 @@
+{
+  "weather": {
+    "currentConditions": "Aktuális körülmények",
+    "temperature": "Hőmérséklet",
+    "humidity": "Páratartalom",
+    "airQuality": "Levegőminőség",
+    "wind": "Szél",
+    "today": "Ma",
+    "aqi": {
+      "good": "Jó",
+      "moderate": "Mérsékelt",
+      "usg": "Érzékeny csoportoknak egészségtelen",
+      "unhealthy": "Egészségtelen",
+      "veryUnhealthy": "Nagyon egészségtelen",
+      "hazardous": "Veszélyes"
+    }
+  }
+}
