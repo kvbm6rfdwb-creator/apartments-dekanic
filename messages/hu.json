@@ -1,14 +1,132 @@
 {
-  "nav": {"apartments": "Apartmanok", "location": "Helyszín", "contact": "Kapcsolat", "bookNow": "Foglalás"},
-  "hero": {"subtitle": "Közvetlenül az Adriai-tenger partján · Baška · Horvátország", "cta": "Fedezze fel az apartmanokat"},
-  "weather": {"currentConditions": "Aktuális körülmények", "temperature": "Hőmérséklet", "humidity": "Páratartalom", "airQuality": "Levegőminőség", "wind": "Szél", "today": "Ma", "aqi": {"good": "Jó", "moderate": "Mérsékelt", "usg": "Érzékeny csoportoknak egészségtelen", "unhealthy": "Egészségtelen", "veryUnhealthy": "Nagyon egészségtelen", "hazardous": "Veszélyes"}},
-  "location": {"title": "Tökéletes helyszín", "subtitle": "Néhány lépésre a strandtól, minden kéznél.", "directions": "Útvonaltervezés"},
-  "contact": {"title": "Lépjen kapcsolatba velünk", "phone": "Telefon", "email": "E-mail", "address": "Cím", "whatsapp": "WhatsApp-on írjon"},
-  "footer": {"rights": "Minden jog fenntartva.", "privacy": "Adatvédelmi irányelvek", "terms": "Felhasználási feltételek"},
-  "reviews": {"title": "Vendégértékelések", "subtitle": "Mit mondanak vendégeink a tartózkodásukról.", "viewAll": "Összes értékelés megtekintése"},
-  "apartments": {"title": "Apartmanjaink", "subtitle": "Válassza ki tökéletes otthonát otthonától távol.", "viewApartment": "Apartman megtekintése", "guests": "vendég", "bedrooms": "hálószoba", "bathrooms": "fürdőszoba", "sqm": "m²", "seaView": "Tengerre néző kilátás"},
-  "features": {"wifi": "Ingyenes Wi-Fi", "parking": "Parkoló", "airConditioning": "Légkondicionáló", "seaView": "Tengerre néző kilátás", "balcony": "Erkély", "kitchen": "Konyha", "washer": "Mosógép", "tv": "TV", "pool": "Medence", "petFriendly": "Kisállat barát", "breakfast": "Reggeli"},
-  "whyBook": {"title": "Miért foglaljon közvetlenül?", "subtitle": "Takarítson meg többet, ha közvetlenül nálunk foglal.", "price": "Legjobb ár", "priceDesc": "Takarítson meg akár 20%-ot a foglalási platformokhoz képest.", "direct": "Közvetlen foglalás", "available": "Mindig elérhető", "availableDesc": "A közvetlen kapcsolat gyors válaszokat és személyre szabott szolgáltatást jelent.", "registered": "Regisztrált és megbízható", "registeredDesc": "Hivatalosan bejegyezve a horvát Idegenforgalmi Minisztérium nyilvántartásába.", "verified": "Ellenőrzött házigazda", "verifiedDesc": "Hivatalos horvát idegenforgalmi regisztráció", "directDesc": "Nincs platformdíj"},
-  "booking": {"title": "Foglalás kérése", "selectCheckDates": "Válassza ki az érkezési és távozási dátumot", "guests": "Vendégek", "name": "Teljes név", "email": "E-mail", "phone": "Telefon", "notes": "Megjegyzések", "specialRequests": "Különleges kérések vagy megjegyzések", "submit": "Kérés elküldése", "pending": "Küldés…", "success": "Kérés elküldve!", "error": "Valami elromlott. Kérjük, próbálja újra.", "terms": "A küldéssel elfogadja feltételeinket.", "estimatedTotal": "Becsült összeg", "total": "Összesen", "night": "éjszaka", "noFeesBestPrice": "Díjmentes · Legjobb ár", "noPaymentNow": "Most nem szükséges fizetni", "directBooking": "Közvetlen foglalás", "orContactDirectly": "Vagy lépjen kapcsolatba velünk közvetlenül", "chatOnWhatsapp": "Csevegés WhatsApp-on", "followUpWhatsapp": "WhatsApp-on visszajelzünk", "requestSent": "Kérés elküldve!", "back": "Vissza", "continue": "Folytatás", "review": "Áttekintés", "steps": ["Dátumok és vendégek", "Az Ön adatai", "Áttekintés és küldés"], "apartmentLabel": "Apartman", "guestOne": "vendég", "guestsRequired": "Kérjük, válassza ki a vendégek számát", "emailRequired": "Az e-mail kötelező", "fullNameRequired": "A teljes név kötelező", "minStayWarning": "A minimális tartózkodás {n} éjszaka", "nightsLabel": "éjszaka", "duration": "Időtartam", "maxGuests": "Max. {count} vendég", "phoneShort": "Tel."},
-  "calendar": {"available": "Szabad", "booked": "Foglalt", "checkIn": "Érkezés", "checkOut": "Távozás", "loading": "Elérhetőség betöltése…"}
+  "nav": {
+    "apartments": "Apartmanok",
+    "location": "Helyszín",
+    "contact": "Kapcsolat",
+    "bookNow": "Foglalás"
+  },
+  "hero": {
+    "subtitle": "Közvetlenül az Adriai-tenger partján · Baška · Horvátország",
+    "cta": "Fedezze fel az apartmanokat"
+  },
+  "apartments": {
+    "title": "Apartmanjaink",
+    "subtitle": "Válassza ki tökéletes pihenőhelyét Krk szigetén",
+    "seaView": "Tengerre néző",
+    "guests": "vendég",
+    "bedrooms": "hálószoba",
+    "bathrooms": "fürdőszoba",
+    "sqm": "m²",
+    "viewApartment": "Apartman megtekintése"
+  },
+  "features": {
+    "wifi": "WiFi",
+    "parking": "Parkoló",
+    "airConditioning": "Légkondicionáló",
+    "seaView": "Tengerre néző",
+    "balcony": "Erkély",
+    "pool": "Medence",
+    "kitchen": "Konyha",
+    "dishwasher": "Mosogatógép",
+    "washingMachine": "Mosógép",
+    "tv": "TV",
+    "petsAllowed": "Háziállatok engedélyezve",
+    "bbq": "Grillsütő"
+  },
+  "whyBook": {
+    "title": "Miért foglaljon közvetlenül?",
+    "subtitle": "Jobb árak, személyes szolgáltatás és teljes nyugalom.",
+    "price": "Legjobb ár garancia",
+    "priceDesc": "Takarítson meg akár 20%-ot közvetlen foglalásnál — nincsenek platformdíjak, nincsenek közvetítők.",
+    "direct": "Közvetlen foglalás",
+    "directDesc": "Ellenőrzött közvetlen foglalási szállásadó",
+    "available": "Mindig elérhető",
+    "availableDesc": "Közvetlen kapcsolat a szállásadóval minden kérdés vagy különleges igény esetén.",
+    "registered": "Engedéllyel rendelkező szállásadó",
+    "registeredDesc": "Hivatalosan bejegyezve a Horvát Idegenforgalmi Hivatal által minősített helyi szállásadóként.",
+    "verified": "Biztonságos foglalás",
+    "verifiedDesc": "Hivatalos horvát turisztikai regisztráció"
+  },
+  "location": {
+    "title": "Tökéletes helyszín",
+    "subtitle": "Baška szívében, a híres strand közvetlen közelében, lenyűgöző adriai környezetben.",
+    "directions": "Útvonaltervezés"
+  },
+  "contact": {
+    "title": "Lépjen kapcsolatba",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "address": "Cím",
+    "whatsapp": "WhatsApp-on csevegés"
+  },
+  "reviews": {
+    "title": "Vendégek véleményei",
+    "subtitle": "Mit mondanak vendégeink tartózkodásukról",
+    "viewAll": "Az összes vélemény megtekintése"
+  },
+  "footer": {
+    "rights": "Minden jog fenntartva.",
+    "privacy": "Adatvédelmi szabályzat",
+    "terms": "Használati feltételek"
+  },
+  "booking": {
+    "directBooking": "Közvetlen foglalás",
+    "noFeesBestPrice": "Díjmentes · Legjobb ár garantálva",
+    "back": "Vissza",
+    "continue": "Folytatás",
+    "review": "Foglalás ellenőrzése",
+    "submit": "Kérelem küldése",
+    "pending": "Küldés…",
+    "total": "Összesen",
+    "selectCheckDates": "Válassza ki az érkezési és távozási dátumot",
+    "fullNameRequired": "Teljes név *",
+    "emailRequired": "E-mail *",
+    "phoneShort": "Telefon",
+    "guestsRequired": "Vendégek száma *",
+    "guestOne": "vendég",
+    "guestMany": "{count} vendég",
+    "maxGuests": "max. {count}",
+    "specialRequests": "Különleges kérések",
+    "apartmentLabel": "Apartman",
+    "duration": "Időtartam",
+    "nightsLabel": "éjszaka",
+    "night": "éjszaka",
+    "guests": "Vendégek",
+    "name": "Név",
+    "email": "E-mail",
+    "notes": "Megjegyzések",
+    "noPaymentNow": "Most nincs szükség fizetésre — 24 órán belül megerősítjük foglalását.",
+    "estimatedTotal": "Becsült összeg",
+    "requestSent": "Kérelem elküldve!",
+    "confirmReply": "24 órán belül válaszolunk a <email>{email}</email> címre.",
+    "followUpWhatsapp": "Követés WhatsApp-on",
+    "orContactDirectly": "vagy lépjen kapcsolatba közvetlenül",
+    "chatOnWhatsapp": "Csevegés WhatsApp-on",
+    "error": "Valami hiba történt. Kérjük, próbálja újra.",
+    "minStayWarning": "Erre az időszakra a minimális tartózkodás {n} éjszaka.",
+    "steps": ["Dátumok", "Adatok", "Megerősítés"]
+  },
+  "calendar": {
+    "loading": "Elérhetőség betöltése…",
+    "available": "Szabad",
+    "booked": "Foglalt",
+    "checkIn": "Érkezés",
+    "checkOut": "Távozás"
+  },
+  "weather": {
+    "currentConditions": "Aktuális körülmények",
+    "temperature": "Hőmérséklet",
+    "humidity": "Páratartalom",
+    "airQuality": "Levegőminőség",
+    "wind": "Szél",
+    "today": "Ma",
+    "aqi": {
+      "good": "Jó",
+      "moderate": "Mérsékelt",
+      "usg": "Érzékeny csoportoknak egészségtelen",
+      "unhealthy": "Egészségtelen",
+      "veryUnhealthy": "Nagyon egészségtelen",
+      "hazardous": "Veszélyes"
+    }
+  }
 }

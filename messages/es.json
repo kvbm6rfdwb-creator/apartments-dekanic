@@ -1,14 +1,132 @@
 {
-  "nav": {"apartments": "Apartamentos", "location": "Ubicación", "contact": "Contacto", "bookNow": "Reservar"},
-  "hero": {"subtitle": "Directamente en la costa adriática · Baška · Croacia", "cta": "Explorar los apartamentos"},
-  "weather": {"currentConditions": "Condiciones actuales", "temperature": "Temperatura", "humidity": "Humedad", "airQuality": "Calidad del aire", "wind": "Viento", "today": "Hoy", "aqi": {"good": "Buena", "moderate": "Moderada", "usg": "No saludable para grupos sensibles", "unhealthy": "No saludable", "veryUnhealthy": "Muy no saludable", "hazardous": "Peligrosa"}},
-  "location": {"title": "Ubicación perfecta", "subtitle": "A pocos pasos de la playa, todo al alcance.", "directions": "Cómo llegar"},
-  "contact": {"title": "Contáctenos", "phone": "Teléfono", "email": "Correo electrónico", "address": "Dirección", "whatsapp": "Escribir por WhatsApp"},
-  "footer": {"rights": "Todos los derechos reservados.", "privacy": "Política de privacidad", "terms": "Términos de servicio"},
-  "reviews": {"title": "Opiniones de huéspedes", "subtitle": "Lo que dicen nuestros huéspedes sobre su estancia.", "viewAll": "Ver todas las opiniones"},
-  "apartments": {"title": "Nuestros apartamentos", "subtitle": "Elige tu hogar lejos de casa.", "viewApartment": "Ver apartamento", "guests": "huéspedes", "bedrooms": "dormitorios", "bathrooms": "baños", "sqm": "m²", "seaView": "Vista al mar"},
-  "features": {"wifi": "Wi-Fi gratuito", "parking": "Aparcamiento", "airConditioning": "Aire acondicionado", "seaView": "Vista al mar", "balcony": "Balcón", "kitchen": "Cocina", "washer": "Lavadora", "tv": "TV", "pool": "Piscina", "petFriendly": "Se admiten mascotas", "breakfast": "Desayuno"},
-  "whyBook": {"title": "¿Por qué reservar directamente?", "subtitle": "Ahorre más reservando directamente con nosotros.", "price": "Mejor precio", "priceDesc": "Ahorre hasta un 20% en comparación con las plataformas de reservas.", "direct": "Reserva directa", "available": "Siempre disponible", "availableDesc": "El contacto directo significa respuestas rápidas y servicio personalizado.", "registered": "Registrado y de confianza", "registeredDesc": "Registrado oficialmente en el registro del Ministerio de Turismo de Croacia.", "verified": "Anfitrión verificado", "verifiedDesc": "Registro oficial de turismo croata", "directDesc": "Sin comisiones de plataforma"},
-  "booking": {"title": "Solicitar reserva", "selectCheckDates": "Seleccione fechas de entrada y salida", "guests": "Huéspedes", "name": "Nombre completo", "email": "Correo electrónico", "phone": "Teléfono", "notes": "Notas", "specialRequests": "Solicitudes especiales o notas", "submit": "Enviar solicitud", "pending": "Enviando…", "success": "¡Solicitud enviada!", "error": "Algo salió mal. Por favor, inténtelo de nuevo.", "terms": "Al enviar acepta nuestros términos.", "estimatedTotal": "Total estimado", "total": "Total", "night": "noche", "noFeesBestPrice": "Sin comisiones · Mejor precio", "noPaymentNow": "No se requiere pago ahora", "directBooking": "Reserva directa", "orContactDirectly": "O contáctenos directamente", "chatOnWhatsapp": "Chatear en WhatsApp", "followUpWhatsapp": "Le responderemos por WhatsApp", "requestSent": "¡Solicitud enviada!", "back": "Volver", "continue": "Continuar", "review": "Revisar", "steps": ["Fechas y huéspedes", "Sus datos", "Revisión y envío"], "apartmentLabel": "Apartamento", "guestOne": "huésped", "guestsRequired": "Por favor seleccione el número de huéspedes", "emailRequired": "El correo electrónico es obligatorio", "fullNameRequired": "El nombre completo es obligatorio", "minStayWarning": "La estancia mínima es de {n} noches", "nightsLabel": "noches", "duration": "Duración", "maxGuests": "Máx. {count} huéspedes", "phoneShort": "Tel."},
-  "calendar": {"available": "Disponible", "booked": "Reservado", "checkIn": "Entrada", "checkOut": "Salida", "loading": "Cargando disponibilidad…"}
+  "nav": {
+    "apartments": "Apartamentos",
+    "location": "Ubicación",
+    "contact": "Contacto",
+    "bookNow": "Reservar"
+  },
+  "hero": {
+    "subtitle": "Directamente en la costa adriática · Baška · Croacia",
+    "cta": "Explorar los apartamentos"
+  },
+  "apartments": {
+    "title": "Nuestros apartamentos",
+    "subtitle": "Elige tu retiro perfecto en la isla de Krk",
+    "seaView": "Vista al mar",
+    "guests": "huéspedes",
+    "bedrooms": "habitaciones",
+    "bathrooms": "baños",
+    "sqm": "m²",
+    "viewApartment": "Ver apartamento"
+  },
+  "features": {
+    "wifi": "WiFi",
+    "parking": "Aparcamiento",
+    "airConditioning": "Aire acondicionado",
+    "seaView": "Vista al mar",
+    "balcony": "Balcón",
+    "pool": "Piscina",
+    "kitchen": "Cocina",
+    "dishwasher": "Lavavajillas",
+    "washingMachine": "Lavadora",
+    "tv": "TV",
+    "petsAllowed": "Se admiten mascotas",
+    "bbq": "Barbacoa"
+  },
+  "whyBook": {
+    "title": "¿Por qué reservar directamente?",
+    "subtitle": "Mejores precios, servicio personalizado y total tranquilidad.",
+    "price": "Garantía de mejor precio",
+    "priceDesc": "Ahorra hasta un 20% reservando directamente — sin comisiones de plataforma, sin intermediarios.",
+    "direct": "Reserva directa",
+    "directDesc": "Anfitrión verificado para reservas directas",
+    "available": "Siempre disponible",
+    "availableDesc": "Contacto directo con el anfitrión para cualquier pregunta o solicitud especial.",
+    "registered": "Anfitrión autorizado",
+    "registeredDesc": "Registrado oficialmente en la Junta de Turismo de Croacia como Local Host certificado.",
+    "verified": "Reserva segura",
+    "verifiedDesc": "Registro oficial del turismo croata"
+  },
+  "location": {
+    "title": "Ubicación perfecta",
+    "subtitle": "En el corazón de Baška, a pocos pasos de la famosa playa y rodeado de impresionantes paisajes adriáticos.",
+    "directions": "Cómo llegar"
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "address": "Dirección",
+    "whatsapp": "Chatear en WhatsApp"
+  },
+  "reviews": {
+    "title": "Opiniones de huéspedes",
+    "subtitle": "Lo que dicen nuestros huéspedes sobre su estancia",
+    "viewAll": "Ver todas las opiniones"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de uso"
+  },
+  "booking": {
+    "directBooking": "Reserva directa",
+    "noFeesBestPrice": "Sin comisiones · Mejor precio garantizado",
+    "back": "Atrás",
+    "continue": "Continuar",
+    "review": "Revisar reserva",
+    "submit": "Enviar solicitud",
+    "pending": "Enviando…",
+    "total": "Total",
+    "selectCheckDates": "Selecciona tus fechas de entrada y salida",
+    "fullNameRequired": "Nombre completo *",
+    "emailRequired": "Correo electrónico *",
+    "phoneShort": "Teléfono",
+    "guestsRequired": "Número de huéspedes *",
+    "guestOne": "huésped",
+    "guestMany": "{count} huéspedes",
+    "maxGuests": "máx. {count}",
+    "specialRequests": "Peticiones especiales",
+    "apartmentLabel": "Apartamento",
+    "duration": "Duración",
+    "nightsLabel": "noches",
+    "night": "noche",
+    "guests": "Huéspedes",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "notes": "Notas",
+    "noPaymentNow": "No se requiere pago ahora — confirmaremos su reserva en 24 horas.",
+    "estimatedTotal": "Total estimado",
+    "requestSent": "¡Solicitud enviada!",
+    "confirmReply": "Responderemos a <email>{email}</email> en 24 horas.",
+    "followUpWhatsapp": "Seguir en WhatsApp",
+    "orContactDirectly": "o contactar directamente",
+    "chatOnWhatsapp": "Chatear en WhatsApp",
+    "error": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "minStayWarning": "La estancia mínima para este período es de {n} noches.",
+    "steps": ["Fechas", "Detalles", "Confirmar"]
+  },
+  "calendar": {
+    "loading": "Cargando disponibilidad…",
+    "available": "Disponible",
+    "booked": "Reservado",
+    "checkIn": "Entrada",
+    "checkOut": "Salida"
+  },
+  "weather": {
+    "currentConditions": "Condiciones actuales",
+    "temperature": "Temperatura",
+    "humidity": "Humedad",
+    "airQuality": "Calidad del aire",
+    "wind": "Viento",
+    "today": "Hoy",
+    "aqi": {
+      "good": "Buena",
+      "moderate": "Moderada",
+      "usg": "No saludable para grupos sensibles",
+      "unhealthy": "No saludable",
+      "veryUnhealthy": "Muy no saludable",
+      "hazardous": "Peligrosa"
+    }
+  }
 }

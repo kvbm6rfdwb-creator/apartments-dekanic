@@ -1,14 +1,132 @@
 {
-  "nav": {"apartments": "Apartments", "location": "Location", "contact": "Contact", "bookNow": "Book Now"},
-  "hero": {"subtitle": "Directly on the Adriatic Coast · Baška · Croatia", "cta": "Explore the Apartments"},
-  "weather": {"currentConditions": "Current Conditions", "temperature": "Temperature", "humidity": "Humidity", "airQuality": "Air Quality", "wind": "Wind", "today": "Today", "aqi": {"good": "Good", "moderate": "Moderate", "usg": "Unhealthy for Sensitive Groups", "unhealthy": "Unhealthy", "veryUnhealthy": "Very Unhealthy", "hazardous": "Hazardous"}},
-  "location": {"title": "Perfect Location", "subtitle": "Steps from the beach, everything within reach.", "directions": "Get Directions"},
-  "contact": {"title": "Contact Us", "phone": "Phone", "email": "Email", "address": "Address", "whatsapp": "Chat on WhatsApp"},
-  "footer": {"rights": "All rights reserved.", "privacy": "Privacy Policy", "terms": "Terms of Service"},
-  "reviews": {"title": "Guest Reviews", "subtitle": "What our guests say about their stay.", "viewAll": "View All Reviews"},
-  "apartments": {"title": "Our Apartments", "subtitle": "Choose your perfect home away from home.", "viewApartment": "View Apartment", "guests": "guests", "bedrooms": "bedrooms", "bathrooms": "bathrooms", "sqm": "m²", "seaView": "Sea View"},
-  "features": {"wifi": "Free Wi-Fi", "parking": "Parking", "airConditioning": "Air Conditioning", "seaView": "Sea View", "balcony": "Balcony", "kitchen": "Kitchen", "washer": "Washer", "tv": "TV", "pool": "Pool", "petFriendly": "Pet Friendly", "breakfast": "Breakfast"},
-  "whyBook": {"title": "Why Book Directly?", "subtitle": "Save more and get the best experience when you book with us.", "price": "Best Price", "priceDesc": "Save up to 20% compared to booking platforms. No hidden fees.", "direct": "Book Direct", "available": "Always Available", "availableDesc": "Direct contact means instant responses and personalised service.", "registered": "Registered & Trusted", "registeredDesc": "Officially registered on the Croatian Ministry of Tourism registry.", "verified": "Verified host", "verifiedDesc": "Official Croatian tourism registration", "directDesc": "No platform fees"},
-  "booking": {"title": "Request Booking", "selectCheckDates": "Select check-in and check-out dates", "guests": "Guests", "name": "Full Name", "email": "Email", "phone": "Phone", "notes": "Notes", "specialRequests": "Special requests or notes", "submit": "Submit Request", "pending": "Sending…", "success": "Request sent!", "error": "Something went wrong. Please try again.", "terms": "By submitting you agree to our terms.", "estimatedTotal": "Estimated Total", "total": "Total", "night": "night", "noFeesBestPrice": "No fees · Best price", "noPaymentNow": "No payment required now", "directBooking": "Direct Booking", "orContactDirectly": "Or contact us directly", "chatOnWhatsapp": "Chat on WhatsApp", "followUpWhatsapp": "We'll follow up on WhatsApp", "requestSent": "Request Sent!", "back": "Back", "continue": "Continue", "review": "Review", "steps": ["Dates & Guests", "Your Details", "Review & Submit"], "apartmentLabel": "Apartment", "guestOne": "guest", "guestsRequired": "Please select number of guests", "emailRequired": "Email is required", "fullNameRequired": "Full name is required", "minStayWarning": "Minimum stay is {n} nights", "nightsLabel": "nights", "duration": "Duration", "maxGuests": "Max {count} guests", "phoneShort": "Phone"},
-  "calendar": {"available": "Available", "booked": "Booked", "checkIn": "Check-in", "checkOut": "Check-out", "loading": "Loading availability…"}
+  "nav": {
+    "apartments": "Apartments",
+    "location": "Location",
+    "contact": "Contact",
+    "bookNow": "Book Now"
+  },
+  "hero": {
+    "subtitle": "Directly on the Adriatic Coast · Baška · Croatia",
+    "cta": "Explore the Apartments"
+  },
+  "apartments": {
+    "title": "Our Apartments",
+    "subtitle": "Choose your perfect retreat on the island of Krk",
+    "seaView": "Sea View",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms",
+    "sqm": "m²",
+    "viewApartment": "View Apartment"
+  },
+  "features": {
+    "wifi": "WiFi",
+    "parking": "Parking",
+    "airConditioning": "Air Conditioning",
+    "seaView": "Sea View",
+    "balcony": "Balcony",
+    "pool": "Pool",
+    "kitchen": "Kitchen",
+    "dishwasher": "Dishwasher",
+    "washingMachine": "Washing Machine",
+    "tv": "TV",
+    "petsAllowed": "Pets Allowed",
+    "bbq": "BBQ"
+  },
+  "whyBook": {
+    "title": "Why Book Directly?",
+    "subtitle": "Better prices, personal service, and complete peace of mind.",
+    "price": "Best Price Guarantee",
+    "priceDesc": "Save up to 20% by booking directly — no platform fees, no middlemen.",
+    "direct": "Book Direct",
+    "directDesc": "Verified direct booking host",
+    "available": "Always Available",
+    "availableDesc": "Direct contact with the host for any questions or special requests.",
+    "registered": "Licensed Host",
+    "registeredDesc": "Officially registered with the Croatian Tourist Board as a certified Local Host.",
+    "verified": "Secure Booking",
+    "verifiedDesc": "Official Croatian Tourism registration"
+  },
+  "location": {
+    "title": "Perfect Location",
+    "subtitle": "Nestled in the heart of Baška, steps away from the famous beach and surrounded by stunning Adriatic scenery.",
+    "directions": "Get Directions"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "whatsapp": "Chat on WhatsApp"
+  },
+  "reviews": {
+    "title": "Guest Reviews",
+    "subtitle": "What our guests say about their stay",
+    "viewAll": "View All Reviews"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "booking": {
+    "directBooking": "Direct Booking",
+    "noFeesBestPrice": "No fees · Best price guaranteed",
+    "back": "Back",
+    "continue": "Continue",
+    "review": "Review Booking",
+    "submit": "Send Request",
+    "pending": "Sending…",
+    "total": "Total",
+    "selectCheckDates": "Select your check-in and check-out dates",
+    "fullNameRequired": "Full Name *",
+    "emailRequired": "Email *",
+    "phoneShort": "Phone",
+    "guestsRequired": "Number of Guests *",
+    "guestOne": "guest",
+    "guestMany": "{count} guests",
+    "maxGuests": "max {count}",
+    "specialRequests": "Special Requests",
+    "apartmentLabel": "Apartment",
+    "duration": "Duration",
+    "nightsLabel": "nights",
+    "night": "night",
+    "guests": "Guests",
+    "name": "Name",
+    "email": "Email",
+    "notes": "Notes",
+    "noPaymentNow": "No payment required now — we will confirm your booking within 24 hours.",
+    "estimatedTotal": "Estimated Total",
+    "requestSent": "Request Sent!",
+    "confirmReply": "We will reply to <email>{email}</email> within 24 hours.",
+    "followUpWhatsapp": "Follow up on WhatsApp",
+    "orContactDirectly": "or contact directly",
+    "chatOnWhatsapp": "Chat on WhatsApp",
+    "error": "Something went wrong. Please try again.",
+    "minStayWarning": "Minimum stay is {n} nights for this period.",
+    "steps": ["Dates", "Details", "Confirm"]
+  },
+  "calendar": {
+    "loading": "Loading availability…",
+    "available": "Available",
+    "booked": "Booked",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out"
+  },
+  "weather": {
+    "currentConditions": "Current Conditions",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "airQuality": "Air Quality",
+    "wind": "Wind",
+    "today": "Today",
+    "aqi": {
+      "good": "Good",
+      "moderate": "Moderate",
+      "usg": "Unhealthy for Sensitive Groups",
+      "unhealthy": "Unhealthy",
+      "veryUnhealthy": "Very Unhealthy",
+      "hazardous": "Hazardous"
+    }
+  }
 }

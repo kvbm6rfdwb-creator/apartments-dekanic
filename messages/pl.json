@@ -1,14 +1,132 @@
 {
-  "nav": {"apartments": "Apartamenty", "location": "Lokalizacja", "contact": "Kontakt", "bookNow": "Zarezerwuj"},
-  "hero": {"subtitle": "Bezpośrednio na wybrzeżu adriatyckim · Baška · Chorwacja", "cta": "Przeglądaj apartamenty"},
-  "weather": {"currentConditions": "Aktualne warunki", "temperature": "Temperatura", "humidity": "Wilgotność", "airQuality": "Jakość powietrza", "wind": "Wiatr", "today": "Dziś", "aqi": {"good": "Dobra", "moderate": "Umiarkowana", "usg": "Niezdrowa dla wrażliwych grup", "unhealthy": "Niezdrowa", "veryUnhealthy": "Bardzo niezdrowa", "hazardous": "Niebezpieczna"}},
-  "location": {"title": "Idealna lokalizacja", "subtitle": "Kilka kroków od plaży, wszystko pod ręką.", "directions": "Jak dojechać"},
-  "contact": {"title": "Skontaktuj się z nami", "phone": "Telefon", "email": "E-mail", "address": "Adres", "whatsapp": "Napisz na WhatsApp"},
-  "footer": {"rights": "Wszelkie prawa zastrzeżone.", "privacy": "Polityka prywatności", "terms": "Warunki korzystania"},
-  "reviews": {"title": "Opinie gości", "subtitle": "Co nasi goście mówią o swoim pobycie.", "viewAll": "Wyświetl wszystkie opinie"},
-  "apartments": {"title": "Nasze apartamenty", "subtitle": "Wybierz swój idealny dom z dala od domu.", "viewApartment": "Zobacz apartament", "guests": "goście", "bedrooms": "sypialnie", "bathrooms": "łazienki", "sqm": "m²", "seaView": "Widok na morze"},
-  "features": {"wifi": "Bezpłatne Wi-Fi", "parking": "Parking", "airConditioning": "Klimatyzacja", "seaView": "Widok na morze", "balcony": "Balkon", "kitchen": "Kuchnia", "washer": "Pralka", "tv": "TV", "pool": "Basen", "petFriendly": "Zwierzęta mile widziane", "breakfast": "Śniadanie"},
-  "whyBook": {"title": "Dlaczego rezerwować bezpośrednio?", "subtitle": "Oszczędzaj więcej rezerwując bezpośrednio u nas.", "price": "Najlepsza cena", "priceDesc": "Oszczędź do 20% w porównaniu z platformami rezerwacyjnymi.", "direct": "Rezerwacja bezpośrednia", "available": "Zawsze dostępne", "availableDesc": "Bezpośredni kontakt oznacza szybkie odpowiedzi i spersonalizowaną obsługę.", "registered": "Zarejestrowane i godne zaufania", "registeredDesc": "Oficjalnie zarejestrowane w rejestrze Chorwackiego Ministerstwa Turystyki.", "verified": "Zweryfikowany gospodarz", "verifiedDesc": "Oficjalna rejestracja chorwackiej turystyki", "directDesc": "Bez opłat platformy"},
-  "booking": {"title": "Zapytaj o rezerwację", "selectCheckDates": "Wybierz daty przyjazdu i wyjazdu", "guests": "Goście", "name": "Imię i nazwisko", "email": "E-mail", "phone": "Telefon", "notes": "Notatki", "specialRequests": "Specjalne prośby lub notatki", "submit": "Wyślij zapytanie", "pending": "Wysyłanie…", "success": "Zapytanie wysłane!", "error": "Coś poszło nie tak. Spróbuj ponownie.", "terms": "Wysyłając zgadzasz się na nasze warunki.", "estimatedTotal": "Szacowany łączny koszt", "total": "Łącznie", "night": "noc", "noFeesBestPrice": "Bez opłat · Najlepsza cena", "noPaymentNow": "Płatność nie jest teraz wymagana", "directBooking": "Bezpośrednia rezerwacja", "orContactDirectly": "Lub skontaktuj się z nami bezpośrednio", "chatOnWhatsapp": "Napisz na WhatsApp", "followUpWhatsapp": "Odezwiemy się przez WhatsApp", "requestSent": "Zapytanie wysłane!", "back": "Wstecz", "continue": "Kontynuuj", "review": "Przegląd", "steps": ["Daty i goście", "Twoje dane", "Przegląd i wysyłka"], "apartmentLabel": "Apartament", "guestOne": "gość", "guestsRequired": "Proszę wybrać liczbę gości", "emailRequired": "E-mail jest wymagany", "fullNameRequired": "Imię i nazwisko jest wymagane", "minStayWarning": "Minimalny pobyt to {n} nocy", "nightsLabel": "nocy", "duration": "Czas trwania", "maxGuests": "Maks. {count} gości", "phoneShort": "Tel."},
-  "calendar": {"available": "Dostępny", "booked": "Zarezerwowany", "checkIn": "Przyjazd", "checkOut": "Wyjazd", "loading": "Ładowanie dostępności…"}
+  "nav": {
+    "apartments": "Apartamenty",
+    "location": "Lokalizacja",
+    "contact": "Kontakt",
+    "bookNow": "Zarezerwuj"
+  },
+  "hero": {
+    "subtitle": "Bezpośrednio na wybrzeżu adriatyckim · Baška · Chorwacja",
+    "cta": "Przeglądaj apartamenty"
+  },
+  "apartments": {
+    "title": "Nasze apartamenty",
+    "subtitle": "Wybierz swoje idealne miejsce na wyspie Krk",
+    "seaView": "Widok na morze",
+    "guests": "gości",
+    "bedrooms": "sypialnie",
+    "bathrooms": "łazienki",
+    "sqm": "m²",
+    "viewApartment": "Zobacz apartament"
+  },
+  "features": {
+    "wifi": "WiFi",
+    "parking": "Parking",
+    "airConditioning": "Klimatyzacja",
+    "seaView": "Widok na morze",
+    "balcony": "Balkon",
+    "pool": "Basen",
+    "kitchen": "Kuchnia",
+    "dishwasher": "Zmywarka",
+    "washingMachine": "Pralka",
+    "tv": "TV",
+    "petsAllowed": "Zwierzęta dozwolone",
+    "bbq": "Grill"
+  },
+  "whyBook": {
+    "title": "Dlaczego rezerwować bezpośrednio?",
+    "subtitle": "Lepsze ceny, osobista obsługa i pełny spokój.",
+    "price": "Gwarancja najlepszej ceny",
+    "priceDesc": "Zaoszczędź do 20% rezerwując bezpośrednio — bez prowizji platformy, bez pośredników.",
+    "direct": "Rezerwacja bezpośrednia",
+    "directDesc": "Zweryfikowany gospodarz do bezpośrednich rezerwacji",
+    "available": "Zawsze dostępny",
+    "availableDesc": "Bezpośredni kontakt z gospodarzem w razie pytań lub specjalnych próśb.",
+    "registered": "Licencjonowany gospodarz",
+    "registeredDesc": "Oficjalnie zarejestrowany przez Chorwacką Radę Turystyki jako certyfikowany lokalny gospodarz.",
+    "verified": "Bezpieczna rezerwacja",
+    "verifiedDesc": "Oficjalna chorwacka rejestracja turystyczna"
+  },
+  "location": {
+    "title": "Idealna lokalizacja",
+    "subtitle": "W sercu Bašky, kilka kroków od słynnej plaży, otoczeni zapierającymi dech widokami adriatyckimi.",
+    "directions": "Wyznacz trasę"
+  },
+  "contact": {
+    "title": "Skontaktuj się",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "address": "Adres",
+    "whatsapp": "Napisz na WhatsApp"
+  },
+  "reviews": {
+    "title": "Opinie gości",
+    "subtitle": "Co nasi goście mówią o swoim pobycie",
+    "viewAll": "Zobacz wszystkie opinie"
+  },
+  "footer": {
+    "rights": "Wszelkie prawa zastrzeżone.",
+    "privacy": "Polityka prywatności",
+    "terms": "Warunki użytkowania"
+  },
+  "booking": {
+    "directBooking": "Bezpośrednia rezerwacja",
+    "noFeesBestPrice": "Bez prowizji · Najlepsza cena gwarantowana",
+    "back": "Wstecz",
+    "continue": "Kontynuuj",
+    "review": "Sprawdź rezerwację",
+    "submit": "Wyślij prośbę",
+    "pending": "Wysyłanie…",
+    "total": "Łącznie",
+    "selectCheckDates": "Wybierz daty przyjazdu i wyjazdu",
+    "fullNameRequired": "Pełne imię i nazwisko *",
+    "emailRequired": "E-mail *",
+    "phoneShort": "Telefon",
+    "guestsRequired": "Liczba gości *",
+    "guestOne": "gość",
+    "guestMany": "{count} gości",
+    "maxGuests": "maks. {count}",
+    "specialRequests": "Specjalne życzenia",
+    "apartmentLabel": "Apartament",
+    "duration": "Czas pobytu",
+    "nightsLabel": "nocy",
+    "night": "noc",
+    "guests": "Goście",
+    "name": "Imię i nazwisko",
+    "email": "E-mail",
+    "notes": "Uwagi",
+    "noPaymentNow": "Teraz nie jest wymagana płatność — potwierdzimy rezerwację w ciągu 24 godzin.",
+    "estimatedTotal": "Szacowany łączny koszt",
+    "requestSent": "Prośba wysłana!",
+    "confirmReply": "Odpowiemy na <email>{email}</email> w ciągu 24 godzin.",
+    "followUpWhatsapp": "Kontynuuj na WhatsApp",
+    "orContactDirectly": "lub skontaktuj się bezpośrednio",
+    "chatOnWhatsapp": "Napisz na WhatsApp",
+    "error": "Coś poszło nie tak. Spróbuj ponownie.",
+    "minStayWarning": "Minimalny pobyt w tym okresie wynosi {n} nocy.",
+    "steps": ["Terminy", "Dane", "Potwierdzenie"]
+  },
+  "calendar": {
+    "loading": "Ładowanie dostępności…",
+    "available": "Dostępne",
+    "booked": "Zarezerwowane",
+    "checkIn": "Przyjazd",
+    "checkOut": "Wyjazd"
+  },
+  "weather": {
+    "currentConditions": "Aktualne warunki",
+    "temperature": "Temperatura",
+    "humidity": "Wilgotność",
+    "airQuality": "Jakość powietrza",
+    "wind": "Wiatr",
+    "today": "Dziś",
+    "aqi": {
+      "good": "Dobra",
+      "moderate": "Umiarkowana",
+      "usg": "Niezdrowa dla wrażliwych grup",
+      "unhealthy": "Niezdrowa",
+      "veryUnhealthy": "Bardzo niezdrowa",
+      "hazardous": "Niebezpieczna"
+    }
+  }
 }
