@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface GoogleReview {
@@ -13,7 +13,6 @@ interface GoogleReview {
   photoUri?: string;
 }
 
-// Google logo SVG inline (official colours)
 function GoogleLogo({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,11 +24,14 @@ function GoogleLogo({ size = 16 }: { size?: number }) {
   );
 }
 
+const GOOGLE_MAPS_URL =
+  `https://www.google.com/maps/place/?q=place_id:${process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID || 'ChIJediWKvOfY0cRtWIvmjCOJ28'}`;
+
 export default function Reviews() {
   const t = useTranslations('reviews');
   const [reviews, setReviews] = useState<GoogleReview[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/google-reviews')
@@ -38,10 +40,14 @@ export default function Reviews() {
         if (data.reviews && data.reviews.length > 0) {
           setReviews(data.reviews);
         } else {
-          setError(true);
+          setError(data.error || 'no_reviews');
+          console.warn('[Reviews] No reviews returned:', data.error);
         }
       })
-      .catch(() => setError(true))
+      .catch((err) => {
+        setError('fetch_failed');
+        console.error('[Reviews] Fetch error:', err);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -66,7 +72,19 @@ export default function Reviews() {
         )}
 
         {!loading && error && (
-          <p className="text-center text-stone-400 py-12">Reviews unavailable at the moment.</p>
+          <div className="flex flex-col items-center gap-4 py-12">
+            <p className="text-stone-400 text-sm">Reviews are loading from Google.</p>
+            <a
+              href={GOOGLE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-stone-200 hover:border-[#b97a3a] text-stone-600 hover:text-[#b97a3a] font-medium rounded-full transition-all duration-200 text-sm"
+            >
+              <GoogleLogo size={14} />
+              View our Google Reviews
+              <ExternalLink size={12} />
+            </a>
+          </div>
         )}
 
         {!loading && !error && (
@@ -119,7 +137,7 @@ export default function Reviews() {
 
         <div className="text-center mt-10">
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Apartments+Dekanic+Baska+Krk"
+            href={GOOGLE_MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border border-stone-200 hover:border-[#b97a3a] text-stone-600 hover:text-[#b97a3a] font-medium rounded-full transition-all duration-200 text-sm"
