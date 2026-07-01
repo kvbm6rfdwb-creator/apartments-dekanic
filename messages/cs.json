@@ -37,7 +37,7 @@
     "title": "Proč rezervovat přímo?",
     "subtitle": "Lepší ceny, osobní servis a naprostý klid.",
     "price": "Garance nejlepší ceny",
-    "priceDesc": "Ušetřete až 20 % při přímé rezervaci — žádné poplatky platformy, žádní zprostředkovatelé.",
+    "priceDesc": "Ušetřete až 10 % při přímé rezervaci — žádné poplatky platformy, žádní zprostředkovatelé.",
     "direct": "Přímá rezervace",
     "directDesc": "Ověřený hostitel pro přímé rezervace",
     "available": "Vždy dostupný",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Recenze hostů",
     "subtitle": "Co říkají naši hosté o svém pobytu",
-    "viewAll": "Zobrazit všechny recenze"
+    "viewAll": "Zobrazit všechny recenze na Google"
   },
   "footer": {
     "rights": "Všechna práva vyhrazena.",

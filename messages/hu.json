@@ -37,7 +37,7 @@
     "title": "Miért foglaljon közvetlenül?",
     "subtitle": "Jobb árak, személyes szolgáltatás és teljes nyugalom.",
     "price": "Legjobb ár garancia",
-    "priceDesc": "Takarítson meg akár 20%-ot közvetlen foglalásnál — nincsenek platformdíjak, nincsenek közvetítők.",
+    "priceDesc": "Takarítson meg akár 10%-ot közvetlen foglalásnál — nincsenek platformdíjak, nincsenek közvetítők.",
     "direct": "Közvetlen foglalás",
     "directDesc": "Ellenőrzött közvetlen foglalási szállásadó",
     "available": "Mindig elérhető",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Vendégek véleményei",
     "subtitle": "Mit mondanak vendégeink tartózkodásukról",
-    "viewAll": "Az összes vélemény megtekintése"
+    "viewAll": "Az összes vélemény megtekintése Google-on"
   },
   "footer": {
     "rights": "Minden jog fenntartva.",

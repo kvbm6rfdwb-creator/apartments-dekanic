@@ -37,7 +37,7 @@
     "title": "Warum direkt buchen?",
     "subtitle": "Bessere Preise, persönlicher Service und vollständige Sicherheit.",
     "price": "Bestpreisgarantie",
-    "priceDesc": "Sparen Sie bis zu 20% bei Direktbuchung — keine Plattformgebühren, keine Zwischenhändler.",
+    "priceDesc": "Sparen Sie bis zu 10% bei Direktbuchung — keine Plattformgebühren, keine Zwischenhändler.",
     "direct": "Direkt buchen",
     "directDesc": "Verifizierter Direktbuchungs-Gastgeber",
     "available": "Immer erreichbar",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Gästebewertungen",
     "subtitle": "Was unsere Gäste über ihren Aufenthalt sagen",
-    "viewAll": "Alle Bewertungen anzeigen"
+    "viewAll": "Alle Bewertungen auf Google anzeigen"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",

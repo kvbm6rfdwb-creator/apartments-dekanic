@@ -50,7 +50,7 @@ export default function WhyBookDirectly() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="font-serif text-4xl text-[#b97a3a] font-medium mb-2">20%</div>
+            <div className="font-serif text-4xl text-[#b97a3a] font-medium mb-2">10%</div>
             <h3 className="font-semibold text-base text-stone-900 mb-2">{t('price')}</h3>
             <p className="text-sm text-stone-600 leading-relaxed">{t('priceDesc')}</p>
           </motion.article>

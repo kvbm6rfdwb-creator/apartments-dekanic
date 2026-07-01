@@ -37,7 +37,7 @@
     "title": "Pourquoi réserver directement?",
     "subtitle": "Meilleurs prix, service personnalisé et sérénité totale.",
     "price": "Garantie meilleur prix",
-    "priceDesc": "Économisez jusqu'à 20% en réservant directement — aucune commission de plateforme, aucun intermédiaire.",
+    "priceDesc": "Économisez jusqu'à 10% en réservant directement — aucune commission de plateforme, aucun intermédiaire.",
     "direct": "Réservation directe",
     "directDesc": "Hôte vérifié pour les réservations directes",
     "available": "Toujours disponible",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Avis des voyageurs",
     "subtitle": "Ce que nos voyageurs disent de leur séjour",
-    "viewAll": "Voir tous les avis"
+    "viewAll": "Voir tous les avis sur Google"
   },
   "footer": {
     "rights": "Tous droits réservés.",

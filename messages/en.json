@@ -37,7 +37,7 @@
     "title": "Why Book Directly?",
     "subtitle": "Better prices, personal service, and complete peace of mind.",
     "price": "Best Price Guarantee",
-    "priceDesc": "Save up to 20% by booking directly — no platform fees, no middlemen.",
+    "priceDesc": "Save up to 10% by booking directly — no platform fees, no middlemen.",
     "direct": "Book Direct",
     "directDesc": "Verified direct booking host",
     "available": "Always Available",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Guest Reviews",
     "subtitle": "What our guests say about their stay",
-    "viewAll": "View All Reviews"
+    "viewAll": "View All Reviews on Google"
   },
   "footer": {
     "rights": "All rights reserved.",

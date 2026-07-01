@@ -37,7 +37,7 @@
     "title": "Zašto rezervirati direktno?",
     "subtitle": "Bolje cijene, osobna usluga i potpuni mir.",
     "price": "Garancija najbolje cijene",
-    "priceDesc": "Uštedite do 20% rezervacijom direktno — bez naknada platformi, bez posrednika.",
+    "priceDesc": "Uštedite do 10% rezervacijom direktno — bez naknada platformi, bez posrednika.",
     "direct": "Direktna rezervacija",
     "directDesc": "Verificirani domaćin za direktne rezervacije",
     "available": "Uvijek dostupni",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Recenzije gostiju",
     "subtitle": "Što naši gosti kažu o svom boravku",
-    "viewAll": "Pogledaj sve recenzije"
+    "viewAll": "Pogledaj sve recenzije na Googleu"
   },
   "footer": {
     "rights": "Sva prava pridržana.",

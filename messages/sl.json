@@ -37,7 +37,7 @@
     "title": "Zakaj rezervirati neposredno?",
     "subtitle": "Boljše cene, osebna storitev in popoln mir.",
     "price": "Garancija najboljše cene",
-    "priceDesc": "Prihranite do 20 % z neposredno rezervacijo — brez provizij platforme, brez posrednikov.",
+    "priceDesc": "Prihranite do 10 % z neposredno rezervacijo — brez provizij platforme, brez posrednikov.",
     "direct": "Neposredna rezervacija",
     "directDesc": "Preverjen gostitelj za neposredne rezervacije",
     "available": "Vedno dosegljivi",
@@ -62,7 +62,7 @@
   "reviews": {
     "title": "Mnenja gostov",
     "subtitle": "Kaj pravijo naši gosti o svojem bivanju",
-    "viewAll": "Oglej si vsa mnenja"
+    "viewAll": "Oglej si vsa mnenja na Google"
   },
   "footer": {
     "rights": "Vse pravice pridržane.",
