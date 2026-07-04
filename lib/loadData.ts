@@ -5,18 +5,19 @@ export async function loadSiteData(): Promise<any> {
   // On Vercel: read from Blob storage (where admin saves to)
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
-      const blobUrl = `https://blob.vercel-storage.com/dekanic/apartments.json`;
-      // Use the Vercel Blob API to list and get the correct URL
       const { list } = await import('@vercel/blob');
       const { blobs } = await list({
         prefix: 'dekanic/apartments.json',
         token: process.env.BLOB_READ_WRITE_TOKEN,
       });
       if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url, { cache: 'no-store' });
+        // Sort descending by uploadedAt to always get the latest version
+        const latest = blobs.sort(
+          (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+        )[0];
+        const res = await fetch(latest.url, { cache: 'no-store' });
         if (res.ok) {
-          const data = await res.json();
-          return data;
+          return await res.json();
         }
       }
     } catch (e) {
