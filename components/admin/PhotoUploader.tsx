@@ -32,9 +32,9 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
 
   const uploadFile = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) return;
-    if (file.size > 9.5 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       const id = Math.random().toString(36).slice(2);
-      setUploading(prev => [...prev, { id, name: file.name, error: 'File too large — max 9.5MB. Compress at tinypng.com or resize to under 4000×2500px.', preview: URL.createObjectURL(file) }]);
+      setUploading(prev => [...prev, { id, name: file.name, error: 'File too large — max 20MB. Compress at tinypng.com if needed.', preview: URL.createObjectURL(file) }]);
       return;
     }
 
@@ -127,7 +127,7 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
         <p className="text-stone-400 text-xs mt-1">
           or <span className="text-sand-600 font-semibold underline underline-offset-2">click to browse files</span>
         </p>
-        <p className="text-stone-300 text-xs mt-2">JPG, PNG, WEBP · Max 15MB per photo · Multiple allowed</p>
+        <p className="text-stone-300 text-xs mt-2">JPG, PNG, WEBP · Max 20MB per photo · Multiple allowed</p>
       </div>
 
       {uploading.length > 0 && (
