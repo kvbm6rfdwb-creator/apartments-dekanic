@@ -86,8 +86,8 @@ export default function Hero({
           </div>
         </div>
 
-        {/* Weather widget — always below hero copy, never overlapping */}
-        <div className="mt-10 sm:mt-12 lg:mt-0">
+        {/* Weather widget — smaller gap on mobile, auto on desktop */}
+        <div className="mt-4 sm:mt-6 lg:mt-0">
           <Weather />
         </div>
       </div>
