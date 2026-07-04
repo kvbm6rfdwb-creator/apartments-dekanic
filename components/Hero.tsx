@@ -25,7 +25,6 @@ export default function Hero({
   const [imgSrc,    setImgSrc]    = useState(heroImage || FALLBACK_IMAGE);
   const [imgLoaded, setImgLoaded] = useState(false);
 
-  // Parallax only on large screens — avoids layout shift on mobile
   useEffect(() => {
     const fn = () => {
       if (bgRef.current && window.innerWidth >= 1024) {
@@ -65,11 +64,11 @@ export default function Hero({
         <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-terra-600/10 blur-3xl" />
       </div>
 
-      {/* Content — flexbox column so weather sits below hero copy on ALL screen sizes */}
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-between px-6 pt-28 pb-12 sm:pt-32 lg:pt-40">
+      {/* Content — centered column, weather directly below CTA */}
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center px-6 pt-28 pb-16 sm:pt-32 lg:pt-40">
 
         {/* Hero text + CTA */}
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="w-full max-w-4xl text-center">
           <p className="mb-5 text-xs font-medium uppercase tracking-[.35em] text-sand-300 opacity-0 animate-[fadeIn_1s_.2s_ease_forwards]">
             {subtitle}
           </p>
@@ -86,8 +85,8 @@ export default function Hero({
           </div>
         </div>
 
-        {/* Weather widget — smaller gap on mobile, auto on desktop */}
-        <div className="mt-4 sm:mt-6 lg:mt-0">
+        {/* Weather widget — tight gap below CTA */}
+        <div className="mt-8 w-full">
           <Weather />
         </div>
       </div>
