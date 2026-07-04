@@ -87,7 +87,7 @@ export default function WhyBookDirectly() {
             <h3 className="font-semibold text-lg text-stone-900 mb-2 relative z-10">{t('registered')}</h3>
             <p className="text-sm text-stone-600 leading-relaxed mb-6 relative z-10">{t('registeredDesc')}</p>
             <img
-              src="/HTZ-Local-Host-logo-RGB-1.jpg"
+              src="/HTZ-Local-Host-logo-RGB-1.png"
               alt="HTZ Local Host Certified"
               className="h-auto w-full relative z-10 object-contain"
             />
