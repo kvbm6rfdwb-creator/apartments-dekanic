@@ -89,7 +89,7 @@ export default function WhyBookDirectly() {
             <img
               src="/HTZ%20Local%20Host%20logo%20RGB-1.png"
               alt="HTZ Local Host Certified"
-              className="h-auto w-full relative z-10 object-contain"
+              className="mx-auto block h-auto w-auto max-w-[200px] relative z-10 object-contain"
             />
           </motion.article>
         </div>
