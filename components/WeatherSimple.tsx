@@ -55,7 +55,6 @@ export default function WeatherSimple() {
       ? t(`aqi.${aqiKeys[data.airQualityIndex]}`)
       : '—';
 
-  // Single fetch to our cached server route — no double client-side Open-Meteo calls
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
@@ -101,7 +100,58 @@ export default function WeatherSimple() {
       </p>
 
       <div className="mx-auto w-full max-w-xl">
-        <div className="flex w-full flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
+
+        {/* ── Mobile: location full-width, then 2×2 grid for the 4 stats
+             ── md+:  single flex row (original desktop layout) */}
+
+        {/* Location — full width on mobile, hidden on md+ (shown in the flex row below) */}
+        <div className="flex items-center justify-center gap-2 mb-2 md:hidden">
+          <StatLocationGlyph className="w-[26px] h-[26px]" />
+          <span className="text-white text-[17px] font-medium leading-tight">
+            {data?.location || 'Baška'}
+          </span>
+        </div>
+
+        {/* 4 stats: 2×2 grid on mobile, hidden on md+ */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-3 md:hidden">
+          <div className="flex items-center gap-2">
+            <StatTempGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('temperature')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
+                {data?.current?.tempC == null ? '—' : `${Math.round(data.current.tempC)}°C`}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <StatHumidityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('humidity')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
+                {data?.current?.humidity == null ? '—' : `${Math.round(data.current.humidity)}%`}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <StatAirQualityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('airQuality')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{airQuality}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <StatWindGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('wind')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
+                {data?.current?.windKmh == null ? '—' : `${Math.round(data.current.windKmh)}km/h`}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: original single flex row — hidden on mobile */}
+        <div className="hidden md:flex w-full flex-nowrap items-center justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
           <div className="flex items-center gap-2">
             <StatLocationGlyph className="w-[26px] h-[26px]" />
             <span className="text-white text-[17px] font-medium leading-tight">
@@ -144,6 +194,7 @@ export default function WeatherSimple() {
           </div>
         </div>
 
+        {/* 7-day forecast row — unchanged on all screen sizes */}
         <div className="flex w-full items-stretch gap-1">
           {renderDays.map((day, index) => (
             <div
