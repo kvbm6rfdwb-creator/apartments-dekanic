@@ -42,6 +42,18 @@ function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function StatCell({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      {icon}
+      <div className="flex flex-col">
+        <span className="text-white/60 text-[12px] leading-tight">{label}</span>
+        <span className="text-white text-[17px] font-medium leading-tight">{value}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function WeatherSimple() {
   const t      = useTranslations('weather');
   const locale = useLocale();
@@ -62,7 +74,7 @@ export default function WeatherSimple() {
         const res  = await fetch('/api/weather', { cache: 'force-cache' });
         const json = await res.json();
         if (!cancelled && res.ok) setData(json);
-      } catch { /* keep skeleton on failure */ }
+      } catch {}
       if (!cancelled) setLoading(false);
     };
     load();
@@ -93,6 +105,10 @@ export default function WeatherSimple() {
 
   if (loading) return null;
 
+  const tempVal    = data?.current?.tempC    == null ? '—' : `${Math.round(data.current.tempC)}°C`;
+  const humVal     = data?.current?.humidity == null ? '—' : `${Math.round(data.current.humidity)}%`;
+  const windVal    = data?.current?.windKmh  == null ? '—' : `${Math.round(data.current.windKmh)}km/h`;
+
   return (
     <div className="w-full max-w-3xl mx-auto px-6">
       <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium text-center mb-1.5">
@@ -101,56 +117,42 @@ export default function WeatherSimple() {
 
       <div className="mx-auto w-full max-w-xl">
 
-        {/* ── Mobile: location full-width, then 2×2 grid for the 4 stats
-             ── md+:  single flex row (original desktop layout) */}
+        {/* ── MOBILE layout (hidden on md+) ── */}
+        <div className="md:hidden mb-3">
+          {/* Location — centered alone */}
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <StatLocationGlyph className="w-[26px] h-[26px]" />
+            <span className="text-white text-[17px] font-medium leading-tight">
+              {data?.location || 'Baška'}
+            </span>
+          </div>
 
-        {/* Location — full width on mobile, hidden on md+ (shown in the flex row below) */}
-        <div className="flex items-center justify-center gap-2 mb-2 md:hidden">
-          <StatLocationGlyph className="w-[26px] h-[26px]" />
-          <span className="text-white text-[17px] font-medium leading-tight">
-            {data?.location || 'Baška'}
-          </span>
-        </div>
-
-        {/* 4 stats: 2×2 grid on mobile, hidden on md+ */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-3 md:hidden">
-          <div className="flex items-center gap-2">
-            <StatTempGlyph className="w-[26px] h-[26px]" />
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">{t('temperature')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.tempC == null ? '—' : `${Math.round(data.current.tempC)}°C`}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <StatHumidityGlyph className="w-[26px] h-[26px]" />
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">{t('humidity')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.humidity == null ? '—' : `${Math.round(data.current.humidity)}%`}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <StatAirQualityGlyph className="w-[26px] h-[26px]" />
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">{t('airQuality')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">{airQuality}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <StatWindGlyph className="w-[26px] h-[26px]" />
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[12px] leading-tight">{t('wind')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.windKmh == null ? '—' : `${Math.round(data.current.windKmh)}km/h`}
-              </span>
-            </div>
+          {/* 4 stats in a symmetric 2×2 grid, each cell centered */}
+          <div className="grid grid-cols-2 gap-y-3">
+            <StatCell
+              icon={<StatTempGlyph className="w-[26px] h-[26px]" />}
+              label={t('temperature')}
+              value={tempVal}
+            />
+            <StatCell
+              icon={<StatHumidityGlyph className="w-[26px] h-[26px]" />}
+              label={t('humidity')}
+              value={humVal}
+            />
+            <StatCell
+              icon={<StatAirQualityGlyph className="w-[26px] h-[26px]" />}
+              label={t('airQuality')}
+              value={airQuality}
+            />
+            <StatCell
+              icon={<StatWindGlyph className="w-[26px] h-[26px]" />}
+              label={t('wind')}
+              value={windVal}
+            />
           </div>
         </div>
 
-        {/* Desktop: original single flex row — hidden on mobile */}
+        {/* ── DESKTOP layout (hidden on mobile) — original single row ── */}
         <div className="hidden md:flex w-full flex-nowrap items-center justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
           <div className="flex items-center gap-2">
             <StatLocationGlyph className="w-[26px] h-[26px]" />
@@ -162,18 +164,14 @@ export default function WeatherSimple() {
             <StatTempGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
               <span className="text-white/60 text-[12px] leading-tight">{t('temperature')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.tempC == null ? '—' : `${Math.round(data.current.tempC)}°C`}
-              </span>
+              <span className="text-white text-[17px] font-medium leading-tight">{tempVal}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <StatHumidityGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
               <span className="text-white/60 text-[12px] leading-tight">{t('humidity')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.humidity == null ? '—' : `${Math.round(data.current.humidity)}%`}
-              </span>
+              <span className="text-white text-[17px] font-medium leading-tight">{humVal}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -187,14 +185,12 @@ export default function WeatherSimple() {
             <StatWindGlyph className="w-[26px] h-[26px]" />
             <div className="flex flex-col">
               <span className="text-white/60 text-[12px] leading-tight">{t('wind')}</span>
-              <span className="text-white text-[17px] font-medium leading-tight">
-                {data?.current?.windKmh == null ? '—' : `${Math.round(data.current.windKmh)}km/h`}
-              </span>
+              <span className="text-white text-[17px] font-medium leading-tight">{windVal}</span>
             </div>
           </div>
         </div>
 
-        {/* 7-day forecast row — unchanged on all screen sizes */}
+        {/* 7-day forecast row — unchanged */}
         <div className="flex w-full items-stretch gap-1">
           {renderDays.map((day, index) => (
             <div
