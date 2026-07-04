@@ -15,7 +15,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  heroImage      = '/images/hero.jpg',
+  heroImage = '/images/hero.jpg',
   heroTitle,
   heroSubtitle,
   heroButtonText,
@@ -27,17 +27,19 @@ export default function Hero({
 
   useEffect(() => {
     const fn = () => {
-      if (bgRef.current) bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
+      if (bgRef.current && window.innerWidth >= 1024) {
+        bgRef.current.style.transform = `translateY(${window.scrollY * 0.22}px)`;
+      }
     };
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const subtitle   = heroSubtitle   ?? t('subtitle');
+  const subtitle = heroSubtitle ?? t('subtitle');
   const buttonText = heroButtonText ?? t('cta');
 
   return (
-    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-hidden">
       <div ref={bgRef} className="absolute inset-0 will-change-transform bg-stone-900">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-800 via-stone-700 to-stone-900" />
         <img
@@ -45,14 +47,12 @@ export default function Hero({
           src={imgSrc}
           alt=""
           aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
             imgLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={() => setImgLoaded(true)}
           onError={() => {
-            if (imgSrc !== FALLBACK_IMAGE) {
-              setImgSrc(FALLBACK_IMAGE);
-            }
+            if (imgSrc !== FALLBACK_IMAGE) setImgSrc(FALLBACK_IMAGE);
           }}
         />
       </div>
@@ -60,34 +60,38 @@ export default function Hero({
       <div className="absolute inset-0 hero-overlay" />
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-sand-600/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-terra-600/10 blur-3xl" />
+        <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-sand-600/10 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-terra-600/10 blur-3xl" />
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <p className="text-sand-300 text-xs tracking-[.35em] uppercase font-medium mb-5 opacity-0 animate-[fadeIn_1s_.2s_ease_forwards]">
-          {subtitle}
-        </p>
-        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-light leading-[1.08] mb-6 opacity-0 animate-[fadeUp_.9s_.4s_cubic-bezier(.16,1,.3,1)_forwards]">
-          {heroTitle || 'Apartments Dekanić'}
-        </h1>
-        <a
-          href="#apartments"
-          className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl text-sm tracking-wide opacity-0 animate-[fadeIn_1s_.8s_ease_forwards]"
-        >
-          {buttonText}
-        </a>
-      </div>
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-between px-6 pt-28 pb-16 sm:pt-32 lg:pt-40">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="mb-5 text-xs font-medium uppercase tracking-[.35em] text-sand-300 opacity-0 animate-[fadeIn_1s_.2s_ease_forwards]">
+            {subtitle}
+          </p>
 
-      <div className="absolute bottom-24 left-0 right-0 px-6 z-20">
-        <div className="max-w-4xl mx-auto">
+          <h1 className="font-serif text-5xl font-light leading-[1.02] text-white sm:text-6xl md:text-7xl lg:text-8xl opacity-0 animate-[fadeUp_.9s_.4s_cubic-bezier(.16,1,.3,1)_forwards]">
+            {heroTitle || 'Apartments Dekanić'}
+          </h1>
+
+          <div className="mt-6 sm:mt-8">
+            <a
+              href="#apartments"
+              className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-8 py-4 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/20 hover:shadow-2xl opacity-0 animate-[fadeIn_1s_.8s_ease_forwards]"
+            >
+              {buttonText}
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-10 sm:mt-12 lg:mt-16">
           <Weather />
         </div>
       </div>
 
       <button
         onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors animate-bounce"
+        className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 text-white/60 transition-colors hover:text-white"
       >
         <ChevronDown size={28} />
       </button>
