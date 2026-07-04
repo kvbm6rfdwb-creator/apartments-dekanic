@@ -8,11 +8,12 @@ import {
   StatTempGlyph,
   StatWindGlyph,
 } from './WeatherStatGlyphs';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 type DayRow = {
   date:   string;
-  label?: string;
+  label:  string;
   high:   number | null;
   low:    number | null;
   icon:   WeatherKind;
@@ -36,7 +37,7 @@ type WeatherPayload = {
   }>;
 };
 
-function capitalizeFirst(str: string) {
+function capitalizeFirst(str: string): string {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -69,24 +70,19 @@ export default function WeatherSimple() {
     return () => { cancelled = true; };
   }, []);
 
-  // Skeleton day rows before data arrives
   const fallbackDays: DayRow[] = useMemo(() =>
     Array.from({ length: 7 }).map((_, idx) => {
       const d = new Date();
       d.setDate(d.getDate() + idx);
-      return {
-        date:  d.toISOString().slice(0, 10),
-        label: idx === 0
-          ? t('today')
-          : capitalizeFirst(d.toLocaleDateString(locale, { weekday: 'short' })),
-        high: null,
-        low:  null,
-        icon: 'cloud' as WeatherKind,
-      };
+      const iso = d.toISOString().slice(0, 10);
+      const label = idx === 0
+        ? t('today')
+        : capitalizeFirst(d.toLocaleDateString(locale, { weekday: 'short' }));
+      return { date: iso, label, high: null, low: null, icon: 'cloud' as WeatherKind };
     })
   , [locale, t]);
 
-  const days: DayRow[] = (data?.days?.length ? data.days : fallbackDays).map((day, idx) => ({
+  const renderDays: DayRow[] = (data?.days?.length ? data.days : fallbackDays).map((day, idx) => ({
     ...day,
     label: idx === 0
       ? t('today')
@@ -96,77 +92,74 @@ export default function WeatherSimple() {
     icon: (idx === 0 ? data?.current?.kind ?? day.icon : day.icon) as WeatherKind,
   }));
 
+  if (loading) return null;
+
   return (
-    <div className="mx-auto w-full max-w-5xl px-2 sm:px-4">
-      <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-[0.2em] text-white/40">
+    <div className="w-full max-w-3xl mx-auto px-6">
+      <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium text-center mb-1.5">
         {t('currentConditions')}
       </p>
 
-      <div className="mx-auto max-w-4xl rounded-[28px] border border-white/20 bg-white/10 px-4 py-4 shadow-[0_10px_40px_rgba(0,0,0,.12)] backdrop-blur-md sm:px-5">
-
-        {/* Stats row — 2 cols on mobile, 3 on sm, 5 on lg */}
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-          <div className="flex items-center gap-2 rounded-2xl bg-white/5 px-3 py-2.5">
-            <StatLocationGlyph className="h-[22px] w-[22px] shrink-0" />
-            <span className="truncate text-[15px] font-medium text-white">
+      <div className="mx-auto w-full max-w-xl">
+        <div className="flex w-full flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-x-6 gap-y-2 mb-3 py-1.5">
+          <div className="flex items-center gap-2">
+            <StatLocationGlyph className="w-[26px] h-[26px]" />
+            <span className="text-white text-[17px] font-medium leading-tight">
               {data?.location || 'Baška'}
             </span>
           </div>
-
-          <div className="flex items-center gap-2 rounded-2xl bg-white/5 px-3 py-2.5">
-            <StatTempGlyph className="h-[22px] w-[22px] shrink-0" />
-            <div>
-              <div className="text-[11px] leading-none text-white/55">{t('temperature')}</div>
-              <div className="text-[15px] font-medium text-white">
+          <div className="flex items-center gap-2">
+            <StatTempGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('temperature')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
                 {data?.current?.tempC == null ? '—' : `${Math.round(data.current.tempC)}°C`}
-              </div>
+              </span>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 rounded-2xl bg-white/5 px-3 py-2.5">
-            <StatHumidityGlyph className="h-[22px] w-[22px] shrink-0" />
-            <div>
-              <div className="text-[11px] leading-none text-white/55">{t('humidity')}</div>
-              <div className="text-[15px] font-medium text-white">
+          <div className="flex items-center gap-2">
+            <StatHumidityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('humidity')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
                 {data?.current?.humidity == null ? '—' : `${Math.round(data.current.humidity)}%`}
-              </div>
+              </span>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 rounded-2xl bg-white/5 px-3 py-2.5">
-            <StatAirQualityGlyph className="h-[22px] w-[22px] shrink-0" />
-            <div>
-              <div className="text-[11px] leading-none text-white/55">{t('airQuality')}</div>
-              <div className="text-[15px] font-medium text-white">{airQuality}</div>
+          <div className="flex items-center gap-2">
+            <StatAirQualityGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('airQuality')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">{airQuality}</span>
             </div>
           </div>
-
-          <div className="col-span-2 flex items-center gap-2 rounded-2xl bg-white/5 px-3 py-2.5 sm:col-span-1">
-            <StatWindGlyph className="h-[22px] w-[22px] shrink-0" />
-            <div>
-              <div className="text-[11px] leading-none text-white/55">{t('wind')}</div>
-              <div className="text-[15px] font-medium text-white">
+          <div className="flex items-center gap-2">
+            <StatWindGlyph className="w-[26px] h-[26px]" />
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[12px] leading-tight">{t('wind')}</span>
+              <span className="text-white text-[17px] font-medium leading-tight">
                 {data?.current?.windKmh == null ? '—' : `${Math.round(data.current.windKmh)}km/h`}
-              </div>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* 7-day forecast — 4 cols on mobile, 7 on sm+ */}
-        <div className="mt-3 grid grid-cols-4 gap-1.5 sm:grid-cols-7">
-          {days.map((day, index) => (
+        <div className="flex w-full items-stretch gap-1">
+          {renderDays.map((day, index) => (
             <div
               key={day.date || index}
-              className={`flex min-w-0 flex-col items-center justify-center rounded-2xl border py-2.5 ${
+              className={`flex flex-col items-center justify-center rounded-lg backdrop-blur-md border transition-all py-2 px-2.5 flex-1 min-w-0 ${
                 index === 0
-                  ? 'border-white/35 bg-white/25 shadow-md'
-                  : 'border-white/15 bg-white/8'
+                  ? 'bg-white/25 border-white/35 shadow-md'
+                  : 'bg-white/10 border-white/20'
               }`}
             >
-              <div className="mb-1 text-center text-[11px] font-medium text-white/90">{day.label}</div>
-              <WeatherGlyph kind={day.icon} className="mb-1 h-[20px] w-[20px]" />
-              <div className="text-[12px] font-bold text-white">{day.high == null ? '—' : `${day.high}°`}</div>
-              <div className="text-[11px] text-white/50">{day.low == null ? '—' : `${day.low}°`}</div>
+              <div className="text-white/90 text-xs font-medium mb-1">{day.label}</div>
+              <div className="mb-1">
+                <WeatherGlyph kind={day.icon} className="w-[22px] h-[22px]" />
+              </div>
+              <div className="text-white font-bold text-xs">{day.high == null ? '—' : `${day.high}°`}</div>
+              <div className="text-white/50 text-xs">{day.low == null ? '—' : `${day.low}°`}</div>
             </div>
           ))}
         </div>
