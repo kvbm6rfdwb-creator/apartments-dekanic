@@ -19,6 +19,54 @@ interface UploadingFile {
 
 const CLOUD_NAME = 'dcypczobx';
 const UPLOAD_PRESET = 'dekanic_unsigned';
+const MAX_UPLOAD_BYTES = 9.5 * 1024 * 1024; // Cloudinary free plan limit
+const MAX_DIMENSION = 4800; // px on longest side
+
+// Compress image using canvas until it fits under MAX_UPLOAD_BYTES
+async function compressImage(file: File): Promise<File> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+
+      // Scale down if larger than MAX_DIMENSION
+      if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+        if (width >= height) {
+          height = Math.round((height / width) * MAX_DIMENSION);
+          width = MAX_DIMENSION;
+        } else {
+          width = Math.round((width / height) * MAX_DIMENSION);
+          height = MAX_DIMENSION;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Iteratively lower quality until under limit
+      let quality = 0.92;
+      const tryCompress = () => {
+        canvas.toBlob((blob) => {
+          if (!blob) { resolve(file); return; }
+          if (blob.size <= MAX_UPLOAD_BYTES || quality <= 0.5) {
+            resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+          } else {
+            quality -= 0.08;
+            tryCompress();
+          }
+        }, 'image/jpeg', quality);
+      };
+      tryCompress();
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
 
 export default function PhotoUploader({ folder, photos: initialPhotos, onChange }: PhotoUploaderProps) {
   const [photos, setPhotos]             = useState<string[]>(initialPhotos);
@@ -32,9 +80,9 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
 
   const uploadFile = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) return;
-    if (file.size > 20 * 1024 * 1024) {
+    if (file.size > 50 * 1024 * 1024) {
       const id = Math.random().toString(36).slice(2);
-      setUploading(prev => [...prev, { id, name: file.name, error: 'File too large — max 20MB. Compress at tinypng.com if needed.', preview: URL.createObjectURL(file) }]);
+      setUploading(prev => [...prev, { id, name: file.name, error: 'File too large \u2014 max 50MB.', preview: URL.createObjectURL(file) }]);
       return;
     }
 
@@ -42,8 +90,15 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
     const preview = URL.createObjectURL(file);
     setUploading(prev => [...prev, { id, name: file.name, preview }]);
 
+    // Auto-compress if over Cloudinary limit
+    let uploadFile = file;
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setUploading(prev => prev.map(u => u.id === id ? { ...u, compressing: true } : u));
+      uploadFile = await compressImage(file);
+    }
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', uploadFile);
     formData.append('upload_preset', UPLOAD_PRESET);
 
     try {
@@ -127,12 +182,12 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
         <p className="text-stone-400 text-xs mt-1">
           or <span className="text-sand-600 font-semibold underline underline-offset-2">click to browse files</span>
         </p>
-        <p className="text-stone-300 text-xs mt-2">JPG, PNG, WEBP · Max 20MB per photo · Multiple allowed</p>
+        <p className="text-stone-300 text-xs mt-2">JPG, PNG, WEBP \u00b7 Up to 50MB \u00b7 Large files auto-compressed \u00b7 Multiple allowed</p>
       </div>
 
       {uploading.length > 0 && (
         <div className="space-y-2">
-          {uploading.map(u => (
+          {uploading.map((u: any) => (
             <div key={u.id} className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm
               ${u.error ? 'bg-red-50 border-red-200' : 'bg-blue-50 border-blue-100'}`}>
               <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-stone-200">
@@ -142,7 +197,9 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
                 <p className="font-medium truncate text-stone-700 text-xs">{u.name}</p>
                 {u.error
                   ? <p className="text-red-500 text-xs flex items-center gap-1 mt-0.5"><AlertCircle size={11} />{u.error}</p>
-                  : <p className="text-blue-600 text-xs flex items-center gap-1 mt-0.5"><Loader2 size={11} className="animate-spin" />Uploading directly to Cloudinary…</p>}
+                  : u.compressing
+                    ? <p className="text-amber-600 text-xs flex items-center gap-1 mt-0.5"><Loader2 size={11} className="animate-spin" />Compressing image\u2026</p>
+                    : <p className="text-blue-600 text-xs flex items-center gap-1 mt-0.5"><Loader2 size={11} className="animate-spin" />Uploading to Cloudinary\u2026</p>}
               </div>
               {u.error && (
                 <button onClick={() => setUploading(prev => prev.filter(p => p.id !== u.id))}
@@ -189,7 +246,7 @@ export default function PhotoUploader({ folder, photos: initialPhotos, onChange 
       )}
 
       {photos.length === 0 && uploading.length === 0 && (
-        <p className="text-center text-stone-400 text-sm py-4">No photos yet — upload some above</p>
+        <p className="text-center text-stone-400 text-sm py-4">No photos yet \u2014 upload some above</p>
       )}
     </div>
   );
